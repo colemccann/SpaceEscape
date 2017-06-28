@@ -78,6 +78,12 @@ public class LevelSelectionFragment extends Fragment implements
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().getLoaderManager().destroyLoader(1);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 

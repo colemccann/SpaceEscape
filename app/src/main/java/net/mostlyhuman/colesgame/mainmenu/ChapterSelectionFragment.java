@@ -46,6 +46,7 @@ public class ChapterSelectionFragment extends Fragment implements
         @Override
         public void onChapterClick(String chapter, boolean available) {
             if (available) {
+                Log.d(TAG, chapter);
                 openLevelSelection(chapter);
             }
         }
@@ -160,6 +161,7 @@ public class ChapterSelectionFragment extends Fragment implements
             TextView title;
             ImageView image;
             TextView levelsCompleted;
+            TextView availability;
 
             private ChapterItemListener chapterItemListener;
 
@@ -170,6 +172,7 @@ public class ChapterSelectionFragment extends Fragment implements
                 title = (TextView) itemView.findViewById(R.id.chapter_title);
                 image = (ImageView) itemView.findViewById(R.id.chapter_image);
                 levelsCompleted = (TextView) itemView.findViewById(R.id.levels_completed);
+                availability = (TextView) itemView.findViewById(R.id.availability_tv);
 
                 chapterItemListener = listener;
                 itemView.setOnClickListener(this);
@@ -180,7 +183,7 @@ public class ChapterSelectionFragment extends Fragment implements
                 int position = getAdapterPosition();
                 Chapter chapter = getItem(position);
                 chapterItemListener.onChapterClick(chapter.getChapterTitle(),
-                        /*chapter.isAvailable()*/ true);
+                        chapter.isAvailable());
             }
         }
 
@@ -201,6 +204,7 @@ public class ChapterSelectionFragment extends Fragment implements
             holder.image.setImageResource(chapter.getChapterImage());
             holder.levelsCompleted.setText(String.format(context.getString(R.string.out_of_ten),
                     chapter.getLevelsCompleted()));
+            holder.availability.setText(String.valueOf(chapter.isAvailable()));
         }
 
         @Override
@@ -237,8 +241,10 @@ public class ChapterSelectionFragment extends Fragment implements
             for (int complete : completeStatus) {
                 if (complete == 1) {
                     totalLevelsCompleted++;
+
                 } else break;
             }
+            Log.d(TAG, "Levels Completed: " + String.valueOf(totalLevelsCompleted));
 
             int chaptersCompleted = totalLevelsCompleted / LEVELS_PER_CHAPTER;
             int remainder = totalLevelsCompleted % LEVELS_PER_CHAPTER;
@@ -259,6 +265,10 @@ public class ChapterSelectionFragment extends Fragment implements
                     chapterAvailability[i] = false;
                 }
             }
+            for (boolean b : chapterAvailability) {
+                Log.d(TAG, String.valueOf(b));
+            }
+
 
             levelsCompletePerChapter[chaptersCompleted + 1] = remainder;
 
