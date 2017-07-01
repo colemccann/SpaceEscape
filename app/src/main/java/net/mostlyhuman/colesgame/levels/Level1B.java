@@ -18,8 +18,8 @@ public class Level1B extends LevelData {
         this.tiles.add("...#####..");
         this.tiles.add("..#.....#.");
         this.tiles.add("..#..#..#.");
-        this.tiles.add("..#.#t..#.");
-        this.tiles.add("..#p....#.");
+        this.tiles.add("..#.#t#.#.");
+        this.tiles.add("..#p.#..#.");
         this.tiles.add("..#.....#.");
         this.tiles.add("...#####..");
         this.tiles.add("..........");

@@ -124,10 +124,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         // Loads the level data and passes it on to the game manager
         gm.loadLevel(level);
 
-        // Draws the buttons
-        Rect boostButton = ic.getMenuButton();
-        gameButton = new GameButton(context, R.drawable.icon_menu, boostButton.top,
-                boostButton.left, boostButton.bottom, boostButton.right, gm);
+        // Draw the buttons
+        Rect menuButton = ic.getMenuButton();
+        gameButton = new GameButton(context, R.drawable.icon_menu, menuButton.top,
+                menuButton.left, menuButton.bottom, menuButton.right, gm);
 
     }
 
@@ -335,6 +335,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         if (gm.player.isMoving()) {
                             if (asteroid.isInFrontOf(gm.player.getWorldLocation(),
                                     gm.player.getFacingAngle())) {
+                                asteroid.setSpeed(gm.player.getMaxSpeed());
                                 asteroid.redirect(gm.player.getFacingAngle());
                                 gm.player.setSpeed(0);
                                 gm.player.setMoving(false);

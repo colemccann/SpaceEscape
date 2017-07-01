@@ -223,6 +223,12 @@ public class LevelSelectionFragment extends Fragment implements
             holder.frameLayout.setPadding(itemWidth / 8, itemWidth / 8, itemWidth / 8, itemWidth / 8);
             holder.linearLayout.setMinimumWidth(itemWidth);
             holder.linearLayout.setMinimumHeight(itemWidth);
+
+            if (level.isAvailable()) {
+                holder.levelView.setTextColor(Color.BLACK);
+            } else {
+                holder.levelView.setTextColor(Color.GRAY);
+            }
             holder.levelView.setText(String.valueOf(level.getTitle()));
             holder.tv2.setText(String.valueOf(level.isCompleted()));
             holder.tv3.setText(String.valueOf(level.isAvailable()));

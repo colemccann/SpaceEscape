@@ -29,6 +29,8 @@ public class Constants {
     }
 
     public static class Types {
+        public static final char BORDER = '=';
+
         public static final char BLOCK = '#';
 
         public static final char ASTEROID = 'a';

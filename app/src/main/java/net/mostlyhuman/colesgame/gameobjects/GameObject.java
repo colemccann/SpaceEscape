@@ -13,6 +13,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import static android.opengl.GLES20.GL_FLOAT;
+import static android.opengl.GLES20.GL_LINES;
 import static android.opengl.GLES20.GL_TEXTURE0;
 import static android.opengl.GLES20.GL_TEXTURE_2D;
 import static android.opengl.GLES20.GL_TRIANGLES;
@@ -30,7 +31,14 @@ import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.setRotateM;
 import static android.opengl.Matrix.translateM;
-import static net.mostlyhuman.colesgame.game.GLManager.*;
+import static net.mostlyhuman.colesgame.game.GLManager.BYTES_PER_FLOAT;
+import static net.mostlyhuman.colesgame.game.GLManager.COMPONENTS_PER_TEXTURE;
+import static net.mostlyhuman.colesgame.game.GLManager.COMPONENTS_PER_VERTEX;
+import static net.mostlyhuman.colesgame.game.GLManager.STRIDE;
+import static net.mostlyhuman.colesgame.game.GLManager.mMVPMatrixHandle;
+import static net.mostlyhuman.colesgame.game.GLManager.mPositionHandle;
+import static net.mostlyhuman.colesgame.game.GLManager.mTextureCoordinateHandle;
+import static net.mostlyhuman.colesgame.game.GLManager.mTextureUniformHandle;
 
 /**
  * Created by CaptainMcCann on 4/4/2017.
@@ -62,7 +70,7 @@ public class GameObject {
     private FloatBuffer textureBuffer;
 
     // For translating each point from the object
-    private final float[] modelMatrix = new float[16];
+    final float[] modelMatrix = new float[16];
 
     float[] viewportModelMatrix = new float[16];
     float[] rotateViewportModelMatrix = new float[16];
@@ -89,6 +97,7 @@ public class GameObject {
 
         // Only compile shaders once
         if (glProgram == -1) {
+
             setGLProgram();
 
             glUseProgram(glProgram);
@@ -110,6 +119,10 @@ public class GameObject {
 
     private void setGLProgram() {
         glProgram = GLManager.getGLProgram();
+    }
+
+    public static int getGlProgram() {
+        return glProgram;
     }
 
     public void setTextureResource(int textureResource) {
@@ -232,6 +245,10 @@ public class GameObject {
 
     }
 
+    public FloatBuffer getVertexBuffer() {
+        return vertexBuffer;
+    }
+
     public void setTextureVertices(float[] textureVertices) {
 
         this.textureVertices = new float[textureVertices.length];
@@ -269,8 +286,7 @@ public class GameObject {
                 GL_FLOAT, false, STRIDE, vertexBuffer);
 
         glVertexAttribPointer(mTextureCoordinateHandle, COMPONENTS_PER_TEXTURE,
-                GL_FLOAT, false, 0, textureBuffer);
-
+                    GL_FLOAT, false, 0, textureBuffer);
 
         // For translating model coordinates into world coordinates
         setIdentityM(modelMatrix, 0);

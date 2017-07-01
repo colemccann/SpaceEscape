@@ -12,28 +12,35 @@ public class Level1A extends LevelData {
 
     public Level1A() {
         tiles = new ArrayList<>();
-        this.tiles.add("............");
-        this.tiles.add("..#.....#...");
-        this.tiles.add(".#......b#..");
-        this.tiles.add("............");
-        this.tiles.add(".....h......");
-        this.tiles.add(".....t......");
-        this.tiles.add("..p..h......");
-        this.tiles.add(".#b......#..");
-        this.tiles.add("..#.....#...");
-        this.tiles.add("............");
+        this.tiles.add("...#.##............#..");
+        this.tiles.add("..#w#p..............#.");
+        this.tiles.add("..#h##...............#");
+        this.tiles.add("..#..................#");
+        this.tiles.add("......................");
+        this.tiles.add("......................");
+        this.tiles.add(".#....r....r....d.....");
+        this.tiles.add(".t.........a..........");
+        this.tiles.add(".#.........b.........#");
+        this.tiles.add("......................");
+        this.tiles.add("...........u....l.....");
+        this.tiles.add("......................");
+        this.tiles.add("x...#.................");
+        this.tiles.add("..#..................#");
+        this.tiles.add("x.....#............##.");
+        this.tiles.add("...#.#................");
+        asteroidDirections = new int[]{
+                0
+        };
 
-        asteroidDirections = new int[]{};
+        doorKeys = new int[]{1};
 
-        doorKeys = new int[]{1, 2};
+        buttonStates = new boolean[]{false};
 
-        buttonStates = new boolean[]{false, false};
+        buttonKeys = new int[]{1};
 
-        buttonKeys = new int[]{2, 1};
+        warpTargets = new String[]{Constants.Levels.ONE_B};
 
-        warpTargets = new String[]{};
-
-        turretMovement = new boolean[]{true};
+        turretMovement = new boolean[]{false};
 
         turretFacingAngles = new int[]{Constants.Directions.RIGHT};
     }

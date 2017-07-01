@@ -9,6 +9,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -198,6 +199,16 @@ public class ChapterSelectionFragment extends Fragment implements
         @Override
         public void onBindViewHolder(ChapterListAdapter.ViewHolder holder, int position) {
             Chapter chapter = mChapters.get(position);
+
+            if (chapter.isAvailable()) {
+                holder.number.setTextColor(Color.BLACK);
+                holder.title.setTextColor(Color.BLACK);
+                holder.levelsCompleted.setTextColor(Color.BLACK);
+            } else {
+                holder.number.setTextColor(Color.GRAY);
+                holder.title.setTextColor(Color.GRAY);
+                holder.levelsCompleted.setTextColor(Color.GRAY);
+            }
 
             holder.number.setText(chapter.getChapterNumber());
             holder.title.setText(chapter.getChapterTitle());

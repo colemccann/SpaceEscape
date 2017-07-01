@@ -67,11 +67,19 @@ public class Asteroid extends GameObject {
         setTextureVertices(textureVertices);
 
         Random r = new Random();
-        int whichAsteroid = r.nextInt(2);
-        if (whichAsteroid == 0) {
-            setTextureResource(R.drawable.asteroid1);
-        } else if (whichAsteroid == 1) {
-            setTextureResource(R.drawable.asteroid2);
+        int whichAsteroid = r.nextInt(4);
+        switch (whichAsteroid) {
+            case 0:
+                setTextureResource(R.drawable.asteroid1);
+                break;
+            case 1:
+                setTextureResource(R.drawable.asteroid2);
+                break;
+            case 2:
+                setTextureResource(R.drawable.asteroid3);
+                break;
+            case 3:
+                setTextureResource(R.drawable.asteroid4);
         }
 
         Random random = new Random();

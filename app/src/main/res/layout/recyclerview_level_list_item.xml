@@ -21,6 +21,8 @@
             android:id="@+id/level_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
             tools:text="Level 1" />
 
         <TextView
