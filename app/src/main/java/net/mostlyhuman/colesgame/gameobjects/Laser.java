@@ -26,8 +26,9 @@ public class Laser extends GameObject implements Turret.LaserContract {
         setSize(pixelsPerMeter, pixelsPerMeter);
         float halfW = pixelsPerMeter / 2;
         float halfH = pixelsPerMeter / 2;
+        float halfSideLength = pixelsPerMeter / 2.1f;
 
-        CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(), halfW);
+        CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(), halfSideLength);
         setCollisionPackage(collisionPackage);
 
         float[] laserVertices = new float[] {
@@ -54,7 +55,7 @@ public class Laser extends GameObject implements Turret.LaserContract {
     public void shoot(float masterFacingAngle) {
         setActive(true);
         setFacingAngle(masterFacingAngle);
-        setSpeed(400);
+        setSpeed(500);
     }
 
     public void resetLaser() {

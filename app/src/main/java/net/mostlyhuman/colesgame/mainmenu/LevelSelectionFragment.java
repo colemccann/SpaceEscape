@@ -50,9 +50,9 @@ public class LevelSelectionFragment extends Fragment implements
 
     LevelListAdapter.LevelItemListener itemListener = new LevelListAdapter.LevelItemListener() {
         @Override
-        public void onLevelClick(String level, boolean available) {
+        public void onLevelClick(String level, int levelID, boolean available) {
             if (available) {
-                beginLevel();
+                beginLevel(level, levelID);
             }
         }
     };
@@ -101,8 +101,10 @@ public class LevelSelectionFragment extends Fragment implements
         return new LevelSelectionFragment();
     }
 
-    private void beginLevel() {
+    private void beginLevel(String levelTitle, int levelID) {
         Intent intent = new Intent(getActivity(), GameActivity.class);
+        intent.putExtra(Constants.LEVEL_TITLE, levelTitle);
+        intent.putExtra(Constants.LEVEL_ID, levelID);
         startActivity(intent);
     }
 
@@ -142,6 +144,7 @@ public class LevelSelectionFragment extends Fragment implements
 
         return new CursorLoader(getActivity(), uri,
                 new String[] {
+                        DatabaseContract.LevelColumns._ID,
                         DatabaseContract.LevelColumns.LEVEL_TITLE,
                         DatabaseContract.LevelColumns.COMPLETED,
                         DatabaseContract.LevelColumns.IS_AVAILABLE },
@@ -204,7 +207,8 @@ public class LevelSelectionFragment extends Fragment implements
             public void onClick(View v) {
                 int position = getAdapterPosition();
                 Level level = getItem(position);
-                levelItemListener.onLevelClick(level.getTitle(), level.isAvailable());
+                levelItemListener.onLevelClick(level.getTitle(),
+                        level.getID(), level.isAvailable());
             }
         }
 
@@ -256,7 +260,7 @@ public class LevelSelectionFragment extends Fragment implements
         }
 
         interface LevelItemListener {
-            void onLevelClick(String level, boolean available);
+            void onLevelClick(String level, int levelID, boolean available);
         }
     }
 

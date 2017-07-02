@@ -8,6 +8,7 @@ import net.mostlyhuman.colesgame.gameobjects.Bomb;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
+import net.mostlyhuman.colesgame.gameobjects.Exit;
 import net.mostlyhuman.colesgame.gameobjects.Player;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
 import net.mostlyhuman.colesgame.gameobjects.TurretBase;
@@ -28,6 +29,8 @@ public class GameManager {
 
     private Context context;
     private LevelData mLevelData;
+    private String currentLevel;
+    private int levelID;
 
     public int mapWidth;
     public int mapHeight;
@@ -60,6 +63,8 @@ public class GameManager {
     int numWarps;
 
     public EnemyLaser[] enemyLasers;
+
+    public Exit exit;
 
     private boolean playing = false;
 
@@ -311,11 +316,17 @@ public class GameManager {
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
                                     mLevelData.warpTargets[warpIndex]);
+                            break;
+                        case Constants.Types.EXIT:
+                            exit = new Exit(context,
+                                    j * pixelsPerMeter,
+                                    -i * pixelsPerMeter,
+                                    pixelsPerMeter);
+                            break;
                     }
                 }
             }
         }
-
 
         if (numDoors > 0) {
             for (Door door : doors) {
@@ -355,4 +366,19 @@ public class GameManager {
         return playing;
     }
 
+    public String getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(String currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public int getLevelID() {
+        return levelID;
+    }
+
+    public void setLevelID(int levelID) {
+        this.levelID = levelID;
+    }
 }

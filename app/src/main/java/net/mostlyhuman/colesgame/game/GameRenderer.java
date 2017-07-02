@@ -1,12 +1,17 @@
 package net.mostlyhuman.colesgame.game;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 import net.mostlyhuman.colesgame.R;
+import net.mostlyhuman.colesgame.data.DatabaseContract;
+import net.mostlyhuman.colesgame.data.DatabaseUpdateService;
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
@@ -44,7 +49,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     long frameCounter = 0;
     long averageFPS = 0;
     private long fps;
-    private int pixelsPerMeter;
 
     private final float[] viewportMatrix = new float[16];
 
@@ -52,9 +56,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private PointF utilPointF2;
 
     private GameButton gameButton;
-
-    private String currentLevel = Constants.Levels.ONE_A;
-
 
     public GameRenderer(Context context,
                         InputController inputController,
@@ -64,7 +65,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         this.ic = inputController;
         this.sm = soundManager;
         this.gm = gameManager;
-        this.pixelsPerMeter = gm.pixelsPerMeter;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         ));
         GLManager.buildProgram();
 
-        loadLevel(currentLevel);
+        loadLevel(gm.getCurrentLevel());
     }
 
     @Override
@@ -119,10 +119,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    private void loadLevel(String level) {
+    private void loadLevel(String level/*, int levelID*/) {
 
         // Loads the level data and passes it on to the game manager
         gm.loadLevel(level);
+
+        //this.levelID = levelID;
 
         // Draw the buttons
         Rect menuButton = ic.getMenuButton();
@@ -131,8 +133,15 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     }
 
-    protected void restartLevel(String level) {
+    private void restartLevel(String level/*, int levelID*/) {
         loadLevel(level);
+    }
+
+    private void beatLevel(int levelID) {
+        final Uri uri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, levelID);
+        ContentValues values = new ContentValues();
+        values.put(DatabaseContract.LevelColumns.COMPLETED, 1);
+        DatabaseUpdateService.updateLevelStatus(context, uri, values);
     }
 
     private void draw() {
@@ -313,6 +322,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private void checkPlayerCollisions() {
         utilPointF = gm.player.getWorldLocation();
         // Check player collision
+
+        boolean hitExit = gm.player.detectCollision(gm.exit.getCollisionPackage());
+        if (hitExit) {
+            //beatLevel(levelID);
+        }
+
         if (gm.numBlocks > 0) {
             for (Block block : gm.blocks) {
                 if (block.isActive()) {
@@ -369,7 +384,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     if (hit) {
                         bomb.kill(gm.player);
                         sm.playSound(Constants.Sounds.EXPLOSION);
-                        restartLevel(currentLevel);
+                        restartLevel(gm.getCurrentLevel());
                     }
                 }
             }
@@ -567,7 +582,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     boolean hit = laser.detectCollision(gm.player.getCollisionPackage());
                     if (hit) {
                         laser.resetLaser();
-                        restartLevel(Constants.Levels.ONE_A);
+                        restartLevel(gm.getCurrentLevel());
                     }
                 }
             }

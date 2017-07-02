@@ -7,6 +7,8 @@ package net.mostlyhuman.colesgame.helpers;
 public class Constants {
 
     public static final String CHAPTER_TITLE = "chapter_title";
+    public static final String LEVEL_TITLE = "level_title";
+    public static final String LEVEL_ID = "level_id";
 
     public static class Directions {
         public static final int UP = 360;
@@ -35,6 +37,7 @@ public class Constants {
 
         public static final char ASTEROID = 'a';
         public static final char REDIRECT_DOWN = 'd';
+        public static final char EXIT = 'e';
         public static final char DOOR_HORIZONTAL = 'h';
         public static final char REDIRECT_LEFT = 'l';
         public static final char REDIRECT_RIGHT = 'r';

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -36,11 +37,22 @@ public class DatabaseUpdateService extends IntentService {
         context.startService(intent);
     }
 
+    public static void updateLevelStatus(Context context, Uri uri, ContentValues values) {
+        Intent intent = new Intent(context, DatabaseUpdateService.class);
+        intent.setAction(ACTION_UPDATE);
+        intent.setData(uri);
+        intent.putExtra(EXTRA_VALUES, values);
+        context.startService(intent);
+    }
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (ACTION_BULK_INSERT.equals(intent.getAction())) {
-            ContentValues[] mValues = InitialLevelData.createValues();
-            performBulkInsert(mValues);
+            ContentValues[] values = InitialLevelData.createValues();
+            performBulkInsert(values);
+        } else if (ACTION_UPDATE.equals(intent.getAction())) {
+            ContentValues values = intent.getParcelableExtra(EXTRA_VALUES);
+            performUpdate(intent.getData(), values);
         }
     }
 
@@ -56,6 +68,11 @@ public class DatabaseUpdateService extends IntentService {
             intent.putExtra(MainActivity.INITIALIZATION_SUCCESSFUL, false);
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
+    }
+
+    private void performUpdate(Uri uri, ContentValues values) {
+        int count = getContentResolver().update(uri, values, null, null);
+        Log.d(TAG, "Updated " + count + " task items");
     }
 
 }

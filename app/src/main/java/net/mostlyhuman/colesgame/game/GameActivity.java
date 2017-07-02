@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Display;
 
 import net.mostlyhuman.colesgame.R;
+import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.ingamemenu.IngameMenuContract;
 import net.mostlyhuman.colesgame.ingamemenu.IngameMenuFragment;
 
@@ -21,6 +22,8 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     private SoundManager soundManager;
     private InputController inputController;
     private MediaPlayer mediaPlayer;
+
+
 
 
     @Override
@@ -42,11 +45,18 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
                 gameRenderer, gameManager,
                 soundManager, inputController);
 
-        startGame();
+        String levelTitle = getIntent().getStringExtra(Constants.LEVEL_TITLE);
+
+        //// TODO: 7/2/2017 throw exception if levelID > 49
+        int levelID = getIntent().getIntExtra(Constants.LEVEL_ID, 50);
+
+        startGame(Constants.Levels.ONE_A);
     }
 
-    private void startGame() {
+    private void startGame(String level/*, int levelID*/) {
         gameManager.setPlaying(true);
+        gameManager.setCurrentLevel(level);
+        //gameManager.setLevelID(levelID);
         //mediaPlayer.setLooping(true);
         //mediaPlayer.start();
         setContentView(gameView);
