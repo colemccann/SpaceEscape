@@ -10,11 +10,14 @@ import android.view.Display;
 
 import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.Constants;
-import net.mostlyhuman.colesgame.ingamemenu.IngameMenuContract;
-import net.mostlyhuman.colesgame.ingamemenu.IngameMenuFragment;
+import net.mostlyhuman.colesgame.ingamemenus.IngameMenuContract;
+import net.mostlyhuman.colesgame.ingamemenus.IngameMenuFragment;
+import net.mostlyhuman.colesgame.ingamemenus.LevelCompleteMenuFragment;
 
 public class GameActivity extends Activity implements InputController.PauseMenu,
-        IngameMenuContract.ActivityCallback {
+        IngameMenuContract.ActivityCallback,
+        GameRenderer.LevelCompleteContract,
+        IngameMenuContract.LevelCompleted.ActivityCallback {
 
     private GLSurfaceView gameView;
     private GameRenderer gameRenderer;
@@ -22,8 +25,6 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     private SoundManager soundManager;
     private InputController inputController;
     private MediaPlayer mediaPlayer;
-
-
 
 
     @Override
@@ -37,8 +38,8 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
         gameManager = new GameManager(this, resolution.x, resolution.y);
         soundManager = new SoundManager();
         this.soundManager.loadSounds(this);
-        inputController = new InputController(this, resolution.x, resolution.y, gameManager, this);
-        gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager);
+        inputController = new InputController(this, resolution.x, gameManager, this);
+        gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager, this);
         mediaPlayer = MediaPlayer.create(this, R.raw.music_1);
 
         gameView = new MyGLSurfaceView(this,
@@ -50,15 +51,18 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
         //// TODO: 7/2/2017 throw exception if levelID > 49
         int levelID = getIntent().getIntExtra(Constants.LEVEL_ID, 50);
 
-        startGame(Constants.Levels.ONE_A);
+        gameManager.setCurrentLevel(levelTitle);
+        gameManager.setLevelID(levelID);
+
+        startGame();
     }
 
-    private void startGame(String level/*, int levelID*/) {
+    private void startGame() {
         gameManager.setPlaying(true);
-        gameManager.setCurrentLevel(level);
-        //gameManager.setLevelID(levelID);
+
         //mediaPlayer.setLooping(true);
         //mediaPlayer.start();
+
         setContentView(gameView);
     }
 
@@ -78,7 +82,7 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     public void onMenuButtonPressed() {
         FragmentManager fragmentManager = getFragmentManager();
         IngameMenuFragment dialog = new IngameMenuFragment();
-        dialog.show(fragmentManager, "dialog");
+        dialog.show(fragmentManager, "pause dialog");
     }
 
     @Override
@@ -94,7 +98,29 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
 
     @Override
     public void onExitPressed() {
-        // We will need 2 Activities
         this.finish();
+    }
+
+    @Override
+    public void onLevelCompleted(String level) {
+        Bundle args = new Bundle();
+        args.putString(Constants.LEVEL_TITLE, level);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        LevelCompleteMenuFragment dialog = new LevelCompleteMenuFragment();
+        dialog.setArguments(args);
+
+        dialog.show(fragmentManager, "level completed dialog");
+
+    }
+
+    @Override
+    public void onNextLevelPressed(String level) {
+
+    }
+
+    @Override
+    public void onMainMenuPressed() {
+
     }
 }

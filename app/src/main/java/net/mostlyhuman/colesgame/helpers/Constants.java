@@ -54,8 +54,57 @@ public class Constants {
     }
 
     public static class Levels {
-        public static final String ONE_A = "Level1A";
-        public static final String ONE_B = "Level1B";
+        public static final String ONE = "Level 1";
+        public static final String TWO = "Level 2";
+        public static final String THREE = "Level 3";
+        public static final String FOUR = "Level 4";
+        public static final String FIVE = "Level 5";
+        public static final String SIX = "Level 6";
+        public static final String SEVEN = "Level 7";
+        public static final String EIGHT = "Level 8";
+        public static final String NINE = "Level 9";
+        public static final String TEN = "Level 10";
+        public static final String ELEVEN = "Level 11";
+        public static final String TWELVE = "Level 12";
+        public static final String THIRTEEN = "Level 13";
+        public static final String FOURTEEN = "Level 14";
+        public static final String FIFTEEN = "Level 15";
+        public static final String SIXTEEN = "Level 16";
+        public static final String SEVENTEEN = "Level 17";
+        public static final String EIGHTEEN = "Level 18";
+        public static final String NINETEEN = "Level 19";
+        public static final String TWENTY = "Level 20";
+        public static final String TWENTY_ONE = "Level 21";
+        public static final String TWENTY_TWO = "Level 22";
+        public static final String TWENTY_THREE = "Level 23";
+        public static final String TWENTY_FOUR = "Level 24";
+        public static final String TWENTY_FIVE = "Level 25";
+        public static final String TWENTY_SIX = "Level 26";
+        public static final String TWENTY_SEVEN = "Level 27";
+        public static final String TWENTY_EIGHT = "Level 28";
+        public static final String TWENTY_NINE = "Level 29";
+        public static final String THIRTY = "Level 30";
+        public static final String THIRTY_ONE = "Level 31";
+        public static final String THIRTY_TWO = "Level 32";
+        public static final String THIRTY_THREE = "Level 33";
+        public static final String THIRTY_FOUR = "Level 34";
+        public static final String THIRTY_FIVE = "Level 35";
+        public static final String THIRTY_SIX = "Level 36";
+        public static final String THIRTY_SEVEN = "Level 37";
+        public static final String THIRTY_EIGHT = "Level 38";
+        public static final String THIRTY_NINE = "Level 39";
+        public static final String FOURTY = "Level 40";
+        public static final String FOURTY_ONE = "Level 41";
+        public static final String FOURTY_TWO = "Level 42";
+        public static final String FOURTY_THREE = "Level 43";
+        public static final String FOURTY_FOUR = "Level 44";
+        public static final String FOURTY_FIVE = "Level 45";
+        public static final String FOURTY_SIX = "Level 46";
+        public static final String FOURTY_SEVEN = "Level 47";
+        public static final String FOURTY_EIGHT = "Level 48";
+        public static final String FOURTY_NINE = "Level 49";
+        public static final String FIFTY = "Level 50";
+
     }
 
 }

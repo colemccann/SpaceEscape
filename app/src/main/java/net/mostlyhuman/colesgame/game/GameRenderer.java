@@ -45,6 +45,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private InputController ic;
     private SoundManager sm;
     private GameManager gm;
+    private InputController.PauseMenu gameActivity;
 
     long frameCounter = 0;
     long averageFPS = 0;
@@ -57,14 +58,21 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private GameButton gameButton;
 
+    interface LevelCompleteContract {
+        void onLevelCompleted(String level);
+    }
+
     public GameRenderer(Context context,
                         InputController inputController,
                         SoundManager soundManager,
-                        GameManager gameManager) {
+                        GameManager gameManager,
+                        InputController.PauseMenu gameActivity) {
+
         this.context = context;
         this.ic = inputController;
         this.sm = soundManager;
         this.gm = gameManager;
+        this.gameActivity = gameActivity;
     }
 
     @Override
@@ -80,7 +88,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         ));
         GLManager.buildProgram();
 
-        loadLevel(gm.getCurrentLevel());
+        loadLevel();
     }
 
     @Override
@@ -119,12 +127,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    private void loadLevel(String level/*, int levelID*/) {
-
+    private void loadLevel() {
         // Loads the level data and passes it on to the game manager
-        gm.loadLevel(level);
-
-        //this.levelID = levelID;
+        gm.loadLevel(gm.getCurrentLevel());
 
         // Draw the buttons
         Rect menuButton = ic.getMenuButton();
@@ -133,15 +138,25 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     }
 
-    private void restartLevel(String level/*, int levelID*/) {
-        loadLevel(level);
+    private void restartLevel() {
+        loadLevel();
     }
 
-    private void beatLevel(int levelID) {
-        final Uri uri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, levelID);
+    private void beatLevel() {
+        final Uri uri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, gm.getLevelID());
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.LevelColumns.COMPLETED, 1);
         DatabaseUpdateService.updateLevelStatus(context, uri, values);
+
+        if (gm.getLevelID() < 49) {
+            final Uri uri2 = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, gm.getLevelID() + 1);
+            ContentValues values2 = new ContentValues();
+            values2.put(DatabaseContract.LevelColumns.IS_AVAILABLE, 1);
+            DatabaseUpdateService.updateLevelStatus(context, uri2, values2);
+        }
+
+        gm.switchPlayingStatus();
+        gameActivity.onMenuButtonPressed();
     }
 
     private void draw() {
@@ -157,6 +172,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Make sure to draw background first
+
+        // Draw the exit
+        if (gm.hasExit()) {
+            gm.exit.draw(viewportMatrix);
+        }
 
         // Draw the buttons
         for (int i = 0; i < gm.numButtons; i++) {
@@ -323,9 +343,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         utilPointF = gm.player.getWorldLocation();
         // Check player collision
 
-        boolean hitExit = gm.player.detectCollision(gm.exit.getCollisionPackage());
-        if (hitExit) {
-            //beatLevel(levelID);
+        if (gm.hasExit()) {
+            boolean hitExit = gm.player.detectCollision(gm.exit.getCollisionPackage());
+            if (hitExit) {
+                beatLevel();
+            }
         }
 
         if (gm.numBlocks > 0) {
@@ -384,7 +406,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     if (hit) {
                         bomb.kill(gm.player);
                         sm.playSound(Constants.Sounds.EXPLOSION);
-                        restartLevel(gm.getCurrentLevel());
+                        restartLevel();
                     }
                 }
             }
@@ -582,7 +604,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     boolean hit = laser.detectCollision(gm.player.getCollisionPackage());
                     if (hit) {
                         laser.resetLaser();
-                        restartLevel(gm.getCurrentLevel());
+                        restartLevel();
                     }
                 }
             }

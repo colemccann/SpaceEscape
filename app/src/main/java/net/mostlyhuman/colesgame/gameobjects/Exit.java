@@ -2,6 +2,7 @@ package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
 
+import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
@@ -47,5 +48,7 @@ public class Exit extends GameObject {
                 1.0f, 0.0f
         };
         setTextureVertices(textureVertices);
+
+        setTextureResource(R.drawable.exit);
     }
 }

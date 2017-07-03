@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * Created by CaptainMcCann on 5/20/2017.
  */
 
-public class Level1B extends LevelData {
+public class Level2 extends LevelData {
 
-    public Level1B() {
+    public Level2() {
         tiles = new ArrayList<>();
         this.tiles.add("..........");
         this.tiles.add("..........");
@@ -32,7 +32,7 @@ public class Level1B extends LevelData {
 
         buttonKeys = new int[]{};
 
-        warpTargets = new String[]{Constants.Levels.ONE_A};
+        warpTargets = new String[]{};
 
         turretMovement = new boolean[]{true};
 

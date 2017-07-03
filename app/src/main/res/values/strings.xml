@@ -32,6 +32,9 @@
     <string name="chapter_five_title">Escape the Starbase</string>
 
     <string name="level_one">Level One</string>
+    <string name="level_complete">Level Complete!</string>
+    <string name="next_level">Next Level</string>
+    <string name="main_menu">Main Menu</string>
 
     <array name="chapter_numbers">
         <item>@string/chapter_one</item>

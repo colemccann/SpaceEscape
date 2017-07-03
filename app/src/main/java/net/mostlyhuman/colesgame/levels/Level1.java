@@ -8,12 +8,12 @@ import java.util.ArrayList;
  * Created by CaptainMcCann on 4/13/2017.
  */
 
-public class Level1A extends LevelData {
+public class Level1 extends LevelData {
 
-    public Level1A() {
+    public Level1() {
         tiles = new ArrayList<>();
         this.tiles.add("...#.##............#..");
-        this.tiles.add("..#w#p..............#.");
+        this.tiles.add("..#e.p..............#.");
         this.tiles.add("..#h##...............#");
         this.tiles.add("..#..................#");
         this.tiles.add("......................");
@@ -38,7 +38,7 @@ public class Level1A extends LevelData {
 
         buttonKeys = new int[]{1};
 
-        warpTargets = new String[]{Constants.Levels.ONE_B};
+        warpTargets = new String[]{Constants.Levels.TWO};
 
         turretMovement = new boolean[]{false};
 

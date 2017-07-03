@@ -1,4 +1,4 @@
-package net.mostlyhuman.colesgame.ingamemenu;
+package net.mostlyhuman.colesgame.ingamemenus;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -13,7 +13,6 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -164,7 +163,7 @@ public class LevelSelectionFragment extends Fragment implements
 
     private static class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.ViewHolder> {
 
-        // TODO: 6/8/2017 make current levelView tile white, grey out levels that haven't been completed.
+        // TODO: 6/8/2017 make current levelTitle tile white, grey out levels that haven't been completed.
         // TODO: 6/8/2017 put a checkmark or something on the tiles for the levels that have been completed.
 
         private int itemWidth;
@@ -181,7 +180,7 @@ public class LevelSelectionFragment extends Fragment implements
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            TextView levelView;
+            TextView levelTitle;
             TextView tv2;
             TextView tv3;
             LinearLayout linearLayout;
@@ -193,7 +192,7 @@ public class LevelSelectionFragment extends Fragment implements
                 super(itemView);
 
                 frameLayout = (FrameLayout) itemView.findViewById(R.id.level_item_frame);
-                levelView = (TextView) itemView.findViewById(R.id.level_number);
+                levelTitle = (TextView) itemView.findViewById(R.id.level_number);
                 tv2 = (TextView) itemView.findViewById(R.id.textView2);
                 tv3 = (TextView) itemView.findViewById(R.id.textView3);
 
@@ -229,11 +228,11 @@ public class LevelSelectionFragment extends Fragment implements
             holder.linearLayout.setMinimumHeight(itemWidth);
 
             if (level.isAvailable()) {
-                holder.levelView.setTextColor(Color.BLACK);
+                holder.levelTitle.setTextColor(Color.BLACK);
             } else {
-                holder.levelView.setTextColor(Color.GRAY);
+                holder.levelTitle.setTextColor(Color.GRAY);
             }
-            holder.levelView.setText(String.valueOf(level.getTitle()));
+            holder.levelTitle.setText(String.valueOf(level.getTitle()));
             holder.tv2.setText(String.valueOf(level.isCompleted()));
             holder.tv3.setText(String.valueOf(level.isAvailable()));
         }

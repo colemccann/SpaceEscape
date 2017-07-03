@@ -15,8 +15,8 @@ import net.mostlyhuman.colesgame.gameobjects.TurretBase;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
-import net.mostlyhuman.colesgame.levels.Level1A;
-import net.mostlyhuman.colesgame.levels.Level1B;
+import net.mostlyhuman.colesgame.levels.Level1;
+import net.mostlyhuman.colesgame.levels.Level2;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 /**
@@ -65,6 +65,7 @@ public class GameManager {
     public EnemyLaser[] enemyLasers;
 
     public Exit exit;
+    boolean hasExit;
 
     private boolean playing = false;
 
@@ -102,11 +103,11 @@ public class GameManager {
         numWarps = 0;
 
         switch (level) {
-            case Constants.Levels.ONE_A:
-                mLevelData = new Level1A();
+            case Constants.Levels.ONE:
+                mLevelData = new Level1();
                 break;
-            case Constants.Levels.ONE_B:
-                mLevelData = new Level1B();
+            case Constants.Levels.TWO:
+                mLevelData = new Level2();
                 break;
         }
 
@@ -318,6 +319,7 @@ public class GameManager {
                                     mLevelData.warpTargets[warpIndex]);
                             break;
                         case Constants.Types.EXIT:
+                            hasExit = true;
                             exit = new Exit(context,
                                     j * pixelsPerMeter,
                                     -i * pixelsPerMeter,
@@ -344,6 +346,10 @@ public class GameManager {
                 asteroids[i].setTravelingAngle(mLevelData.asteroidDirections[i]);
             }
         }
+    }
+
+    public boolean hasExit() {
+        return hasExit;
     }
 
     public void setMapWidth(int mapWidth) {

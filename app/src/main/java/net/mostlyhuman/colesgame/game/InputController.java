@@ -12,26 +12,20 @@ import android.view.MotionEvent;
 
 public class InputController {
 
-    Rect menu;
+    private Rect menu;
     private String TAG = "Input Controller";
 
     private final GestureDetector gestureDetector;
-    private final PauseMenu mainActivity;
+    private final PauseMenu gameActivity;
     private GameManager gameManager;
 
-    private int screenWidth;
-    private int screenHeight;
 
-    InputController(Context context, int screenWidth, int screenHeight,
-                    GameManager gameManager, PauseMenu mainActivity) {
+    InputController(Context context, int screenWidth, GameManager gameManager,
+                    PauseMenu mainActivity) {
 
-        this.mainActivity = mainActivity;
+        this.gameActivity = mainActivity;
         this.gestureDetector = new GestureDetector(context, new GestureListener());
         this.gameManager = gameManager;
-
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-
 
         int buttonLength = screenWidth / 12;
         int buttonPadding = screenWidth / 80;
@@ -43,11 +37,11 @@ public class InputController {
                 buttonPadding + buttonLength);
     }
 
-    public Rect getMenuButton() {
+    Rect getMenuButton() {
          return menu;
     }
 
-    public void handleInput(MotionEvent event) {
+    void handleInput(MotionEvent event) {
 
         gestureDetector.onTouchEvent(event);
 
@@ -85,7 +79,7 @@ public class InputController {
                     if (menu.contains(x, y)) {
                         Log.e(TAG, "menu pressed");
                         gameManager.switchPlayingStatus();
-                        mainActivity.onMenuButtonPressed();
+                        gameActivity.onMenuButtonPressed();
                     }
                     break;
             }
@@ -123,7 +117,7 @@ public class InputController {
         }
     }
 
-    public void onSwipeRight() {
+    private void onSwipeRight() {
         Log.e(TAG, "Swiping right");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(270);
@@ -131,7 +125,7 @@ public class InputController {
         }
     }
 
-    public void onSwipeLeft() {
+    private void onSwipeLeft() {
         Log.e(TAG, "Swiping left");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(90);
@@ -139,7 +133,7 @@ public class InputController {
         }
     }
 
-    public void onSwipeTop() {
+    private void onSwipeTop() {
         Log.e(TAG, "Swiping top");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(360);
@@ -147,7 +141,7 @@ public class InputController {
         }
     }
 
-    public void onSwipeBottom() {
+    private void onSwipeBottom() {
         Log.e(TAG, "Swiping bottom");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(180);
@@ -155,7 +149,7 @@ public class InputController {
         }
     }
 
-    public interface PauseMenu {
+    interface PauseMenu {
         void onMenuButtonPressed();
     }
 

@@ -1,4 +1,4 @@
-package net.mostlyhuman.colesgame.ingamemenu;
+package net.mostlyhuman.colesgame.ingamemenus;
 
 
 /**
@@ -33,5 +33,15 @@ public interface IngameMenuContract {
         void onResumePressed();
 
         void onExitPressed();
+    }
+
+    interface LevelCompleted {
+
+        interface ActivityCallback {
+
+            void onNextLevelPressed(String level);
+
+            void onMainMenuPressed();
+        }
     }
 }
