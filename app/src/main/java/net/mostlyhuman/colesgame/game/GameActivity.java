@@ -6,18 +6,21 @@ import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 
 import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.ingamemenus.IngameMenuContract;
 import net.mostlyhuman.colesgame.ingamemenus.IngameMenuFragment;
-import net.mostlyhuman.colesgame.ingamemenus.LevelCompleteMenuFragment;
+import net.mostlyhuman.colesgame.ingamemenus.LevelCompleteDialogFragment;
+
 
 public class GameActivity extends Activity implements InputController.PauseMenu,
         IngameMenuContract.ActivityCallback,
-        GameRenderer.LevelCompleteContract,
-        IngameMenuContract.LevelCompleted.ActivityCallback {
+        GameRenderer.LevelCompleteContract {
+
+    private static final String TAG = "GameActivity";
 
     private GLSurfaceView gameView;
     private GameRenderer gameRenderer;
@@ -39,7 +42,7 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
         soundManager = new SoundManager();
         this.soundManager.loadSounds(this);
         inputController = new InputController(this, resolution.x, gameManager, this);
-        gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager, this);
+        gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager, this, this);
         mediaPlayer = MediaPlayer.create(this, R.raw.music_1);
 
         gameView = new MyGLSurfaceView(this,
@@ -102,25 +105,15 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     }
 
     @Override
-    public void onLevelCompleted(String level) {
+    public void onLevelCompleted(int levelID) {
         Bundle args = new Bundle();
-        args.putString(Constants.LEVEL_TITLE, level);
+        args.putInt(Constants.LEVEL_ID, levelID);
 
         FragmentManager fragmentManager = getFragmentManager();
-        LevelCompleteMenuFragment dialog = new LevelCompleteMenuFragment();
+        LevelCompleteDialogFragment dialog = new LevelCompleteDialogFragment();
         dialog.setArguments(args);
 
         dialog.show(fragmentManager, "level completed dialog");
-
-    }
-
-    @Override
-    public void onNextLevelPressed(String level) {
-
-    }
-
-    @Override
-    public void onMainMenuPressed() {
 
     }
 }

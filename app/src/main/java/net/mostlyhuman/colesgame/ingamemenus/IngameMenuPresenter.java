@@ -41,9 +41,4 @@ public class IngameMenuPresenter implements IngameMenuContract.UserActionsListen
             ingameMenuView.showMuteIcon(isMuted);
     }
 
-    @Override
-    public void getRemainingFuel() {
-        int fuelRemaining = preferences.getInt(context.getString(R.string.pref_fuel_key), 25);
-        ingameMenuView.showRemainingFuel(fuelRemaining);
-    }
 }

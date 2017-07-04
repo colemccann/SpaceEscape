@@ -19,7 +19,6 @@ import net.mostlyhuman.colesgame.R;
 
 public class IngameMenuFragment extends DialogFragment implements IngameMenuContract.View {
 
-    private TextView fuelGauge;
     private ImageButton restartButton;
     private ImageButton muteButton;
     private ImageButton resumeButton;
@@ -52,9 +51,6 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
 
         final ViewGroup nullParent = null;
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_ingame_menu, nullParent);
-
-        fuelGauge = (TextView) v.findViewById(R.id.fuelGaugeTextView);
-        userActionsListener.getRemainingFuel();
 
         restartButton = (ImageButton) v.findViewById(R.id.restartButton);
         restartButton.setImageResource(R.drawable.icon_restart);
@@ -121,12 +117,6 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
         } else {
             muteButton.setImageResource(R.drawable.icon_sound_on);
         }
-    }
-
-    @Override
-    public void showRemainingFuel(int fuelRemaining) {
-        fuelGauge.setText(String.format(getString(R.string.fuel_remaining),
-                String.valueOf(fuelRemaining)));
     }
 
     @Override

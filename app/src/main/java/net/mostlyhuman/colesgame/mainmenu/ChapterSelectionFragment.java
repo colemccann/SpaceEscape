@@ -19,14 +19,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.data.Chapter;
 import net.mostlyhuman.colesgame.data.DatabaseContract;
-import net.mostlyhuman.colesgame.data.DatabaseHelper;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
 import java.util.ArrayList;
@@ -255,7 +253,6 @@ public class ChapterSelectionFragment extends Fragment implements
 
                 } else break;
             }
-            Log.d(TAG, "Levels Completed: " + String.valueOf(totalLevelsCompleted));
 
             int chaptersCompleted = totalLevelsCompleted / LEVELS_PER_CHAPTER;
             int remainder = totalLevelsCompleted % LEVELS_PER_CHAPTER;

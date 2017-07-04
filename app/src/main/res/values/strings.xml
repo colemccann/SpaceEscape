@@ -35,6 +35,7 @@
     <string name="level_complete">Level Complete!</string>
     <string name="next_level">Next Level</string>
     <string name="main_menu">Main Menu</string>
+    <string name="hooray">Hooray!</string>
 
     <array name="chapter_numbers">
         <item>@string/chapter_one</item>

@@ -54,6 +54,7 @@ public class Constants {
     }
 
     public static class Levels {
+        public static final String LEVEL_ = "Level ";
         public static final String ONE = "Level 1";
         public static final String TWO = "Level 2";
         public static final String THREE = "Level 3";
@@ -93,17 +94,27 @@ public class Constants {
         public static final String THIRTY_SEVEN = "Level 37";
         public static final String THIRTY_EIGHT = "Level 38";
         public static final String THIRTY_NINE = "Level 39";
-        public static final String FOURTY = "Level 40";
-        public static final String FOURTY_ONE = "Level 41";
-        public static final String FOURTY_TWO = "Level 42";
-        public static final String FOURTY_THREE = "Level 43";
-        public static final String FOURTY_FOUR = "Level 44";
-        public static final String FOURTY_FIVE = "Level 45";
-        public static final String FOURTY_SIX = "Level 46";
-        public static final String FOURTY_SEVEN = "Level 47";
-        public static final String FOURTY_EIGHT = "Level 48";
-        public static final String FOURTY_NINE = "Level 49";
+        public static final String FORTY = "Level 40";
+        public static final String FORTY_ONE = "Level 41";
+        public static final String FORTY_TWO = "Level 42";
+        public static final String FORTY_THREE = "Level 43";
+        public static final String FORTY_FOUR = "Level 44";
+        public static final String FORTY_FIVE = "Level 45";
+        public static final String FORTY_SIX = "Level 46";
+        public static final String FORTY_SEVEN = "Level 47";
+        public static final String FORTY_EIGHT = "Level 48";
+        public static final String FORTY_NINE = "Level 49";
         public static final String FIFTY = "Level 50";
+
+        public static final String[] LEVEL_TITLES = {
+                ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE,
+                THIRTEEN, FOURTEEN, FIFTEEN, SIXTEEN, SEVENTEEN, EIGHTEEN, NINETEEN, TWENTY,
+                TWENTY_ONE, TWENTY_TWO, TWENTY_THREE, TWENTY_FOUR, TWENTY_FIVE, TWENTY_SIX,
+                TWENTY_SEVEN, TWENTY_EIGHT, TWENTY_NINE, THIRTY, THIRTY_ONE, THIRTY_TWO,
+                THIRTY_THREE, THIRTY_FOUR, THIRTY_FIVE, THIRTY_SIX, THIRTY_SEVEN, THIRTY_EIGHT,
+                THIRTY_NINE, FORTY, FORTY_ONE, FORTY_TWO, FORTY_THREE, FORTY_FOUR, FORTY_FIVE,
+                FORTY_SIX, FORTY_SEVEN, FORTY_EIGHT, FORTY_NINE, FIFTY
+        };
 
     }
 

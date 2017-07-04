@@ -7,6 +7,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
+import android.support.v4.view.ViewCompat;
 import android.util.Log;
 
 import net.mostlyhuman.colesgame.R;
@@ -24,6 +25,7 @@ import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.RawResourceReader;
+import net.mostlyhuman.colesgame.ingamemenus.IngameMenuContract;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -45,7 +47,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private InputController ic;
     private SoundManager sm;
     private GameManager gm;
-    private InputController.PauseMenu gameActivity;
+    private InputController.PauseMenu pauseMenuActivity;
+    private LevelCompleteContract gameActivity;
 
     long frameCounter = 0;
     long averageFPS = 0;
@@ -59,19 +62,21 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private GameButton gameButton;
 
     interface LevelCompleteContract {
-        void onLevelCompleted(String level);
+        void onLevelCompleted(int levelID);
     }
 
     public GameRenderer(Context context,
                         InputController inputController,
                         SoundManager soundManager,
                         GameManager gameManager,
-                        InputController.PauseMenu gameActivity) {
+                        InputController.PauseMenu pauseMenuActivity,
+                        LevelCompleteContract gameActivity) {
 
         this.context = context;
         this.ic = inputController;
         this.sm = soundManager;
         this.gm = gameManager;
+        this.pauseMenuActivity = pauseMenuActivity;
         this.gameActivity = gameActivity;
     }
 
@@ -127,9 +132,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    private void loadLevel() {
+    void loadLevel() {
         // Loads the level data and passes it on to the game manager
         gm.loadLevel(gm.getCurrentLevel());
+
+        Log.d(TAG, "Level ID: " + gm.getLevelID());
 
         // Draw the buttons
         Rect menuButton = ic.getMenuButton();
@@ -143,20 +150,21 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     }
 
     private void beatLevel() {
+        gm.switchPlayingStatus();
+
         final Uri uri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, gm.getLevelID());
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.LevelColumns.COMPLETED, 1);
         DatabaseUpdateService.updateLevelStatus(context, uri, values);
 
-        if (gm.getLevelID() < 49) {
+        if (gm.getLevelID() < 50) {
             final Uri uri2 = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, gm.getLevelID() + 1);
             ContentValues values2 = new ContentValues();
             values2.put(DatabaseContract.LevelColumns.IS_AVAILABLE, 1);
             DatabaseUpdateService.updateLevelStatus(context, uri2, values2);
         }
 
-        gm.switchPlayingStatus();
-        gameActivity.onMenuButtonPressed();
+        gameActivity.onLevelCompleted(gm.getLevelID());
     }
 
     private void draw() {

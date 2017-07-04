@@ -7,15 +7,9 @@
     android:gravity="center">
 
     <Button
-        android:id="@+id/next_level_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next_level" />
-
-    <Button
         android:id="@+id/main_menu_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_menu" />
+        android:text="@string/hooray" />
 
 </LinearLayout>

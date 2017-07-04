@@ -92,6 +92,7 @@ public class GameManager {
     }
 
     public void loadLevel(String level) {
+
         mLevelData = null;
         numBlocks = 0;
         numAsteroids = 0;

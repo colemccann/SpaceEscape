@@ -8,8 +8,6 @@ package net.mostlyhuman.colesgame.ingamemenus;
 public interface IngameMenuContract {
 
     interface View {
-        void showRemainingFuel(int fuelRemaining);
-
         void showMuteIcon(boolean muted);
 
         void restartLevel();
@@ -23,8 +21,6 @@ public interface IngameMenuContract {
         void toggleMuted();
 
         void showMuted();
-
-        void getRemainingFuel();
     }
 
     interface ActivityCallback {
@@ -33,15 +29,5 @@ public interface IngameMenuContract {
         void onResumePressed();
 
         void onExitPressed();
-    }
-
-    interface LevelCompleted {
-
-        interface ActivityCallback {
-
-            void onNextLevelPressed(String level);
-
-            void onMainMenuPressed();
-        }
     }
 }
