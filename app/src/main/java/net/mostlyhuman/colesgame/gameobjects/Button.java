@@ -29,7 +29,8 @@ public class Button extends GameObject {
         float halfW = pixelsPerMeter / 2;
         float halfH = pixelsPerMeter / 2;
 
-        CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(), halfW);
+        float halfSideLength = pixelsPerMeter / 3;
+        CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(), halfSideLength);
         setCollisionPackage(collisionPackage);
 
         float[] switchVertices = new float[] {

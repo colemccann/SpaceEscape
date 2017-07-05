@@ -13,8 +13,9 @@ public class Laser extends GameObject implements Turret.LaserContract {
 
     private int laserID;
     private PointF masterLocation;
+    private long lastShot;
 
-    public Laser(Context context, float worldLocationX,
+    Laser(Context context, float worldLocationX,
                  float worldLocationY, int pixelsPerMeter) {
         super(context);
 
@@ -52,10 +53,13 @@ public class Laser extends GameObject implements Turret.LaserContract {
         setTextureVertices(textureVertices);
     }
 
-    public void shoot(float masterFacingAngle) {
-        setActive(true);
-        setFacingAngle(masterFacingAngle);
-        setSpeed(500);
+    private void shoot(float masterFacingAngle) {
+        if (System.currentTimeMillis() > lastShot + 1000) {
+            setActive(true);
+            setFacingAngle(masterFacingAngle);
+            setSpeed(500);
+            lastShot = System.currentTimeMillis();
+        }
     }
 
     public void resetLaser() {
@@ -109,11 +113,11 @@ public class Laser extends GameObject implements Turret.LaserContract {
         this.laserID = laserID;
     }
 
-    public PointF getMasterLocation() {
+    private PointF getMasterLocation() {
         return masterLocation;
     }
 
-    public void setMasterLocation(PointF masterLocation) {
+    private void setMasterLocation(PointF masterLocation) {
         this.masterLocation = masterLocation;
     }
 }
