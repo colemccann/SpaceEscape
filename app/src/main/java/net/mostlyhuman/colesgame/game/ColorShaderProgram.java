@@ -1,7 +1,6 @@
 package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
-import android.util.Log;
 
 import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.Constants;
@@ -18,7 +17,7 @@ public class ColorShaderProgram extends ShaderProgram {
 
     private static final String TAG = "ColorShaderProgram";
 
-    private final int mMVPMatrixHandle;
+    private final int mMatrixHandle;
 
     private final int mPositionHandle;
     private final int mColorHandle;
@@ -26,8 +25,8 @@ public class ColorShaderProgram extends ShaderProgram {
     public ColorShaderProgram(Context context) {
         super(context, R.raw.vertex_shader_color, R.raw.color_shader);
 
-        mMVPMatrixHandle = glGetUniformLocation(program, Constants.OpenGL.U_MVP_MATRIX);
-        mPositionHandle = glGetAttribLocation(program, Constants.OpenGL.A_POSITION);
+        mMatrixHandle = glGetUniformLocation(program, Constants.OpenGL.U_MATRIX);
+        mPositionHandle = glGetAttribLocation(program, Constants.OpenGL.B_POSITION);
         mColorHandle = glGetAttribLocation(program, Constants.OpenGL.A_COLOR);
 
         glEnableVertexAttribArray(mPositionHandle);
@@ -42,7 +41,7 @@ public class ColorShaderProgram extends ShaderProgram {
     }
 
     public int getMVPMatrixLocation() {
-        return mMVPMatrixHandle;
+        return mMatrixHandle;
     }
 
     public int getPositionAttributeLocation() {
