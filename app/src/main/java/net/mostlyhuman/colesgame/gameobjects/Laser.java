@@ -3,6 +3,7 @@ package net.mostlyhuman.colesgame.gameobjects;
 import android.content.Context;
 import android.graphics.PointF;
 
+import net.mostlyhuman.colesgame.game.GLManager;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 
 /**

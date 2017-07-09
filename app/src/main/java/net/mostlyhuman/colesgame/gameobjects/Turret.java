@@ -167,7 +167,7 @@ public class Turret extends GameObject {
 
     @Override
     public void destroy() {
-        setActive(false);
+        super.destroy();
         turretBase.destroyBase(getTurretID());
         //// TODO: 5/29/2017 add animation
     }
@@ -181,11 +181,6 @@ public class Turret extends GameObject {
 
     public boolean doesMove() {
         return moves;
-    }
-
-    @Override
-    public void setMoves(boolean moves) {
-        this.moves = moves;
     }
 
     public int getTurretID() {

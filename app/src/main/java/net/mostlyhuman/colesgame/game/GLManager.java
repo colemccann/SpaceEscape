@@ -1,6 +1,7 @@
 package net.mostlyhuman.colesgame.game;
 
 
+
 import static android.opengl.GLES20.GL_FRAGMENT_SHADER;
 import static android.opengl.GLES20.GL_VERTEX_SHADER;
 import static android.opengl.GLES20.glAttachShader;
@@ -16,73 +17,49 @@ import static android.opengl.GLES20.glShaderSource;
 
 public class GLManager {
 
+    private static final String TAG = "GLManager";
+
     public static final int COMPONENTS_PER_VERTEX = 3;
     public static final int COMPONENTS_PER_TEXTURE = 2;
     public static final int BYTES_PER_FLOAT = 4;
     public static final int STRIDE = (COMPONENTS_PER_VERTEX) * BYTES_PER_FLOAT;
 
 
-    public static int mMVPMatrixHandle;
-    public static int mPositionHandle;
-    public static int mTextureUniformHandle;
-    public static int mTextureCoordinateHandle;
-
-    public static int GLProgram;
-
-    private static String mVertexShaderCode;
-    private static String mFragmentShaderCode;
-
-    public static int getGLProgram() {
-        return GLProgram;
+    private static int compileVertexShader(String vertexShaderSource) {
+        return compileShader(GL_VERTEX_SHADER, vertexShaderSource);
     }
 
-    public static int buildProgram() {
-        return linkProgram(compileVertexShader(), compileFragmentShader());
+    private static int compileFragmentShader(String fragmentShaderSource) {
+        return compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
     }
-
-    public static void setVertexShaderCode(String mVertexShaderCode) {
-        GLManager.mVertexShaderCode = mVertexShaderCode;
-    }
-
-    public static void setFragmentShaderCode(String mFragmentShaderCode) {
-        GLManager.mFragmentShaderCode = mFragmentShaderCode;
-    }
-
-    private static String getVertexShaderCode() {
-        return mVertexShaderCode;
-    }
-
-    private static String getFragmentShaderCode() {
-        return mFragmentShaderCode;
-    }
-
-    private static int compileVertexShader() {
-        return compileShader(GL_VERTEX_SHADER, getVertexShaderCode());
-    }
-
-    private static int compileFragmentShader() {
-        return compileShader(GL_FRAGMENT_SHADER, getFragmentShaderCode());
-    }
-
 
     private static int compileShader(int type, String shaderCode) {
-        final int shader = glCreateShader(type);
+        final int shaderObjectId = glCreateShader(type);
 
-        glShaderSource(shader, shaderCode);
-        glCompileShader(shader);
+        glShaderSource(shaderObjectId, shaderCode);
+        glCompileShader(shaderObjectId);
 
-        return shader;
+        return shaderObjectId;
     }
 
     private static int linkProgram(int vertexShader, int fragmentShader) {
+        final int programObjectId = glCreateProgram();
 
-        GLProgram = glCreateProgram();
+        glAttachShader(programObjectId, vertexShader);
+        glAttachShader(programObjectId, fragmentShader);
 
-        glAttachShader(GLProgram, vertexShader);
-        glAttachShader(GLProgram, fragmentShader);
+        glLinkProgram(programObjectId);
 
-        glLinkProgram(GLProgram);
+        return programObjectId;
+    }
 
-        return GLProgram;
+    public static int buildProgram(String vertexShaderSource, String fragmentShaderSource) {
+        int program;
+        int vertexShader = compileVertexShader(vertexShaderSource);
+        int fragmentShader = compileFragmentShader(fragmentShaderSource);
+
+        program = linkProgram(vertexShader, fragmentShader);
+
+        return program;
     }
 }

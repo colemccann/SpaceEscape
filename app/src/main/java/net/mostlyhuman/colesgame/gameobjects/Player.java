@@ -26,9 +26,7 @@ public class Player extends GameObject {
 
         setType(Constants.Types.PLAYER);
         setWorldLocation(worldLocationX, worldLocationY);
-        //Log.e(TAG, "World Location: " + getWorldLocation());
 
-        setMoves(true);
         setActive(true);
 
         setxVelocity(0);
@@ -82,6 +80,8 @@ public class Player extends GameObject {
         move(fps);
 
         getCollisionPackage().updateHitbox(getWorldLocation());
+
+        Log.d(TAG, "World Location: " + getWorldLocation());
     }
 
     public void boost() {

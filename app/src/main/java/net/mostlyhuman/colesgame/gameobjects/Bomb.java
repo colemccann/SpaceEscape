@@ -55,7 +55,7 @@ public class Bomb extends GameObject {
 
     @Override
     public void destroy() {
-        setActive(false);
+         super.destroy();
         //// TODO: 5/29/2017 add animation
     }
 
@@ -63,7 +63,7 @@ public class Bomb extends GameObject {
         switch (gameObject.getType()) {
             case Constants.Types.PLAYER:
                 gameObject.destroy();
-                // // TODO: 5/1/2017 ship explosion animation
+                //// TODO: 5/1/2017 ship explosion animation
                 break;
             //// TODO: 5/1/2017 Add interaction for other game objects here
         }

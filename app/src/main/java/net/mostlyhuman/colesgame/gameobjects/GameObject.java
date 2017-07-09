@@ -3,7 +3,8 @@ package net.mostlyhuman.colesgame.gameobjects;
 import android.content.Context;
 import android.graphics.PointF;
 
-import net.mostlyhuman.colesgame.game.GLManager;
+import net.mostlyhuman.colesgame.game.ColorShaderProgram;
+import net.mostlyhuman.colesgame.game.TextureShaderProgram;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.TextureHelper;
@@ -14,6 +15,7 @@ import java.nio.FloatBuffer;
 
 import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.GL_LINES;
+import static android.opengl.GLES20.GL_POINTS;
 import static android.opengl.GLES20.GL_TEXTURE0;
 import static android.opengl.GLES20.GL_TEXTURE_2D;
 import static android.opengl.GLES20.GL_TRIANGLES;
@@ -21,11 +23,10 @@ import static android.opengl.GLES20.glActiveTexture;
 import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glGetAttribLocation;
-import static android.opengl.GLES20.glGetUniformLocation;
 import static android.opengl.GLES20.glUniform1i;
+import static android.opengl.GLES20.glUniform4f;
 import static android.opengl.GLES20.glUniformMatrix4fv;
-import static android.opengl.GLES20.glUseProgram;
+
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.setIdentityM;
@@ -35,10 +36,6 @@ import static net.mostlyhuman.colesgame.game.GLManager.BYTES_PER_FLOAT;
 import static net.mostlyhuman.colesgame.game.GLManager.COMPONENTS_PER_TEXTURE;
 import static net.mostlyhuman.colesgame.game.GLManager.COMPONENTS_PER_VERTEX;
 import static net.mostlyhuman.colesgame.game.GLManager.STRIDE;
-import static net.mostlyhuman.colesgame.game.GLManager.mMVPMatrixHandle;
-import static net.mostlyhuman.colesgame.game.GLManager.mPositionHandle;
-import static net.mostlyhuman.colesgame.game.GLManager.mTextureCoordinateHandle;
-import static net.mostlyhuman.colesgame.game.GLManager.mTextureUniformHandle;
 
 /**
  * Created by CaptainMcCann on 4/4/2017.
@@ -50,11 +47,7 @@ public class GameObject {
     // and will not be drawn, updated, or checked for collision
     private boolean isActive;
 
-    private boolean moves = false;
-
     private Context context;
-
-    private static int glProgram = -1;
 
     private char type;
 
@@ -94,36 +87,10 @@ public class GameObject {
 
     public GameObject(Context context) {
         this.context = context;
-
-        // Only compile shaders once
-        if (glProgram == -1) {
-
-            setGLProgram();
-
-            glUseProgram(glProgram);
-
-            mMVPMatrixHandle = glGetUniformLocation(glProgram, Constants.OpenGL.U_MVP_MATRIX);
-            mPositionHandle = glGetAttribLocation(glProgram, Constants.OpenGL.A_POSITION);
-            mTextureUniformHandle = glGetUniformLocation(glProgram, Constants.OpenGL.U_TEXTURE);
-            mTextureCoordinateHandle = glGetAttribLocation(
-                    glProgram, Constants.OpenGL.A_TEX_COORDINATE);
-        }
-
-        glEnableVertexAttribArray(mPositionHandle);
-        glEnableVertexAttribArray(mTextureCoordinateHandle);
-
         isActive = true;
     }
 
     public void update(float fps) {}
-
-    private void setGLProgram() {
-        glProgram = GLManager.getGLProgram();
-    }
-
-    public static int getGlProgram() {
-        return glProgram;
-    }
 
     public void setTextureResource(int textureResource) {
         mTexture = TextureHelper.loadTexture(context, textureResource);
@@ -133,11 +100,11 @@ public class GameObject {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    void setActive(boolean active) {
         isActive = active;
     }
 
-    public char getType() {
+    char getType() {
         return type;
     }
 
@@ -163,7 +130,7 @@ public class GameObject {
         return xVelocity;
     }
 
-    public void setxVelocity(float xVelocity) {
+    void setxVelocity(float xVelocity) {
         this.xVelocity = xVelocity;
     }
 
@@ -171,11 +138,11 @@ public class GameObject {
         return yVelocity;
     }
 
-    public void setyVelocity(float yVelocity) {
+    void setyVelocity(float yVelocity) {
         this.yVelocity = yVelocity;
     }
 
-    public float getSpeed() {
+    float getSpeed() {
         return speed;
     }
 
@@ -183,16 +150,12 @@ public class GameObject {
         this.speed = speed;
     }
 
-    public void setMaxSpeed(float maxSpeed) {
+    void setMaxSpeed(float maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
 
     public float getMaxSpeed() {
         return maxSpeed;
-    }
-
-    public void setMoves(boolean moves) {
-        this.moves = moves;
     }
 
     public boolean isMoving() {
@@ -215,7 +178,7 @@ public class GameObject {
         return cp;
     }
 
-    public void move(float fps) {
+    void move(float fps) {
         if (fps > 60) {
             fps = 60;
         }
@@ -245,10 +208,6 @@ public class GameObject {
 
     }
 
-    public FloatBuffer getVertexBuffer() {
-        return vertexBuffer;
-    }
-
     public void setTextureVertices(float[] textureVertices) {
 
         this.textureVertices = new float[textureVertices.length];
@@ -274,19 +233,17 @@ public class GameObject {
         return this.facingAngle;
     }
 
-    public void draw(float[] viewportMatrix) {
-
-        glUseProgram(glProgram);
+    public void draw(float[] viewportMatrix, TextureShaderProgram shaderProgram) {
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mTexture);
-        glUniform1i(mTextureUniformHandle, 0);
+        glUniform1i(shaderProgram.getTextureUniformLocation(), 0);
 
-        glVertexAttribPointer(mPositionHandle, COMPONENTS_PER_VERTEX,
+        glVertexAttribPointer(shaderProgram.getPositionAttributeLocation(), COMPONENTS_PER_VERTEX,
                 GL_FLOAT, false, STRIDE, vertexBuffer);
 
-        glVertexAttribPointer(mTextureCoordinateHandle, COMPONENTS_PER_TEXTURE,
-                    GL_FLOAT, false, 0, textureBuffer);
+        glVertexAttribPointer(shaderProgram.getTextureCoordinatesAttributeLocation(),
+                COMPONENTS_PER_TEXTURE, GL_FLOAT, false, 0, textureBuffer);
 
         // For translating model coordinates into world coordinates
         setIdentityM(modelMatrix, 0);
@@ -302,9 +259,41 @@ public class GameObject {
         multiplyMM(rotateViewportModelMatrix, 0, viewportModelMatrix, 0, modelMatrix, 0);
 
         // Give the matrix to openGL
-        glUniformMatrix4fv(mMVPMatrixHandle, 1, false, rotateViewportModelMatrix, 0);
+        glUniformMatrix4fv(shaderProgram.getMVPMatrixLocation(), 1, false,
+                rotateViewportModelMatrix, 0);
 
         glDrawArrays(GL_TRIANGLES, 0, numVertices);
+
+    }
+
+    public void draw(float[] viewportMatrix, ColorShaderProgram shaderProgram) {
+
+        vertexBuffer.position(0);
+
+        glVertexAttribPointer(shaderProgram.getPositionAttributeLocation(), COMPONENTS_PER_VERTEX,
+                GL_FLOAT, false, STRIDE, vertexBuffer);
+
+        setIdentityM(modelMatrix, 0);
+        translateM(modelMatrix, 0, worldLocation.x, worldLocation.y, 0);
+
+        multiplyMM(viewportModelMatrix, 0, viewportMatrix, 0, modelMatrix, 0);
+
+        setRotateM(modelMatrix, 0, facingAngle, 0, 0, 1.0f);
+
+        multiplyMM(rotateViewportModelMatrix, 0, viewportModelMatrix, 0, modelMatrix, 0);
+
+        glUniformMatrix4fv(shaderProgram.getMVPMatrixLocation(), 1, false,
+                rotateViewportModelMatrix, 0);
+
+        glUniform4f(shaderProgram.getColorAttributeLocation(), 1.0f, 1.0f, 1.0f, 1.0f);
+
+        switch (getType()) {
+            case Constants.Types.BORDER:
+                glDrawArrays(GL_LINES, 0, numVertices);
+                break;
+            case Constants.Types.STAR:
+                glDrawArrays(GL_POINTS, 0, numVertices);
+        }
 
     }
 
@@ -326,6 +315,7 @@ public class GameObject {
     }
 
     public void destroy() {
+        setActive(false);
     }
 
 }

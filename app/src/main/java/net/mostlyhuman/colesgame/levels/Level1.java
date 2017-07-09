@@ -12,37 +12,26 @@ public class Level1 extends LevelData {
 
     public Level1() {
         tiles = new ArrayList<>();
-        this.tiles.add("...#.##............#..");
-        this.tiles.add("..#e.p..............#.");
-        this.tiles.add("..#h##...............#");
-        this.tiles.add("..#..................#");
-        this.tiles.add("......................");
-        this.tiles.add("......................");
-        this.tiles.add(".#....r....r....d.....");
-        this.tiles.add(".t.........a..........");
-        this.tiles.add(".#.........b.........#");
-        this.tiles.add("......................");
-        this.tiles.add("...........u....l.....");
-        this.tiles.add("......................");
-        this.tiles.add("x...#.................");
-        this.tiles.add("..#..................#");
-        this.tiles.add("x.....#............##.");
-        this.tiles.add("...#.#................");
+        this.tiles.add("..p..");
+        this.tiles.add(".....");
+        this.tiles.add(".....");
+        this.tiles.add(".....");
+        this.tiles.add(".....");
+
         asteroidDirections = new int[]{
-                0
         };
 
-        doorKeys = new int[]{1};
+        doorKeys = new int[]{};
 
-        buttonStates = new boolean[]{false};
+        buttonStates = new boolean[]{};
 
-        buttonKeys = new int[]{1};
+        buttonKeys = new int[]{};
 
-        warpTargets = new String[]{Constants.Levels.TWO};
+        warpTargets = new String[]{};
 
-        turretMovement = new boolean[]{false};
+        turretMovement = new boolean[]{};
 
-        turretFacingAngles = new int[]{Constants.Directions.RIGHT};
+        turretFacingAngles = new int[]{};
     }
 
 

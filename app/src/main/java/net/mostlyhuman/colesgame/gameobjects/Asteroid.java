@@ -216,7 +216,7 @@ public class Asteroid extends GameObject {
 
     @Override
     public void destroy() {
-        setActive(false);
+        super.destroy();
         //// TODO: 5/29/2017 add animation
     }
 

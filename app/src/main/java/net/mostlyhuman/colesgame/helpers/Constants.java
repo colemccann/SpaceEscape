@@ -26,12 +26,14 @@ public class Constants {
     public static class OpenGL {
         public static final String U_MVP_MATRIX = "u_MVPMatrix";
         public static final String A_POSITION = "a_Position";
+        public static final String A_COLOR = "a_Color";
         public static final String U_TEXTURE = "u_Texture";
         public static final String A_TEX_COORDINATE = "a_TexCoordinate";
     }
 
     public static class Types {
         public static final char BORDER = '=';
+        public static final char STAR = '*';
 
         public static final char BLOCK = '#';
 

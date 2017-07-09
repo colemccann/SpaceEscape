@@ -1,16 +1,19 @@
 package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
+import android.util.Log;
 
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
+import net.mostlyhuman.colesgame.gameobjects.Border;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
 import net.mostlyhuman.colesgame.gameobjects.Exit;
 import net.mostlyhuman.colesgame.gameobjects.Player;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
+import net.mostlyhuman.colesgame.gameobjects.Star;
 import net.mostlyhuman.colesgame.gameobjects.TurretBase;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
@@ -32,8 +35,12 @@ public class GameManager {
     private String currentLevel;
     private int levelID;
 
-    public int mapWidth;
-    public int mapHeight;
+    private int mapWidth;
+    private int mapHeight;
+
+    public Border border;
+
+    public Star[] stars = new Star[5];
 
     public Player player;
 
@@ -347,6 +354,13 @@ public class GameManager {
                 asteroids[i].setTravelingAngle(mLevelData.asteroidDirections[i]);
             }
         }
+
+        Log.d(TAG, "Map Height: " + getMapHeight() + " Map Width: " + getMapWidth());
+        border = new Border(context, mapWidth, mapHeight);
+
+        for (int i = 0; i < stars.length; i++) {
+            stars[i] = new Star(context, mapWidth, mapHeight);
+        }
     }
 
     public boolean hasExit() {
@@ -359,6 +373,14 @@ public class GameManager {
 
     public void setMapHeight(int mapHeight) {
         this.mapHeight = mapHeight;
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
     }
 
     public void switchPlayingStatus() {

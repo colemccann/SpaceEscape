@@ -7,7 +7,6 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
-import android.support.v4.view.ViewCompat;
 import android.util.Log;
 
 import net.mostlyhuman.colesgame.R;
@@ -16,16 +15,17 @@ import net.mostlyhuman.colesgame.data.DatabaseUpdateService;
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
+import net.mostlyhuman.colesgame.gameobjects.Border;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
 import net.mostlyhuman.colesgame.gameobjects.Laser;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
+import net.mostlyhuman.colesgame.gameobjects.Star;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.RawResourceReader;
-import net.mostlyhuman.colesgame.ingamemenus.IngameMenuContract;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -50,11 +50,14 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private InputController.PauseMenu pauseMenuActivity;
     private LevelCompleteContract gameActivity;
 
-    long frameCounter = 0;
-    long averageFPS = 0;
+    private long frameCounter = 0;
+    private long averageFPS = 0;
     private long fps;
 
     private final float[] viewportMatrix = new float[16];
+
+    private TextureShaderProgram textureShaderProgram;
+    private ColorShaderProgram colorShaderProgram;
 
     private PointF utilPointF;
     private PointF utilPointF2;
@@ -85,13 +88,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        GLManager.setVertexShaderCode(RawResourceReader.readTextFileFromRawResource(
-                context, R.raw.vertex_shader
-        ));
-        GLManager.setFragmentShaderCode(RawResourceReader.readTextFileFromRawResource(
-                context, R.raw.fragment_shader
-        ));
-        GLManager.buildProgram();
+        colorShaderProgram = new ColorShaderProgram(context);
+        textureShaderProgram = new TextureShaderProgram(context);
 
         loadLevel();
     }
@@ -132,13 +130,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    void loadLevel() {
+    private void loadLevel() {
         // Loads the level data and passes it on to the game manager
         gm.loadLevel(gm.getCurrentLevel());
 
         Log.d(TAG, "Level ID: " + gm.getLevelID());
 
-        // Draw the buttons
+        // Load the menu button
         Rect menuButton = ic.getMenuButton();
         gameButton = new GameButton(context, R.drawable.icon_menu, menuButton.top,
                 menuButton.left, menuButton.bottom, menuButton.right, gm);
@@ -179,82 +177,91 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         glClear(GL_COLOR_BUFFER_BIT);
 
+        //colorShaderProgram.useProgram();
+
         // Make sure to draw background first
+        gm.border.draw(viewportMatrix, colorShaderProgram);
+
+        for (Star star : gm.stars) {
+            star.draw(viewportMatrix, colorShaderProgram);
+        }
+
+        //textureShaderProgram.useProgram();
 
         // Draw the exit
         if (gm.hasExit()) {
-            gm.exit.draw(viewportMatrix);
+            gm.exit.draw(viewportMatrix, textureShaderProgram);
         }
 
         // Draw the buttons
         for (int i = 0; i < gm.numButtons; i++) {
-            gm.buttons[i].draw(viewportMatrix);
+            gm.buttons[i].draw(viewportMatrix, textureShaderProgram);
         }
 
         // Draw the Blocks
         for (int i = 0; i < gm.numBlocks; i++) {
             if (gm.blocks[i].isActive()) {
-                gm.blocks[i].draw(viewportMatrix);
+                gm.blocks[i].draw(viewportMatrix, textureShaderProgram);
             }
         }
 
         // Draw the turret bases
         for (int i = 0; i < gm.numTurrets; i++) {
             if (gm.turrets[i].isActive()) {
-                gm.turretBases[i].draw(viewportMatrix);
+                gm.turretBases[i].draw(viewportMatrix, textureShaderProgram);
             }
         }
 
         // Draw the lasers
         for (int i = 0; i < gm.numTurrets; i++) {
             if (gm.enemyLasers[i].isActive()) {
-                gm.enemyLasers[i].draw(viewportMatrix);
+                gm.enemyLasers[i].draw(viewportMatrix, textureShaderProgram);
             }
         }
 
         // Draw the turrets
         for (int i = 0; i < gm.numTurrets; i++) {
             if (gm.turrets[i].isActive()) {
-                gm.turrets[i].draw(viewportMatrix);
+                gm.turrets[i].draw(viewportMatrix, textureShaderProgram);
             }
         }
 
         // Draw the Redirects
         for (int i = 0; i < gm.numRedirects; i++) {
             if (gm.redirects[i].isActive()) {
-                gm.redirects[i].draw(viewportMatrix);
+                gm.redirects[i].draw(viewportMatrix, textureShaderProgram);
             }
         }
 
         // Draw the Bombs
         for (int i = 0; i < gm.numBombs; i++) {
             if (gm.bombs[i].isActive()) {
-                gm.bombs[i].draw(viewportMatrix);
+                gm.bombs[i].draw(viewportMatrix, textureShaderProgram);
             }
         }
 
         // Draw the Asteroids
         for (int i = 0; i < gm.numAsteroids; i++) {
             if (gm.asteroids[i].isActive()) {
-                gm.asteroids[i].draw(viewportMatrix);
+                gm.asteroids[i].draw(viewportMatrix, textureShaderProgram);
             }
         }
 
         // Draw the doors
         for (int i = 0; i < gm.numDoors; i++) {
-            gm.doors[i].draw(viewportMatrix);
+            gm.doors[i].draw(viewportMatrix, textureShaderProgram);
         }
 
         // Draw the warps
         for (int i = 0; i < gm.numWarps; i++) {
-            gm.warps[i].draw(viewportMatrix);
+            gm.warps[i].draw(viewportMatrix, textureShaderProgram);
         }
 
         // Draw the player
-        gm.player.draw(viewportMatrix);
+        gm.player.draw(viewportMatrix, textureShaderProgram);
 
         // Draw the game buttons
-           gameButton.draw();
+        gameButton.draw(textureShaderProgram);
 
     }
 
@@ -297,6 +304,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     }
                 }
             }
+        }
+
+        for (Star star : gm.stars) {
+            star.update();
         }
 
         containLasers();
