@@ -2,12 +2,20 @@ package net.mostlyhuman.colesgame.game;
 
 
 
+import android.util.Log;
+
+import static android.opengl.GLES20.GL_COMPILE_STATUS;
 import static android.opengl.GLES20.GL_FRAGMENT_SHADER;
+import static android.opengl.GLES20.GL_LINK_STATUS;
+import static android.opengl.GLES20.GL_TRUE;
 import static android.opengl.GLES20.GL_VERTEX_SHADER;
 import static android.opengl.GLES20.glAttachShader;
 import static android.opengl.GLES20.glCompileShader;
 import static android.opengl.GLES20.glCreateProgram;
 import static android.opengl.GLES20.glCreateShader;
+import static android.opengl.GLES20.glGetProgramiv;
+import static android.opengl.GLES20.glGetShaderInfoLog;
+import static android.opengl.GLES20.glGetShaderiv;
 import static android.opengl.GLES20.glLinkProgram;
 import static android.opengl.GLES20.glShaderSource;
 
@@ -21,6 +29,12 @@ public class GLManager {
 
     public static final int COMPONENTS_PER_VERTEX = 3;
     public static final int COMPONENTS_PER_TEXTURE = 2;
+
+    // For use with ColorShaderProgram
+    public static final int POSITION_COMPONENT_COUNT = 2;
+    public static final int COLOR_COMPONENT_COUNT = 3;
+    public static final int COLOR_STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * 4;
+
     public static final int BYTES_PER_FLOAT = 4;
     public static final int STRIDE = (COMPONENTS_PER_VERTEX) * BYTES_PER_FLOAT;
 
@@ -36,8 +50,20 @@ public class GLManager {
     private static int compileShader(int type, String shaderCode) {
         final int shaderObjectId = glCreateShader(type);
 
+        if (shaderObjectId == 0) {
+            Log.d(TAG, "Could not create new Shader.");
+        }
+
         glShaderSource(shaderObjectId, shaderCode);
         glCompileShader(shaderObjectId);
+
+        final int[] compileStatus = new int[1];
+        glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS, compileStatus, 0);
+        Log.d(TAG, "Results of compiling source: " + "\n" + shaderCode + "\n:" + glGetShaderInfoLog(shaderObjectId));
+
+        if (compileStatus[0] == 0) {
+            Log.d(TAG, "Compilation of shader failed.");
+        }
 
         return shaderObjectId;
     }
@@ -59,6 +85,12 @@ public class GLManager {
         int fragmentShader = compileFragmentShader(fragmentShaderSource);
 
         program = linkProgram(vertexShader, fragmentShader);
+
+        int[] linkStatus = new int[1];
+        glGetProgramiv(program, GL_LINK_STATUS, linkStatus, 0);
+
+        boolean b = linkStatus[0] == GL_TRUE;
+        Log.d(TAG, "Link status: " + program + ": " + b);
 
         return program;
     }

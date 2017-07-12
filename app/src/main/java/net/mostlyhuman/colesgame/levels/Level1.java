@@ -12,9 +12,9 @@ public class Level1 extends LevelData {
 
     public Level1() {
         tiles = new ArrayList<>();
+        this.tiles.add(".....");
+        this.tiles.add(".....");
         this.tiles.add("..p..");
-        this.tiles.add(".....");
-        this.tiles.add(".....");
         this.tiles.add(".....");
         this.tiles.add(".....");
 

@@ -5,9 +5,13 @@ import android.content.Context;
 import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
-import static android.opengl.GLES20.glEnableVertexAttribArray;
+import static android.opengl.GLES20.GL_TEXTURE_2D;
+import static android.opengl.GLES20.glActiveTexture;
+import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glGetAttribLocation;
 import static android.opengl.GLES20.glGetUniformLocation;
+import static android.opengl.GLES20.glUniform1i;
+import static android.opengl.GLES20.glUniformMatrix4fv;
 
 /**
  * Created by CaptainMcCann on 7/8/2017.
@@ -29,16 +33,18 @@ public class TextureShaderProgram extends ShaderProgram {
         mPositionHandle = glGetAttribLocation(program, Constants.OpenGL.A_POSITION);
         mTextureCoordinateHandle = glGetAttribLocation(program, Constants.OpenGL.A_TEX_COORDINATE);
 
-        glEnableVertexAttribArray(mPositionHandle);
-        glEnableVertexAttribArray(mTextureCoordinateHandle);
     }
 
-    public int getMVPMatrixLocation() {
-        return mMVPMatrixHandle;
+    public void setTexture(int textureId) {
+        glActiveTexture(textureId);
+        glBindTexture(GL_TEXTURE_2D, textureId);
     }
 
-    public int getTextureUniformLocation() {
-        return mTextureUniformHandle;
+    public void setUniforms(float[] matrix) {
+        // Give the final matrix to OpenGL
+        glUniformMatrix4fv(mMVPMatrixHandle, 1, false, matrix, 0);
+
+        glUniform1i(mTextureUniformHandle, 0);
     }
 
     public int getPositionAttributeLocation() {

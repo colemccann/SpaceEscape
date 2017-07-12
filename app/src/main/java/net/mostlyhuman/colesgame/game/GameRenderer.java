@@ -33,6 +33,7 @@ import javax.microedition.khronos.opengles.GL10;
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
+import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.Matrix.orthoM;
 import static android.opengl.GLES20.glViewport;
 
@@ -88,8 +89,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        colorShaderProgram = new ColorShaderProgram(context);
         textureShaderProgram = new TextureShaderProgram(context);
+
+        colorShaderProgram = new ColorShaderProgram(context);
 
         loadLevel();
     }
@@ -177,88 +179,109 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //colorShaderProgram.useProgram();
+        colorShaderProgram.useProgram();
+        colorShaderProgram.setUniforms(gm.border.rotateMatrix(viewportMatrix));
+        gm.border.bindColorData(colorShaderProgram);
+        gm.border.draw();
 
-        // Make sure to draw background first
-        gm.border.draw(viewportMatrix, colorShaderProgram);
-
-        for (Star star : gm.stars) {
-            star.draw(viewportMatrix, colorShaderProgram);
-        }
-
-        //textureShaderProgram.useProgram();
+        textureShaderProgram.useProgram();
+        textureShaderProgram.setTexture(R.drawable.block/*PUT TEXTURE HERE*/);
 
         // Draw the exit
         if (gm.hasExit()) {
-            gm.exit.draw(viewportMatrix, textureShaderProgram);
+            textureShaderProgram.setUniforms(gm.exit.rotateMatrix(viewportMatrix));
+            gm.exit.bindTextureData(textureShaderProgram);
+            gm.exit.draw();
         }
 
         // Draw the buttons
         for (int i = 0; i < gm.numButtons; i++) {
-            gm.buttons[i].draw(viewportMatrix, textureShaderProgram);
+            textureShaderProgram.setUniforms(gm.buttons[i].rotateMatrix(viewportMatrix));
+            gm.buttons[i].bindTextureData(textureShaderProgram);
+            gm.buttons[i].draw();
         }
 
         // Draw the Blocks
         for (int i = 0; i < gm.numBlocks; i++) {
             if (gm.blocks[i].isActive()) {
-                gm.blocks[i].draw(viewportMatrix, textureShaderProgram);
+                textureShaderProgram.setUniforms(gm.blocks[i].rotateMatrix(viewportMatrix));
+                gm.blocks[i].bindTextureData(textureShaderProgram);
+                gm.blocks[i].draw();
             }
         }
 
         // Draw the turret bases
         for (int i = 0; i < gm.numTurrets; i++) {
             if (gm.turrets[i].isActive()) {
-                gm.turretBases[i].draw(viewportMatrix, textureShaderProgram);
+                textureShaderProgram.setUniforms(gm.turretBases[i].rotateMatrix(viewportMatrix));
+                gm.turretBases[i].bindTextureData(textureShaderProgram);
+                gm.turretBases[i].draw();
             }
         }
 
         // Draw the lasers
         for (int i = 0; i < gm.numTurrets; i++) {
             if (gm.enemyLasers[i].isActive()) {
-                gm.enemyLasers[i].draw(viewportMatrix, textureShaderProgram);
+                textureShaderProgram.setUniforms(gm.enemyLasers[i].rotateMatrix(viewportMatrix));
+                gm.enemyLasers[i].bindTextureData(textureShaderProgram);
+                gm.enemyLasers[i].draw();
             }
         }
 
         // Draw the turrets
         for (int i = 0; i < gm.numTurrets; i++) {
             if (gm.turrets[i].isActive()) {
-                gm.turrets[i].draw(viewportMatrix, textureShaderProgram);
+                textureShaderProgram.setUniforms(gm.turrets[i].rotateMatrix(viewportMatrix));
+                gm.turrets[i].bindTextureData(textureShaderProgram);
+                gm.turrets[i].draw();
             }
         }
 
         // Draw the Redirects
         for (int i = 0; i < gm.numRedirects; i++) {
             if (gm.redirects[i].isActive()) {
-                gm.redirects[i].draw(viewportMatrix, textureShaderProgram);
+                textureShaderProgram.setUniforms(gm.redirects[i].rotateMatrix(viewportMatrix));
+                gm.redirects[i].bindTextureData(textureShaderProgram);
+                gm.redirects[i].draw();
             }
         }
 
         // Draw the Bombs
         for (int i = 0; i < gm.numBombs; i++) {
             if (gm.bombs[i].isActive()) {
-                gm.bombs[i].draw(viewportMatrix, textureShaderProgram);
+                textureShaderProgram.setUniforms(gm.bombs[i].rotateMatrix(viewportMatrix));
+                gm.bombs[i].bindTextureData(textureShaderProgram);
+                gm.bombs[i].draw();
             }
         }
 
         // Draw the Asteroids
         for (int i = 0; i < gm.numAsteroids; i++) {
             if (gm.asteroids[i].isActive()) {
-                gm.asteroids[i].draw(viewportMatrix, textureShaderProgram);
+                textureShaderProgram.setUniforms(gm.asteroids[i].rotateMatrix(viewportMatrix));
+                gm.asteroids[i].bindTextureData(textureShaderProgram);
+                gm.asteroids[i].draw();
             }
         }
 
         // Draw the doors
         for (int i = 0; i < gm.numDoors; i++) {
-            gm.doors[i].draw(viewportMatrix, textureShaderProgram);
+            textureShaderProgram.setUniforms(gm.doors[i].rotateMatrix(viewportMatrix));
+            gm.doors[i].bindTextureData(textureShaderProgram);
+            gm.doors[i].draw();
         }
 
         // Draw the warps
         for (int i = 0; i < gm.numWarps; i++) {
-            gm.warps[i].draw(viewportMatrix, textureShaderProgram);
+            textureShaderProgram.setUniforms(gm.warps[i].rotateMatrix(viewportMatrix));
+            gm.warps[i].bindTextureData(textureShaderProgram);
+            gm.warps[i].draw();
         }
 
         // Draw the player
-        gm.player.draw(viewportMatrix, textureShaderProgram);
+        textureShaderProgram.setUniforms(gm.player.rotateMatrix(viewportMatrix));
+        gm.player.bindTextureData(textureShaderProgram);
+        gm.player.draw();
 
         // Draw the game buttons
         gameButton.draw(textureShaderProgram);
@@ -304,10 +327,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     }
                 }
             }
-        }
-
-        for (Star star : gm.stars) {
-            star.update();
         }
 
         containLasers();

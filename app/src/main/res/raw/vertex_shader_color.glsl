@@ -1,6 +1,6 @@
-uniform mat4 u_Matrix;
+uniform mat4 u_MVPMatrix;
 
-attribute vec4 b_Position;
+attribute vec4 a_Position;
 
 attribute vec4 a_Color;
 
@@ -10,7 +10,7 @@ void main() {
 
 v_Color = a_Color;
 
-gl_Position = u_Matrix * b_Position;
+gl_Position = u_MVPMatrix * a_Position;
 
 gl_PointSize = 10.0;
 

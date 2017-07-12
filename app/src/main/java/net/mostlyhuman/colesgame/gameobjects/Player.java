@@ -81,21 +81,12 @@ public class Player extends GameObject {
 
         getCollisionPackage().updateHitbox(getWorldLocation());
 
-        Log.d(TAG, "World Location: " + getWorldLocation());
     }
 
     public void boost() {
         if (!this.isMoving()) {
             isBoosting = true;
             setMoving(true);
-        }
-    }
-
-    public void swivel() {
-        if (!this.isMoving()) {
-            setMoving(true);
-            setFacingAngle(getFacingAngle() + 90);
-            setMoving(false);
         }
     }
 

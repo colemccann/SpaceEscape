@@ -33,8 +33,11 @@ import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.setRotateM;
 import static android.opengl.Matrix.translateM;
 import static net.mostlyhuman.colesgame.game.GLManager.BYTES_PER_FLOAT;
+import static net.mostlyhuman.colesgame.game.GLManager.COLOR_COMPONENT_COUNT;
+import static net.mostlyhuman.colesgame.game.GLManager.COLOR_STRIDE;
 import static net.mostlyhuman.colesgame.game.GLManager.COMPONENTS_PER_TEXTURE;
 import static net.mostlyhuman.colesgame.game.GLManager.COMPONENTS_PER_VERTEX;
+import static net.mostlyhuman.colesgame.game.GLManager.POSITION_COMPONENT_COUNT;
 import static net.mostlyhuman.colesgame.game.GLManager.STRIDE;
 
 /**
@@ -178,6 +181,17 @@ public class GameObject {
         return cp;
     }
 
+    public void setFacingAngle(float angle) {
+        this.facingAngle = angle;
+        if (getFacingAngle() > 360) {
+            setFacingAngle(getFacingAngle() - 360);
+        }
+    }
+
+    public float getFacingAngle() {
+        return this.facingAngle;
+    }
+
     void move(float fps) {
         if (fps > 60) {
             fps = 60;
@@ -198,13 +212,12 @@ public class GameObject {
         this.objectVertices = objectVertices;
 
         numElements = this.objectVertices.length;
-        numVertices = numElements / COMPONENTS_PER_VERTEX;
 
         vertexBuffer = ByteBuffer.allocateDirect(
                 numElements * BYTES_PER_FLOAT).order(ByteOrder.nativeOrder())
                 .asFloatBuffer();
 
-        vertexBuffer.put(this.objectVertices).position(0);
+        vertexBuffer.put(this.objectVertices);
 
     }
 
@@ -219,34 +232,42 @@ public class GameObject {
         textureBuffer = ByteBuffer.allocateDirect(numTexElements * BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
 
-        textureBuffer.put(this.textureVertices).position(0);
+        textureBuffer.put(this.textureVertices);
     }
 
-    public void setFacingAngle(float angle) {
-        this.facingAngle = angle;
-        if (getFacingAngle() > 360) {
-            setFacingAngle(getFacingAngle() - 360);
-        }
-    }
+    public void bindTextureData(TextureShaderProgram textureShaderProgram) {
+        numVertices = numElements / COMPONENTS_PER_VERTEX;
 
-    public float getFacingAngle() {
-        return this.facingAngle;
-    }
+        vertexBuffer.position(0);
+        glVertexAttribPointer(textureShaderProgram.getPositionAttributeLocation(),
+                COMPONENTS_PER_VERTEX, GL_FLOAT, false, STRIDE, vertexBuffer);
+        glEnableVertexAttribArray(textureShaderProgram.getPositionAttributeLocation());
 
-    public void draw(float[] viewportMatrix, TextureShaderProgram shaderProgram) {
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mTexture);
-        glUniform1i(shaderProgram.getTextureUniformLocation(), 0);
-
-        glVertexAttribPointer(shaderProgram.getPositionAttributeLocation(), COMPONENTS_PER_VERTEX,
-                GL_FLOAT, false, STRIDE, vertexBuffer);
-
-        glVertexAttribPointer(shaderProgram.getTextureCoordinatesAttributeLocation(),
+        textureBuffer.position(0);
+        glVertexAttribPointer(textureShaderProgram.getTextureCoordinatesAttributeLocation(),
                 COMPONENTS_PER_TEXTURE, GL_FLOAT, false, 0, textureBuffer);
+        glEnableVertexAttribArray(textureShaderProgram.getTextureCoordinatesAttributeLocation());
+    }
 
+    public void bindColorData(ColorShaderProgram colorShaderProgram) {
+        numVertices = POSITION_COMPONENT_COUNT;
+
+        vertexBuffer.position(0);
+        glVertexAttribPointer(colorShaderProgram.getPositionAttributeLocation(),
+                POSITION_COMPONENT_COUNT, GL_FLOAT, false, COLOR_STRIDE, vertexBuffer);
+        glEnableVertexAttribArray(colorShaderProgram.getPositionAttributeLocation());
+
+        vertexBuffer.position(POSITION_COMPONENT_COUNT);
+        glVertexAttribPointer(colorShaderProgram.getColorAttributeLocation(),
+                COLOR_COMPONENT_COUNT, GL_FLOAT, false, COLOR_STRIDE, vertexBuffer);
+        glEnableVertexAttribArray(colorShaderProgram.getColorAttributeLocation());
+
+    }
+
+    public float[] rotateMatrix(float[] viewportMatrix) {
         // For translating model coordinates into world coordinates
         setIdentityM(modelMatrix, 0);
+
         translateM(modelMatrix, 0, worldLocation.x, worldLocation.y, 0);
 
         // Combine the model matrix with the viewport matrix
@@ -258,43 +279,13 @@ public class GameObject {
         // Multiply the rotation matrix into the model-viewport matrix
         multiplyMM(rotateViewportModelMatrix, 0, viewportModelMatrix, 0, modelMatrix, 0);
 
-        // Give the matrix to openGL
-        glUniformMatrix4fv(shaderProgram.getMVPMatrixLocation(), 1, false,
-                rotateViewportModelMatrix, 0);
-
-        glDrawArrays(GL_TRIANGLES, 0, numVertices);
-
+        return rotateViewportModelMatrix;
     }
 
-    public void draw(float[] viewportMatrix, ColorShaderProgram shaderProgram) {
-
-        vertexBuffer.position(0);
-
-        glVertexAttribPointer(shaderProgram.getPositionAttributeLocation(), COMPONENTS_PER_VERTEX,
-                GL_FLOAT, false, STRIDE, vertexBuffer);
-
-        setIdentityM(modelMatrix, 0);
-        translateM(modelMatrix, 0, worldLocation.x, worldLocation.y, 0);
-
-        multiplyMM(viewportModelMatrix, 0, viewportMatrix, 0, modelMatrix, 0);
-
-        setRotateM(modelMatrix, 0, facingAngle, 0, 0, 1.0f);
-
-        multiplyMM(rotateViewportModelMatrix, 0, viewportModelMatrix, 0, modelMatrix, 0);
-
-        glUniformMatrix4fv(shaderProgram.getMVPMatrixLocation(), 1, false,
-                rotateViewportModelMatrix, 0);
-
-        glUniform4f(shaderProgram.getColorAttributeLocation(), 1.0f, 1.0f, 1.0f, 1.0f);
-
+    public void draw() {
         switch (getType()) {
-            case Constants.Types.BORDER:
-                glDrawArrays(GL_LINES, 0, numVertices);
-                break;
-            case Constants.Types.STAR:
-                glDrawArrays(GL_POINTS, 0, numVertices);
+            // EX: glDrawArrays(GL_TRIANGLES, 0, numVertices);
         }
-
     }
 
     // For Asteroids only

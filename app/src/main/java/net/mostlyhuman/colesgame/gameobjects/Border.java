@@ -3,7 +3,6 @@ package net.mostlyhuman.colesgame.gameobjects;
 import android.content.Context;
 import android.util.Log;
 
-import net.mostlyhuman.colesgame.game.ColorShaderProgram;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
 
@@ -27,6 +26,7 @@ public class Border extends GameObject {
         setSize(mapWidth, mapHeight);
 
         float[] borderVertices = new float[] {
+
                 -mapWidth / 2, -mapHeight / 2, 0,
                 mapWidth / 2, -mapHeight / 2, 0,
 
@@ -41,12 +41,5 @@ public class Border extends GameObject {
         };
 
         setVertices(borderVertices);
-    }
-
-    @Override
-    public void draw(float[] viewportMatrix, ColorShaderProgram shaderProgram) {
-        super.draw(viewportMatrix, shaderProgram);
-
-        //Log.d(TAG, "Drawing Border");
     }
 }
