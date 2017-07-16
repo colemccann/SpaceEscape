@@ -51,18 +51,9 @@ public class Door extends GameObject {
         };
         setVertices(doorVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
+        setKey(key);
 
         setOpen(open);
-        setKey(key);
         setBitmap();
     }
 
@@ -88,10 +79,17 @@ public class Door extends GameObject {
     }
 
     public void setBitmap() {
+        float left;
+        float right;
+        float top;
+        float bottom;
+
         if (isOpen()) {
-            setTextureResource(R.drawable.dooropen);
+            // Set value for left, right, top, bottom
+            setTextureVertices(left, right, top, bottom);
         } else {
-            setTextureResource(R.drawable.doorclosed);
+            // Set value for left, right, top, bottom
+            setTextureVertices(left, right, top, bottom);
         }
     }
 

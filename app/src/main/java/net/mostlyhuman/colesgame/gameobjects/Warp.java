@@ -42,17 +42,12 @@ public class Warp extends GameObject {
         };
         setVertices(warpVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
+        float left;
+        float right;
+        float top;
+        float bottom;
 
-        setTextureResource(R.drawable.warp);
+        setTextureVertices(left, right, top, bottom);
     }
 
     public String getWarpTarget() {

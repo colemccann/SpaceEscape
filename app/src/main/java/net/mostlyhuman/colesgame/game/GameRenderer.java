@@ -26,6 +26,7 @@ import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.RawResourceReader;
+import net.mostlyhuman.colesgame.helpers.TextureHelper;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -59,6 +60,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private TextureShaderProgram textureShaderProgram;
     private ColorShaderProgram colorShaderProgram;
+    private int texture;
 
     private PointF utilPointF;
     private PointF utilPointF2;
@@ -92,6 +94,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         textureShaderProgram = new TextureShaderProgram(context);
 
         colorShaderProgram = new ColorShaderProgram(context);
+
+        texture = TextureHelper.loadTexture(context, R.drawable.atlas);
 
         loadLevel();
     }
@@ -185,7 +189,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gm.border.draw();
 
         textureShaderProgram.useProgram();
-        textureShaderProgram.setTexture(R.drawable.block/*PUT TEXTURE HERE*/);
+        textureShaderProgram.setTexture(R.drawable.atlas/*PUT TEXTURE HERE*/);
 
         // Draw the exit
         if (gm.hasExit()) {

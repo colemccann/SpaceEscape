@@ -43,17 +43,12 @@ public class Block extends GameObject {
         };
         setVertices(blockVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
+        float left;
+        float right;
+        float top;
+        float bottom;
 
-        setTextureResource(R.drawable.block);
+        setTextureVertices(left, right, top, bottom);
 
         //Log.e(TAG, "World Location: " + getWorldLocation());
     }

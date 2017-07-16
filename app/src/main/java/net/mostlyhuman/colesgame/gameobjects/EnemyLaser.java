@@ -15,9 +15,15 @@ public class EnemyLaser extends Laser {
                       int laserID) {
         super(context, worldLocationX, worldLocationY, pixelsPerMeter);
 
-        setLaserID(laserID);
+        // Set Texture Vertices here
+        float left;
+        float right;
+        float top;
+        float bottom;
 
-        setTextureResource(R.drawable.redlasers);
+        setTextureVertices(left, right, top, bottom);
+
+        setLaserID(laserID);
     }
 
 }

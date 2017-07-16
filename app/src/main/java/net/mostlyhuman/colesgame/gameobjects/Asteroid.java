@@ -56,31 +56,7 @@ public class Asteroid extends GameObject {
         };
         setVertices(asteroidVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
-
-        Random r = new Random();
-        int whichAsteroid = r.nextInt(4);
-        switch (whichAsteroid) {
-            case 0:
-                setTextureResource(R.drawable.asteroid1);
-                break;
-            case 1:
-                setTextureResource(R.drawable.asteroid2);
-                break;
-            case 2:
-                setTextureResource(R.drawable.asteroid3);
-                break;
-            case 3:
-                setTextureResource(R.drawable.asteroid4);
-        }
+        setBitmap();
 
         Random random = new Random();
         int rotationSpeed = random.nextInt(8);
@@ -108,6 +84,34 @@ public class Asteroid extends GameObject {
                 break;
             case 7:
                 mAngle = 0.80f;
+                break;
+        }
+    }
+
+    private void setBitmap() {
+        float left;
+        float right;
+        float top;
+        float bottom;
+
+        Random r = new Random();
+        int whichAsteroid = r.nextInt(4);
+        switch (whichAsteroid) {
+            case 0:
+                // Set values for left, right, top, and bottom
+                setTextureVertices(left, right, top, bottom);
+                break;
+            case 1:
+                // Set values for left, right, top, and bottom
+                setTextureVertices(left, right, top, bottom);
+                break;
+            case 2:
+                // Set values for left, right, top, and bottom
+                setTextureVertices(left, right, top, bottom);
+                break;
+            case 3:
+                // Set values for left, right, top, and bottom
+                setTextureVertices(left, right, top, bottom);
                 break;
         }
     }

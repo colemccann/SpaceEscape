@@ -57,17 +57,12 @@ public class Turret extends GameObject {
         };
         setVertices(turretVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
+        float left;
+        float right;
+        float top;
+        float bottom;
 
-        setTextureResource(R.drawable.turrettop2);
+        setTextureVertices(left, right, top, bottom);
     }
 
     public void update(PointF playerLocation) {

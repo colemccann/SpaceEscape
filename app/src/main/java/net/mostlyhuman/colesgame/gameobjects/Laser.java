@@ -42,16 +42,6 @@ public class Laser extends GameObject implements Turret.LaserContract {
                 halfW, halfH, 0
         };
         setVertices(laserVertices);
-
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
     }
 
     private void shoot(float masterFacingAngle) {

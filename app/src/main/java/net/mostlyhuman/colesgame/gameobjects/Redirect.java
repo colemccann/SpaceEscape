@@ -57,17 +57,12 @@ public class Redirect extends GameObject {
         };
         setVertices(redirectVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
+        float left;
+        float right;
+        float top;
+        float bottom;
 
-        setTextureResource(R.drawable.redirect);
+        setTextureVertices(left, right, top, bottom);
     }
 
     public void redirect(GameObject gameObject) {

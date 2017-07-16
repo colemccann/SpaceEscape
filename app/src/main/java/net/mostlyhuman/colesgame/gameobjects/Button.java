@@ -43,17 +43,8 @@ public class Button extends GameObject {
         };
         setVertices(switchVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
-
         setKey(key);
+
         setToggled(toggled);
         setBitmap();
     }
@@ -72,10 +63,17 @@ public class Button extends GameObject {
     }
 
     private void setBitmap() {
+        float left;
+        float right;
+        float top;
+        float bottom;
+
         if (isToggled()) {
-            setTextureResource(R.drawable.buttongreen);
+            // Set value for left, right, top, bottom
+            setTextureVertices(left, right, top, bottom);
         } else {
-            setTextureResource(R.drawable.buttonred);
+            // Set value for left, right, top, bottom
+            setTextureVertices(left, right, top, bottom);
         }
     }
 

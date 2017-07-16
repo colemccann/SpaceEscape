@@ -49,8 +49,6 @@ public class Bomb extends GameObject {
                 1.0f, 0.0f
         };
         setTextureVertices(textureVertices);
-
-        setTextureResource(R.drawable.spikebombprototype);
     }
 
     @Override

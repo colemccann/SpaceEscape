@@ -6,32 +6,19 @@ import android.graphics.PointF;
 import net.mostlyhuman.colesgame.game.ColorShaderProgram;
 import net.mostlyhuman.colesgame.game.TextureShaderProgram;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
-import net.mostlyhuman.colesgame.helpers.Constants;
-import net.mostlyhuman.colesgame.helpers.TextureHelper;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import static android.opengl.GLES20.GL_FLOAT;
-import static android.opengl.GLES20.GL_LINES;
-import static android.opengl.GLES20.GL_POINTS;
-import static android.opengl.GLES20.GL_TEXTURE0;
-import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.GL_TRIANGLES;
-import static android.opengl.GLES20.glActiveTexture;
-import static android.opengl.GLES20.glBindTexture;
-import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glUniform1i;
-import static android.opengl.GLES20.glUniform4f;
-import static android.opengl.GLES20.glUniformMatrix4fv;
-
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.setRotateM;
 import static android.opengl.Matrix.translateM;
+
 import static net.mostlyhuman.colesgame.game.GLManager.BYTES_PER_FLOAT;
 import static net.mostlyhuman.colesgame.game.GLManager.COLOR_COMPONENT_COUNT;
 import static net.mostlyhuman.colesgame.game.GLManager.COLOR_STRIDE;
@@ -58,7 +45,6 @@ public class GameObject {
     private int numVertices;
     private int numTexElements;
     private int numTexVertices;
-    private int mTexture;
 
     private float[] objectVertices;
     private float[] textureVertices;
@@ -66,10 +52,10 @@ public class GameObject {
     private FloatBuffer textureBuffer;
 
     // For translating each point from the object
-    final float[] modelMatrix = new float[16];
+    private final float[] modelMatrix = new float[16];
 
-    float[] viewportModelMatrix = new float[16];
-    float[] rotateViewportModelMatrix = new float[16];
+    private float[] viewportModelMatrix = new float[16];
+    private float[] rotateViewportModelMatrix = new float[16];
 
     private boolean isMoving;
 
@@ -94,10 +80,6 @@ public class GameObject {
     }
 
     public void update(float fps) {}
-
-    public void setTextureResource(int textureResource) {
-        mTexture = TextureHelper.loadTexture(context, textureResource);
-    }
 
     public boolean isActive() {
         return isActive;
@@ -221,7 +203,16 @@ public class GameObject {
 
     }
 
-    public void setTextureVertices(float[] textureVertices) {
+    public void setTextureVertices(float left, float right, float top, float bottom) {
+
+        float[] textureVertices = new float[] {
+                left, bottom,
+                left, top,
+                right, bottom,
+                left, top,
+                right, top,
+                right, bottom
+        };
 
         this.textureVertices = new float[textureVertices.length];
         this.textureVertices = textureVertices;
