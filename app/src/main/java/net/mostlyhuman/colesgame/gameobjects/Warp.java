@@ -42,12 +42,12 @@ public class Warp extends GameObject {
         };
         setVertices(warpVertices);
 
-        float left;
-        float right;
-        float top;
-        float bottom;
+        float left = .8f;
+        float right = 1;
+        float top = .5f;
+        float bottom = .25f;
 
-        setTextureVertices(left, right, top, bottom);
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
     public String getWarpTarget() {

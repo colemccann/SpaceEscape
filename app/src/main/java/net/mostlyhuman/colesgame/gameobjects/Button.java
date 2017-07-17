@@ -69,11 +69,17 @@ public class Button extends GameObject {
         float bottom;
 
         if (isToggled()) {
-            // Set value for left, right, top, bottom
-            setTextureVertices(left, right, top, bottom);
+            left = .8f;
+            right = 1;
+            top = 1;
+            bottom = .75f;
+            setTextureVertices(left, right, 1 - top, 1 - bottom);
         } else {
-            // Set value for left, right, top, bottom
-            setTextureVertices(left, right, top, bottom);
+            left = 0;
+            right = .2f;
+            top = .75f;
+            bottom = .5f;
+            setTextureVertices(left, right, 1 - top, 1 - bottom);
         }
     }
 

@@ -6,12 +6,17 @@ import android.graphics.PointF;
 import net.mostlyhuman.colesgame.game.ColorShaderProgram;
 import net.mostlyhuman.colesgame.game.TextureShaderProgram;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
+import net.mostlyhuman.colesgame.helpers.Constants;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import static android.opengl.GLES20.GL_FLOAT;
+import static android.opengl.GLES20.GL_LINES;
+import static android.opengl.GLES20.GL_POINTS;
+import static android.opengl.GLES20.GL_TRIANGLES;
+import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.Matrix.multiplyMM;
@@ -275,7 +280,14 @@ public class GameObject {
 
     public void draw() {
         switch (getType()) {
-            // EX: glDrawArrays(GL_TRIANGLES, 0, numVertices);
+            case Constants.Types.BORDER:
+                glDrawArrays(GL_LINES, 0, numVertices);
+                break;
+            case Constants.Types.STAR:
+                glDrawArrays(GL_POINTS, 0, numVertices);
+                break;
+            default:
+                glDrawArrays(GL_TRIANGLES, 0, numVertices);
         }
     }
 

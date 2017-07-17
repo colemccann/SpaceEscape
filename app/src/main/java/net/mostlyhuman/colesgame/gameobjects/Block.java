@@ -43,12 +43,12 @@ public class Block extends GameObject {
         };
         setVertices(blockVertices);
 
-        float left;
-        float right;
-        float top;
-        float bottom;
+        float left = 0;
+        float right = .2f;
+        float top = .25f;
+        float bottom = 0;
 
-        setTextureVertices(left, right, top, bottom);
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
 
         //Log.e(TAG, "World Location: " + getWorldLocation());
     }

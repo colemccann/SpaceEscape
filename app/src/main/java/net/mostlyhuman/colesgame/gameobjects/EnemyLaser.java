@@ -16,12 +16,12 @@ public class EnemyLaser extends Laser {
         super(context, worldLocationX, worldLocationY, pixelsPerMeter);
 
         // Set Texture Vertices here
-        float left;
-        float right;
-        float top;
-        float bottom;
+        float left = 0;
+        float right = .2f;
+        float top = .5f;
+        float bottom = .25f;
 
-        setTextureVertices(left, right, top, bottom);
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
 
         setLaserID(laserID);
     }

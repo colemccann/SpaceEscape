@@ -15,17 +15,14 @@ import net.mostlyhuman.colesgame.data.DatabaseUpdateService;
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
-import net.mostlyhuman.colesgame.gameobjects.Border;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
 import net.mostlyhuman.colesgame.gameobjects.Laser;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
-import net.mostlyhuman.colesgame.gameobjects.Star;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
-import net.mostlyhuman.colesgame.helpers.RawResourceReader;
 import net.mostlyhuman.colesgame.helpers.TextureHelper;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -34,7 +31,6 @@ import javax.microedition.khronos.opengles.GL10;
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
-import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.Matrix.orthoM;
 import static android.opengl.GLES20.glViewport;
 
@@ -60,10 +56,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     private TextureShaderProgram textureShaderProgram;
     private ColorShaderProgram colorShaderProgram;
-    private int texture;
+    private int textureAtlas;
 
     private PointF utilPointF;
-    private PointF utilPointF2;
 
     private GameButton gameButton;
 
@@ -95,7 +90,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         colorShaderProgram = new ColorShaderProgram(context);
 
-        texture = TextureHelper.loadTexture(context, R.drawable.atlas);
+        textureAtlas = TextureHelper.loadTexture(context, R.drawable.atlas);
 
         loadLevel();
     }
@@ -189,7 +184,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gm.border.draw();
 
         textureShaderProgram.useProgram();
-        textureShaderProgram.setTexture(R.drawable.atlas/*PUT TEXTURE HERE*/);
+        textureShaderProgram.setTexture(textureAtlas);
 
         // Draw the exit
         if (gm.hasExit()) {
@@ -287,7 +282,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gm.player.bindTextureData(textureShaderProgram);
         gm.player.draw();
 
-        // Draw the game buttons
+        // Draw the game button
         gameButton.draw(textureShaderProgram);
 
     }
@@ -346,6 +341,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     }
 
     private void containLasers() {
+        PointF utilPointF2;
         // Contain the lasers
         for (int i = 0; i < gm.numTurrets; i++) {
             if (gm.enemyLasers[i].isActive()) {

@@ -16,7 +16,7 @@ public class Level2 extends LevelData {
         this.tiles.add("..........");
         this.tiles.add("..........");
         this.tiles.add("...#####..");
-        this.tiles.add("..#.....#.");
+        this.tiles.add("..#....a#.");
         this.tiles.add("..#..#..#.");
         this.tiles.add("..#.#t#.#.");
         this.tiles.add("..#p.#..#.");
@@ -24,7 +24,7 @@ public class Level2 extends LevelData {
         this.tiles.add("...#####..");
         this.tiles.add("..........");
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = new int[]{0};
 
         doorKeys = new int[]{};
 

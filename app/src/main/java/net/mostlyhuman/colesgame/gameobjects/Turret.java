@@ -57,12 +57,12 @@ public class Turret extends GameObject {
         };
         setVertices(turretVertices);
 
-        float left;
-        float right;
-        float top;
-        float bottom;
+        float left = .8f;
+        float right = 1;
+        float top = .75f;
+        float bottom = .5f;
 
-        setTextureVertices(left, right, top, bottom);
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
     public void update(PointF playerLocation) {

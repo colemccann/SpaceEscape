@@ -39,14 +39,12 @@ public class Exit extends GameObject {
         };
         setVertices(exitVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
+        // Set Texture Vertices here
+        float left = .2f;
+        float right = .4f;
+        float top = .25f;
+        float bottom = 0;
+
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 }

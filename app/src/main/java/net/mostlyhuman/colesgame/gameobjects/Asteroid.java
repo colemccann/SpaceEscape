@@ -98,20 +98,32 @@ public class Asteroid extends GameObject {
         int whichAsteroid = r.nextInt(4);
         switch (whichAsteroid) {
             case 0:
-                // Set values for left, right, top, and bottom
-                setTextureVertices(left, right, top, bottom);
+                left = 0;
+                right = .2f;
+                top = 1;
+                bottom = .75f;
+                setTextureVertices(left, right, 1 - top, 1 - bottom);
                 break;
             case 1:
-                // Set values for left, right, top, and bottom
-                setTextureVertices(left, right, top, bottom);
+                left = .2f;
+                right = .4f;
+                top = 1;
+                bottom = .75f;
+                setTextureVertices(left, right, 1 - top, 1 - bottom);
                 break;
             case 2:
-                // Set values for left, right, top, and bottom
-                setTextureVertices(left, right, top, bottom);
+                left = .4f;
+                right = .6f;
+                top = 1;
+                bottom = .75f;
+                setTextureVertices(left, right, 1 - top, 1 - bottom);
                 break;
             case 3:
-                // Set values for left, right, top, and bottom
-                setTextureVertices(left, right, top, bottom);
+                left = .6f;
+                right = .8f;
+                top = 1;
+                bottom = .75f;
+                setTextureVertices(left, right, 1 - top, 1 - bottom);
                 break;
         }
     }

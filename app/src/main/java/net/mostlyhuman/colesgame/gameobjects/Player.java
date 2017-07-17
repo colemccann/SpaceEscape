@@ -51,12 +51,12 @@ public class Player extends GameObject {
         };
         setVertices(playerVertices);
 
-        float left;
-        float right;
-        float top;
-        float bottom;
+        float left = .2f;
+        float right = .4f;
+        float top = .5f;
+        float bottom = .25f;
 
-        setTextureVertices(left, right, top, bottom);
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
     @Override

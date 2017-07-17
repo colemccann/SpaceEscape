@@ -47,6 +47,14 @@ public class TextureShaderProgram extends ShaderProgram {
         glUniform1i(mTextureUniformHandle, 0);
     }
 
+    public int getMVPMatrixHandle() {
+        return mMVPMatrixHandle;
+    }
+
+    public int getTextureUniformHandle() {
+        return mTextureUniformHandle;
+    }
+
     public int getPositionAttributeLocation() {
         return mPositionHandle;
     }

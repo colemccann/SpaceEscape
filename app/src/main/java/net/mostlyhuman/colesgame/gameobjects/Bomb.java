@@ -40,15 +40,13 @@ public class Bomb extends GameObject {
         };
         setVertices(bombVertices);
 
-        float[] textureVertices = new float[] {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        setTextureVertices(textureVertices);
+        // Set Texture Vertices here
+        float left = .6f;
+        float right = .8f;
+        float top = .5f;
+        float bottom = .25f;
+
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
     @Override

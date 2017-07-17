@@ -30,20 +30,18 @@ import static android.opengl.Matrix.orthoM;
  * Created by CaptainMcCann on 4/13/2017.
  */
 
-public class GameButton {
+ class GameButton {
 
     private final float[] viewportMatrix = new float[16];
 
     private int numVertices;
-    private int numTexVertices;
-
 
     private FloatBuffer vertexBuffer;
     private FloatBuffer textureBuffer;
 
     private int texture;
 
-    public GameButton(Context context, int textureResourceId, int top, int left,
+    GameButton(Context context, int textureResourceId, int top, int left,
                       int bottom, int right, GameManager gameManager) {
         orthoM(viewportMatrix, 0, 0, gameManager.screenWidth, gameManager.screenHeight, 0, 0, 1f);
 
@@ -91,7 +89,7 @@ public class GameButton {
                 1.0f, 0.0f
         };
         int numTexElements = buttonTextureVertices.length;
-        numTexVertices = numTexElements / GLManager.COMPONENTS_PER_TEXTURE;
+
         textureBuffer = ByteBuffer.allocateDirect(numTexElements * GLManager.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         textureBuffer.put(buttonTextureVertices);
@@ -100,13 +98,13 @@ public class GameButton {
         textureBuffer.position(0);
     }
 
-    public void draw(TextureShaderProgram shaderProgram) {
+    void draw(TextureShaderProgram shaderProgram) {
 
         shaderProgram.useProgram();
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
-        glUniform1i(shaderProgram.getTextureUniformLocation(), 0);
+        glUniform1i(shaderProgram.getTextureUniformHandle(), 0);
 
         glVertexAttribPointer(shaderProgram.getPositionAttributeLocation(),
                 GLManager.COMPONENTS_PER_VERTEX, GL_FLOAT, false, GLManager.STRIDE, vertexBuffer);
@@ -114,7 +112,7 @@ public class GameButton {
         glVertexAttribPointer(shaderProgram.getTextureCoordinatesAttributeLocation(),
                 GLManager.COMPONENTS_PER_TEXTURE, GL_FLOAT, false, 0, textureBuffer);
 
-        glUniformMatrix4fv(shaderProgram.getMVPMatrixLocation(), 1, false, viewportMatrix, 0);
+        glUniformMatrix4fv(shaderProgram.getMVPMatrixHandle(), 1, false, viewportMatrix, 0);
 
         glDrawArrays(GL_TRIANGLES, 0, numVertices);
     }
