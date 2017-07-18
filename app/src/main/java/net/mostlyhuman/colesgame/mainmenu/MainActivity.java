@@ -33,15 +33,24 @@ public class MainActivity extends Activity {
     private BroadcastReceiver DataInitializationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            FirstTimeSetupFragment setupFragment = (FirstTimeSetupFragment)
+                    getFragmentManager().findFragmentById(R.id.fragment_frame);
+
             boolean success = intent.getBooleanExtra(INITIALIZATION_SUCCESSFUL, false);
             if (success) {
-                Log.d(TAG, "Database creation successful.");
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean(getString(R.string.pref_initial_setup_key), false);
-                editor.apply();
+                if (setupFragment != null) {
+                    setupFragment.proceedToMainMenu();
+                    Log.d(TAG, "Database creation successful.");
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean(getString(R.string.pref_initial_setup_key), false);
+                    editor.apply();
+                }
+
             } else {
-                Toast.makeText(MainActivity.this, "Database creation failed. Retrying...", Toast.LENGTH_SHORT).show();
-                DatabaseUpdateService.createEntries(MainActivity.this);
+                if (setupFragment != null) {
+                    setupFragment.reload();
+                    DatabaseUpdateService.createEntries(MainActivity.this);
+                }
             }
         }
     };
@@ -52,15 +61,14 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        if (null == savedInstanceState) {
-            initFragment(MainMenuFragment.newInstance());
-        }
-
         preferences = getSharedPreferences(getString(R.string.pref_key_initial), Context.MODE_PRIVATE);
         boolean initialSetup = preferences.getBoolean(
                 getString(R.string.pref_initial_setup_key), true);
         if (initialSetup) {
+            initFragment(FirstTimeSetupFragment.newInstance());
             DatabaseUpdateService.createEntries(this);
+        } else {
+            initFragment(MainMenuFragment.newInstance());
         }
 
         LocalBroadcastManager.getInstance(this)
@@ -74,7 +82,5 @@ public class MainActivity extends Activity {
         transaction.add(R.id.fragment_frame, newInstance);
         transaction.commit();
     }
-
-
 
 }

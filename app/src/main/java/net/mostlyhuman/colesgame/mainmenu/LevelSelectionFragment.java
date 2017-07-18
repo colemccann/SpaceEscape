@@ -233,8 +233,8 @@ public class LevelSelectionFragment extends Fragment implements
                 holder.levelTitle.setTextColor(Color.GRAY);
             }
             holder.levelTitle.setText(String.valueOf(level.getTitle()));
-            holder.tv2.setText(String.valueOf(level.isCompleted()));
-            holder.tv3.setText(String.valueOf(level.isAvailable()));
+            holder.tv2.setText(level.isCompleted() ? "Completed" : "Not Completed");
+            holder.tv3.setText(level.isAvailable() ? "Unlocked" : "Locked");
         }
 
         public Level getItem(int position) {

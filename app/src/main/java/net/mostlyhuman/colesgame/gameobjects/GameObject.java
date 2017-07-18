@@ -246,7 +246,7 @@ public class GameObject {
     }
 
     public void bindColorData(ColorShaderProgram colorShaderProgram) {
-        numVertices = POSITION_COMPONENT_COUNT;
+        numVertices = numElements / (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT);
 
         vertexBuffer.position(0);
         glVertexAttribPointer(colorShaderProgram.getPositionAttributeLocation(),

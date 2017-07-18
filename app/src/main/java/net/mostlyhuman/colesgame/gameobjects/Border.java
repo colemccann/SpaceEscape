@@ -14,12 +14,13 @@ public class Border extends GameObject {
 
     private static final String TAG = "Border";
 
-    public Border(Context context, float mapWidth, float mapHeight) {
+    public Border(Context context, float mapWidth, float mapHeight, int pixelsPerMeter) {
         super(context);
 
         setType(Constants.Types.BORDER);
 
-        setWorldLocation(mapWidth / 2, -mapHeight / 2);
+        int buffer = pixelsPerMeter / 2;
+        setWorldLocation((mapWidth / 2) - buffer, (-mapHeight / 2) + buffer);
 
         Log.d(TAG, "Border Center: " + getWorldLocation());
 
@@ -27,17 +28,17 @@ public class Border extends GameObject {
 
         float[] borderVertices = new float[] {
 
-                -mapWidth / 2, -mapHeight / 2, 0,
-                mapWidth / 2, -mapHeight / 2, 0,
+                -mapWidth / 2, -mapHeight / 2, 1.0f, 1.0f, 1.0f,
+                mapWidth / 2, -mapHeight / 2,  1.0f, 1.0f, 1.0f,
 
-                mapWidth / 2, - mapHeight / 2, 0,
-                mapWidth / 2, mapHeight / 2, 0,
+                mapWidth / 2, - mapHeight / 2,  1.0f, 1.0f, 1.0f,
+                mapWidth / 2, mapHeight / 2,  1.0f, 1.0f, 1.0f,
 
-                mapWidth / 2, mapHeight / 2, 0,
-                -mapWidth / 2, mapHeight / 2, 0,
+                mapWidth / 2, mapHeight / 2,  1.0f, 1.0f, 1.0f,
+                -mapWidth / 2, mapHeight / 2,  1.0f, 1.0f, 1.0f,
 
-                -mapWidth / 2, mapHeight / 2, 0
-                -mapWidth / 2, -mapHeight / 2, 0
+                -mapWidth / 2, mapHeight / 2,  1.0f, 1.0f, 1.0f,
+                -mapWidth / 2, -mapHeight / 2,  1.0f, 1.0f, 1.0f,
         };
 
         setVertices(borderVertices);

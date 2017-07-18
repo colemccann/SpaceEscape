@@ -213,7 +213,7 @@ public class ChapterSelectionFragment extends Fragment implements
             holder.image.setImageResource(chapter.getChapterImage());
             holder.levelsCompleted.setText(String.format(context.getString(R.string.out_of_ten),
                     chapter.getLevelsCompleted()));
-            holder.availability.setText(String.valueOf(chapter.isAvailable()));
+            holder.availability.setText(chapter.isAvailable() ? "Unlocked" : "Locked");
         }
 
         @Override
@@ -265,10 +265,12 @@ public class ChapterSelectionFragment extends Fragment implements
                     chapterAvailability[i] = true;
                 }
                 if (totalLevelsCompleted >= chaptersCompleted * 10) {
-                    chapterAvailability[chaptersCompleted + 1] = true;
+                    chapterAvailability[chaptersCompleted] = true;
+                    levelsCompletePerChapter[chaptersCompleted] = remainder;
                 }
             } else {
                 chapterAvailability[0] = true;
+                levelsCompletePerChapter[0] = remainder;
                 for (int i = 1; i < NUMBER_OF_CHAPTERS; i++) {
                     chapterAvailability[i] = false;
                 }
@@ -276,9 +278,6 @@ public class ChapterSelectionFragment extends Fragment implements
             for (boolean b : chapterAvailability) {
                 Log.d(TAG, String.valueOf(b));
             }
-
-
-            levelsCompletePerChapter[chaptersCompleted + 1] = remainder;
 
             if (chaptersCompleted + 1 < NUMBER_OF_CHAPTERS) {
                 for (int i = chaptersCompleted + 2; i == NUMBER_OF_CHAPTERS; i++) {
