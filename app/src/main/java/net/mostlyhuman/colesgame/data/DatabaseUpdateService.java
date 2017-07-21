@@ -47,12 +47,14 @@ public class DatabaseUpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if (ACTION_BULK_INSERT.equals(intent.getAction())) {
-            ContentValues[] values = InitialLevelData.createValues();
-            performBulkInsert(values);
-        } else if (ACTION_UPDATE.equals(intent.getAction())) {
-            ContentValues values = intent.getParcelableExtra(EXTRA_VALUES);
-            performUpdate(intent.getData(), values);
+        if (intent != null) {
+            if (ACTION_BULK_INSERT.equals(intent.getAction())) {
+                ContentValues[] values = InitialLevelData.createValues();
+                performBulkInsert(values);
+            } else if (ACTION_UPDATE.equals(intent.getAction())) {
+                ContentValues values = intent.getParcelableExtra(EXTRA_VALUES);
+                performUpdate(intent.getData(), values);
+            }
         }
     }
 

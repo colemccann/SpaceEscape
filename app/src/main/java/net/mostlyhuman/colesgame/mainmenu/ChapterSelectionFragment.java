@@ -138,8 +138,6 @@ public class ChapterSelectionFragment extends Fragment implements
 
         private String TAG = "ChapterListAdapter";
 
-        // TODO: 6/8/2017 one-card-at-a-time format.
-
         private ArrayList<Chapter> mChapters;
         private ChapterItemListener chapterItemListener;
         private Context context;
@@ -150,7 +148,9 @@ public class ChapterSelectionFragment extends Fragment implements
         ChapterListAdapter(Context context, ArrayList<Chapter> chapters,
                            ChapterItemListener listener) {
             this.context = context;
+
             setChapters(chapters);
+
             chapterItemListener = listener;
         }
 

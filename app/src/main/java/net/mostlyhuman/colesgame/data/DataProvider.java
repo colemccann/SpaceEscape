@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -64,22 +65,35 @@ public class DataProvider extends ContentProvider {
                 selectionArgs = new String[]{String.valueOf(id)};
                 break;
             default:
+                //// TODO: 7/21/2017 Where to catch the exception?
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
-        Cursor cursor = db.query(
-                DatabaseContract.TABLE_LEVELS,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
-        return cursor;
+        try {
+            SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+                Cursor cursor = db.query(
+                        DatabaseContract.TABLE_LEVELS,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+
+                if (getContext() != null) {
+                    cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                }
+
+                return cursor;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+
+        throw new SQLException("Failed to query from " + uri);
     }
 
     @Override
@@ -96,29 +110,55 @@ public class DataProvider extends ContentProvider {
                 throw new IllegalArgumentException("Illegal URI update");
         }
 
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-        int count = db.update(DatabaseContract.TABLE_LEVELS, values, selection, selectionArgs);
-
-        if (count > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+        SQLiteDatabase db = null;
+        try {
+            db = databaseHelper.getWritableDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return count;
+
+        if (db != null) {
+            int count = db.update(DatabaseContract.TABLE_LEVELS, values, selection, selectionArgs);
+
+            if (count > 0) {
+
+                if (getContext() != null) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+            }
+            return count;
+        }
+
+        throw new SQLException("Failed to update record at URI " + uri);
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-        long rowID = db.insert(DatabaseContract.TABLE_LEVELS, null, values);
 
-        if (rowID > 0) {
-            Uri mUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, rowID);
-            getContext().getContentResolver().notifyChange(mUri, null);
-
-            return mUri;
+        SQLiteDatabase db = null;
+        try {
+            db = databaseHelper.getWritableDatabase();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
         }
+
+        if (db != null) {
+            long rowID = db.insert(DatabaseContract.TABLE_LEVELS, null, values);
+
+            if (rowID > 0) {
+                Uri mUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, rowID);
+
+                if (getContext() != null) {
+                    getContext().getContentResolver().notifyChange(mUri, null);
+                }
+
+                return mUri;
+            }
+        }
+
         throw new SQLException("Failed to add a record into " + uri);
     }
 
@@ -139,13 +179,27 @@ public class DataProvider extends ContentProvider {
                 throw new IllegalArgumentException("Illegal delete URI");
         }
 
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        int count = db.delete(DatabaseContract.TABLE_LEVELS, selection, selectionArgs);
 
-        if (count > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+        SQLiteDatabase db = null;
+        try {
+            db = databaseHelper.getWritableDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return count;
+
+        if (db != null) {
+            int count = db.delete(DatabaseContract.TABLE_LEVELS, selection, selectionArgs);
+
+            if (count > 0) {
+                if (getContext() != null) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+            }
+
+            return count;
+        }
+
+        throw new SQLException("Failed to delete URI " + uri);
     }
 
 

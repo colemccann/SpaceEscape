@@ -180,6 +180,7 @@ public class LevelSelectionFragment extends Fragment implements
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+
             TextView levelTitle;
             TextView tv2;
             TextView tv3;
@@ -221,31 +222,36 @@ public class LevelSelectionFragment extends Fragment implements
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Level level = getItem(position);
 
-            holder.frameLayout.setPadding(itemWidth / 8, itemWidth / 8, itemWidth / 8, itemWidth / 8);
-            holder.linearLayout.setMinimumWidth(itemWidth);
-            holder.linearLayout.setMinimumHeight(itemWidth);
+            try {
+                Level level = getItem(position);
+                holder.frameLayout.setPadding(itemWidth / 8, itemWidth / 8, itemWidth / 8, itemWidth / 8);
+                holder.linearLayout.setMinimumWidth(itemWidth);
+                holder.linearLayout.setMinimumHeight(itemWidth);
 
-            if (level.isAvailable()) {
-                holder.levelTitle.setTextColor(Color.BLACK);
-            } else {
-                holder.levelTitle.setTextColor(Color.GRAY);
+                if (level.isAvailable()) {
+                    holder.levelTitle.setTextColor(Color.BLACK);
+                } else {
+                    holder.levelTitle.setTextColor(Color.GRAY);
+                }
+                holder.levelTitle.setText(String.valueOf(level.getTitle()));
+                holder.tv2.setText(level.isCompleted() ? "Completed" : "Not Completed");
+                holder.tv3.setText(level.isAvailable() ? "Unlocked" : "Locked");
+            } catch (IllegalStateException e) {
+                Log.e("ViewHolder", e.getMessage());
+                // TODO: 7/21/2017 set up placeholders here?
             }
-            holder.levelTitle.setText(String.valueOf(level.getTitle()));
-            holder.tv2.setText(level.isCompleted() ? "Completed" : "Not Completed");
-            holder.tv3.setText(level.isAvailable() ? "Unlocked" : "Locked");
+
         }
 
-        public Level getItem(int position) {
+        Level getItem(int position) {
             if (!mCursor.moveToPosition(position)) {
                 throw new IllegalStateException("Invalid item position requested");
             }
-
             return new Level(mCursor);
         }
 
-        public void swapCursor(Cursor cursor) {
+        void swapCursor(Cursor cursor) {
             if (mCursor != null) {
                 mCursor.close();
             }

@@ -79,6 +79,7 @@ import static android.opengl.Matrix.orthoM;
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuffer.put(buttonVertexVertices);
 
+        //// TODO: 7/21/2017 use try-catch for loadTexture (Native TextureHelper class)
         texture = TextureHelper.loadTexture(context, textureResourceId);
         float[] buttonTextureVertices = new float[] {
                 0.0f, 0.0f,

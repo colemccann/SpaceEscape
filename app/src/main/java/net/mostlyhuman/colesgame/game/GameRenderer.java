@@ -90,6 +90,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         colorShaderProgram = new ColorShaderProgram(context);
 
+        //// TODO: 7/21/2017 use try-catch for loadTexture (Native TextureHelper class)
         textureAtlas = TextureHelper.loadTexture(context, R.drawable.atlas);
 
         loadLevel();
