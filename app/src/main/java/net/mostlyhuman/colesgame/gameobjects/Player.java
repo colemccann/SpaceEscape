@@ -59,6 +59,10 @@ public class Player extends GameObject {
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
+    public void setBoosting(boolean boosting) {
+        isBoosting = boosting;
+    }
+
     @Override
     public void update(float fps) {
         super.update(fps);
@@ -85,6 +89,12 @@ public class Player extends GameObject {
         }
     }
 
+    public void stop() {
+        setSpeed(0);
+        setMoving(false);
+        setBoosting(false);
+    }
+
     public boolean detectCollision(CollisionPackage cp2) {
         boolean collided = false;
 
@@ -101,8 +111,28 @@ public class Player extends GameObject {
         return collided;
     }
 
-    public void setBoosting(boolean boosting) {
-        isBoosting = boosting;
+    public boolean contain(float mapWidth, float mapHeight, int halfSideLength) {
+        boolean collision = false;
+
+        if (getCollisionPackage().right > mapWidth) {
+            collision = true;
+            stop();
+            setWorldLocation(mapWidth - halfSideLength, getWorldLocation().y);
+        } else if (getCollisionPackage().left < -halfSideLength) {
+            collision = true;
+            stop();
+            setWorldLocation(0, getWorldLocation().y);
+        } else if (getCollisionPackage().top > halfSideLength) {
+            collision = true;
+            stop();
+            setWorldLocation(getWorldLocation().x, 0);
+        } else if (getCollisionPackage().bottom < -mapHeight) {
+            collision = true;
+            stop();
+            setWorldLocation(getWorldLocation().x, -mapHeight + halfSideLength);
+        }
+
+        return collision;
     }
 
 }

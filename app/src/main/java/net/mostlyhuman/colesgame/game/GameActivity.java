@@ -42,7 +42,7 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
         soundManager = new SoundManager();
         this.soundManager.loadSounds(this);
         inputController = new InputController(this, resolution.x, gameManager, this);
-        gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager, this, this);
+        gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager, this);
         mediaPlayer = MediaPlayer.create(this, R.raw.music_1);
 
         gameView = new MyGLSurfaceView(this,
@@ -51,7 +51,6 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
 
         String levelTitle = getIntent().getStringExtra(Constants.LEVEL_TITLE);
 
-        //// TODO: 7/2/2017 throw exception if levelID > 49
         int levelID = getIntent().getIntExtra(Constants.LEVEL_ID, 50);
 
         gameManager.setCurrentLevel(levelTitle);
@@ -115,5 +114,10 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
 
         dialog.show(fragmentManager, "level completed dialog");
 
+    }
+
+    @Override
+    public void exit() {
+        this.finish();
     }
 }

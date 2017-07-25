@@ -13,11 +13,11 @@ public class Level1 extends LevelData {
 
     public Level1() {
         tiles = new ArrayList<>();
-        this.tiles.add("#.e.#");
+        this.tiles.add("..e..");
         this.tiles.add(".....");
         this.tiles.add("..p..");
         this.tiles.add(".....");
-        this.tiles.add("#...#");
+        this.tiles.add(".....");
 
         asteroidDirections = new int[]{
                 0,0,0,0,0,0

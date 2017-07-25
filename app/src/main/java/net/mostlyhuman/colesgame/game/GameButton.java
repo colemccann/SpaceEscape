@@ -2,6 +2,7 @@ package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.util.Log;
 
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.TextureHelper;
@@ -31,6 +32,8 @@ import static android.opengl.Matrix.orthoM;
  */
 
  class GameButton {
+
+    private final String TAG = "GameButton";
 
     private final float[] viewportMatrix = new float[16];
 
@@ -79,8 +82,12 @@ import static android.opengl.Matrix.orthoM;
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuffer.put(buttonVertexVertices);
 
-        //// TODO: 7/21/2017 use try-catch for loadTexture (Native TextureHelper class)
-        texture = TextureHelper.loadTexture(context, textureResourceId);
+        try {
+            texture = TextureHelper.loadTexture(context, textureResourceId);
+        } catch (RuntimeException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
         float[] buttonTextureVertices = new float[] {
                 0.0f, 0.0f,
                 0.0f, 1.0f,

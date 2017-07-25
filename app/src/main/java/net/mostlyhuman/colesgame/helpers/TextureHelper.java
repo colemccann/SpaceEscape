@@ -61,7 +61,6 @@ public class TextureHelper {
             bitmap.recycle();
         }
 
-
         if (textureHandle[0] == 0) {
             throw new RuntimeException("Error loading texture.");
         }

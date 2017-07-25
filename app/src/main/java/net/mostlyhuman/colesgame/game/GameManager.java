@@ -355,7 +355,6 @@ public class GameManager {
             }
         }
 
-        Log.d(TAG, "Map Height: " + getMapHeight() + " Map Width: " + getMapWidth());
         border = new Border(context, mapWidth, mapHeight, pixelsPerMeter);
 
         for (int i = 0; i < stars.length; i++) {

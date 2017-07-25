@@ -16,7 +16,7 @@ import java.io.IOException;
  * Created by CaptainMcCann on 4/4/2017.
  */
 
-public class SoundManager {
+ class SoundManager {
 
     private static final String TAG = "SoundManager error";
 
@@ -27,7 +27,7 @@ public class SoundManager {
 
     private SoundPool soundPool;
 
-    public void loadSounds(Context context) {
+    void loadSounds(Context context) {
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 
         try {
@@ -49,7 +49,7 @@ public class SoundManager {
         }
     }
 
-    public void playSound(String sound) {
+    void playSound(String sound) {
         switch (sound) {
             case Constants.Sounds.BUMP:
                 soundPool.play(bump, 1, 1, 0, 0, 1);

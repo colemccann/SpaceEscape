@@ -1,6 +1,7 @@
 package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
+import android.util.Log;
 
 import net.mostlyhuman.colesgame.helpers.RawResourceReader;
 
@@ -16,9 +17,10 @@ public class ShaderProgram {
 
     protected ShaderProgram(Context context, int vertexShaderResourceID,
                             int fragmentShaderResourceID) {
-        program = GLManager.buildProgram(
-                RawResourceReader.readTextFileFromRawResource(context, vertexShaderResourceID),
-                RawResourceReader.readTextFileFromRawResource(context, fragmentShaderResourceID));
+            program = GLManager.buildProgram(
+                    RawResourceReader.readTextFileFromRawResource(context, vertexShaderResourceID),
+                    RawResourceReader.readTextFileFromRawResource(context, fragmentShaderResourceID));
+
     }
 
     public void useProgram() {

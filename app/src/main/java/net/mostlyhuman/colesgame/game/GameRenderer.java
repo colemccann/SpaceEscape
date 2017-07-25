@@ -45,7 +45,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     private InputController ic;
     private SoundManager sm;
     private GameManager gm;
-    private InputController.PauseMenu pauseMenuActivity;
     private LevelCompleteContract gameActivity;
 
     private long frameCounter = 0;
@@ -64,20 +63,19 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
     interface LevelCompleteContract {
         void onLevelCompleted(int levelID);
+        void exit();
     }
 
     public GameRenderer(Context context,
                         InputController inputController,
                         SoundManager soundManager,
                         GameManager gameManager,
-                        InputController.PauseMenu pauseMenuActivity,
                         LevelCompleteContract gameActivity) {
 
         this.context = context;
         this.ic = inputController;
         this.sm = soundManager;
         this.gm = gameManager;
-        this.pauseMenuActivity = pauseMenuActivity;
         this.gameActivity = gameActivity;
     }
 
@@ -90,10 +88,15 @@ public class GameRenderer implements GLSurfaceView.Renderer {
 
         colorShaderProgram = new ColorShaderProgram(context);
 
-        //// TODO: 7/21/2017 use try-catch for loadTexture (Native TextureHelper class)
-        textureAtlas = TextureHelper.loadTexture(context, R.drawable.atlas);
+        try {
+            textureAtlas = TextureHelper.loadTexture(context, R.drawable.atlas);
+            loadLevel();
+        } catch (RuntimeException e) {
+            Log.e(TAG, e.getMessage());
+            gameActivity.exit();
+        }
 
-        loadLevel();
+
     }
 
     @Override
@@ -296,6 +299,13 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         // Update the player
         gm.player.update(fps);
 
+        if (gm.player.contain(gm.getMapWidth() - (gm.pixelsPerMeter / 2),
+                gm.getMapHeight() - (gm.pixelsPerMeter / 2),
+                gm.pixelsPerMeter / 2)) {
+            sm.playSound(Constants.Sounds.BUMP);
+        }
+
+
         // Update the asteroids
         if (gm.numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
@@ -319,7 +329,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
             for (Laser laser : gm.enemyLasers) {
                 if (laser.isActive()) {
                     for (Turret turret : gm.turrets) {
-                        // TODO: 6/15/2017 is this id check necessary
                         if (turret.getTurretID() == laser.getLaserID()) {
                             laser.update(fps, turret.getWorldLocation());
                             break;
@@ -394,9 +403,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 if (block.isActive()) {
                     boolean hit = gm.player.detectCollision(block.getCollisionPackage());
                     if (hit) {
-                        gm.player.setSpeed(0);
-                        gm.player.setMoving(false);
-                        gm.player.setBoosting(false);
+                        gm.player.stop();
                         block.reposition(gm.player);
                         sm.playSound(Constants.Sounds.BUMP);
                     }
@@ -411,12 +418,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                         if (gm.player.isMoving()) {
                             if (asteroid.isInFrontOf(gm.player.getWorldLocation(),
                                     gm.player.getFacingAngle())) {
+                                gm.player.stop();
+                                asteroid.reposition(gm.player);
                                 asteroid.setSpeed(gm.player.getMaxSpeed());
                                 asteroid.redirect(gm.player.getFacingAngle());
-                                gm.player.setSpeed(0);
-                                gm.player.setMoving(false);
-                                gm.player.setBoosting(false);
-                                asteroid.reposition(gm.player);
                             } else {
                                 asteroid.bounce();
                             }
@@ -455,9 +460,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 if (turret.isActive()) {
                     boolean hit = gm.player.detectCollision(turret.getCollisionPackage());
                     if (hit) {
-                        gm.player.setSpeed(0);
-                        gm.player.setMoving(false);
-                        gm.player.setBoosting(false);
+                        gm.player.stop();
                         turret.reposition(gm.player);
                         sm.playSound(Constants.Sounds.BUMP);
                     }
@@ -492,9 +495,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 if (!door.isOpen()) {
                     boolean hit = gm.player.detectCollision(door.getCollisionPackage());
                     if (hit) {
-                        gm.player.setSpeed(0);
-                        gm.player.setMoving(false);
-                        gm.player.setBoosting(false);
+                        gm.player.stop();
                         door.reposition(gm.player);
                         sm.playSound(Constants.Sounds.BUMP);
                     }
@@ -548,21 +549,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
                     }
-                    if (gm.numButtons > 0) {
-                        for (Button button : gm.buttons) {
-                            boolean hit = asteroid.detectCollision(button.getCollisionPackage());
-                            if (hit) {
-                                if (!button.isBeingPressed()) {
-                                    button.toggle();
-                                    for (Door door : gm.doors) {
-                                        if (door.getKey() == button.getKey()) {
-                                            door.toggleDoor();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -602,7 +588,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                             if (asteroid.isActive()) {
                                 boolean hit = laser.detectCollision(asteroid.getCollisionPackage());
                                 if (hit) {
-                                    asteroid.destroy();
                                     laser.resetLaser();
                                 }
                             }

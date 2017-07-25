@@ -45,24 +45,6 @@ public class InputController {
 
         gestureDetector.onTouchEvent(event);
 
-        // ACTION_DOWN: Initial finger touch
-        // ACTION_POINTER_DOWN: Non-primary touch event
-
-        /*
-        int startX = (int) event.getX(0);
-        int startY = (int) event.getY(0);
-
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                if (menu.contains(startX, startY)) {
-                    gameManager.player.menu();
-                } else if (swivel.contains(startX, startY)) {
-                    gameManager.player.swivel();
-                }
-                break;
-
-            }
-            */
         }
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -77,7 +59,7 @@ public class InputController {
             switch (e.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                     if (menu.contains(x, y)) {
-                        Log.e(TAG, "menu pressed");
+                        //Log.e(TAG, "menu pressed");
                         gameManager.switchPlayingStatus();
                         gameActivity.onMenuButtonPressed();
                     }
@@ -118,7 +100,7 @@ public class InputController {
     }
 
     private void onSwipeRight() {
-        Log.e(TAG, "Swiping right");
+        //Log.e(TAG, "Swiping right");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(270);
             gameManager.player.boost();
@@ -126,7 +108,7 @@ public class InputController {
     }
 
     private void onSwipeLeft() {
-        Log.e(TAG, "Swiping left");
+        //Log.e(TAG, "Swiping left");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(90);
             gameManager.player.boost();
@@ -134,7 +116,7 @@ public class InputController {
     }
 
     private void onSwipeTop() {
-        Log.e(TAG, "Swiping top");
+        //Log.e(TAG, "Swiping top");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(360);
             gameManager.player.boost();
@@ -142,7 +124,7 @@ public class InputController {
     }
 
     private void onSwipeBottom() {
-        Log.e(TAG, "Swiping bottom");
+        //Log.e(TAG, "Swiping bottom");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(180);
             gameManager.player.boost();

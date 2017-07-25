@@ -79,7 +79,7 @@ public class GLManager {
         return programObjectId;
     }
 
-    public static int buildProgram(String vertexShaderSource, String fragmentShaderSource) {
+    static int buildProgram(String vertexShaderSource, String fragmentShaderSource) {
         int program;
         int vertexShader = compileVertexShader(vertexShaderSource);
         int fragmentShader = compileFragmentShader(fragmentShaderSource);
