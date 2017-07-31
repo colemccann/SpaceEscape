@@ -13,6 +13,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -163,7 +165,6 @@ public class LevelSelectionFragment extends Fragment implements
 
     private static class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.ViewHolder> {
 
-        // TODO: 6/8/2017 make current levelTitle tile white, grey out levels that haven't been completed.
         // TODO: 6/8/2017 put a checkmark or something on the tiles for the levels that have been completed.
 
         private int itemWidth;
@@ -182,10 +183,9 @@ public class LevelSelectionFragment extends Fragment implements
 
 
             TextView levelTitle;
-            TextView tv2;
-            TextView tv3;
             LinearLayout linearLayout;
             FrameLayout frameLayout;
+            ImageView levelImageView;
 
             private LevelItemListener levelItemListener;
 
@@ -194,10 +194,9 @@ public class LevelSelectionFragment extends Fragment implements
 
                 frameLayout = (FrameLayout) itemView.findViewById(R.id.level_item_frame);
                 levelTitle = (TextView) itemView.findViewById(R.id.level_number);
-                tv2 = (TextView) itemView.findViewById(R.id.textView2);
-                tv3 = (TextView) itemView.findViewById(R.id.textView3);
 
                 linearLayout = (LinearLayout) itemView.findViewById(R.id.level_view_ll);
+                levelImageView = (ImageView) itemView.findViewById(R.id.level_imageview);
 
                 levelItemListener = listener;
                 itemView.setOnClickListener(this);
@@ -229,14 +228,20 @@ public class LevelSelectionFragment extends Fragment implements
                 holder.linearLayout.setMinimumWidth(itemWidth);
                 holder.linearLayout.setMinimumHeight(itemWidth);
 
+                holder.levelTitle.setTextColor(Color.BLACK);
+
                 if (level.isAvailable()) {
-                    holder.levelTitle.setTextColor(Color.BLACK);
+
+                    if (level.isCompleted())
+                        holder.levelImageView.setImageResource(R.mipmap.icon_level_checkmark);
+                    else
+                        holder.levelImageView.setImageResource(R.mipmap.icon_level_unlocked);
                 } else {
-                    holder.levelTitle.setTextColor(Color.GRAY);
+                    holder.levelImageView.setImageResource(R.mipmap.icon_level_locked);
                 }
+
                 holder.levelTitle.setText(String.valueOf(level.getTitle()));
-                holder.tv2.setText(level.isCompleted() ? "Completed" : "Not Completed");
-                holder.tv3.setText(level.isAvailable() ? "Unlocked" : "Locked");
+
             } catch (IllegalStateException e) {
                 Log.e("ViewHolder", e.getMessage());
                 // TODO: 7/21/2017 set up placeholders here?

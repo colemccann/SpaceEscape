@@ -14,7 +14,8 @@ public class Border extends GameObject {
 
     private static final String TAG = "Border";
 
-    public Border(Context context, float mapWidth, float mapHeight, int pixelsPerMeter) {
+    public Border(Context context, float mapWidth, float mapHeight, int pixelsPerMeter,
+                  int orientation) {
         super(context);
 
         setType(Constants.Types.BORDER);
@@ -25,6 +26,10 @@ public class Border extends GameObject {
         Log.d(TAG, "Border Center: " + getWorldLocation());
 
         setSize(mapWidth, mapHeight);
+
+        if (orientation == Constants.MapOrientation.horizontal) {
+            setFacingAngle(180);
+        }
 
         float[] borderVertices = new float[] {
 

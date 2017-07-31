@@ -18,18 +18,20 @@ public class Door extends GameObject {
 
     public Door(Context context, float worldLocationX,
                 float worldLocationY, int pixelsPerMeter,
-                char type, int key) {
+                char type, boolean open, int key) {
         super(context);
+
+        this.open = open;
 
         this.pixelsPerMeter = pixelsPerMeter;
 
         setType(type);
         switch (type) {
             case Constants.Types.DOOR_HORIZONTAL:
-                setFacingAngle(360);
+                setFacingAngle(90);
                 break;
             case Constants.Types.DOOR_VERTICAL:
-                setFacingAngle(90);
+                setFacingAngle(360);
                 break;
         }
         setWorldLocation(worldLocationX, worldLocationY);
@@ -49,10 +51,9 @@ public class Door extends GameObject {
                 halfW, -halfH, 0,
                 halfW, halfH, 0
         };
+
         setVertices(doorVertices);
-
         setKey(key);
-
         setOpen(open);
         setBitmap();
     }

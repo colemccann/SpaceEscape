@@ -1,7 +1,6 @@
 package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
-import android.util.Log;
 
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
@@ -18,9 +17,15 @@ import net.mostlyhuman.colesgame.gameobjects.TurretBase;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
-import net.mostlyhuman.colesgame.levels.Level1;
-import net.mostlyhuman.colesgame.levels.Level2;
+import net.mostlyhuman.colesgame.levels.chapterone.Level1;
+import net.mostlyhuman.colesgame.levels.chapterone.Level2;
+import net.mostlyhuman.colesgame.levels.chapterone.Level3;
+import net.mostlyhuman.colesgame.levels.chapterone.Level4;
+import net.mostlyhuman.colesgame.levels.chapterone.Level5;
+import net.mostlyhuman.colesgame.levels.chapterone.Level6;
 import net.mostlyhuman.colesgame.levels.LevelData;
+import net.mostlyhuman.colesgame.levels.chapterone.Level7;
+import net.mostlyhuman.colesgame.levels.chapterone.Level8;
 
 /**
  * Created by CaptainMcCann on 4/17/2017.
@@ -117,6 +122,24 @@ public class GameManager {
             case Constants.Levels.TWO:
                 mLevelData = new Level2();
                 break;
+            case Constants.Levels.THREE:
+                mLevelData = new Level3();
+                break;
+            case Constants.Levels.FOUR:
+                mLevelData = new Level4();
+                break;
+            case Constants.Levels.FIVE:
+                mLevelData = new Level5();
+                break;
+            case Constants.Levels.SIX:
+                mLevelData = new Level6();
+                break;
+            case Constants.Levels.SEVEN:
+                mLevelData = new Level7();
+                break;
+            case Constants.Levels.EIGHT:
+                mLevelData = new Level8();
+                break;
         }
 
         initializeObjects();
@@ -125,6 +148,9 @@ public class GameManager {
     public void initializeObjects() {
         setMapHeight(mLevelData.tiles.size() * pixelsPerMeter);
         setMapWidth(mLevelData.tiles.get(0).length() * pixelsPerMeter);
+
+        border = new Border(context, getMapWidth(), getMapHeight(), pixelsPerMeter,
+                mLevelData.mapOrientation);
 
         for (int i = 0; i < mLevelData.tiles.size(); i++) {
             for (int j = 0; j < mLevelData.tiles.get(i).length(); j++) {
@@ -298,6 +324,7 @@ public class GameManager {
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
                                     c,
+                                    mLevelData.doorStates[doorIndex],
                                     mLevelData.doorKeys[doorIndex]);
                             break;
                         case Constants.Types.DOOR_VERTICAL:
@@ -307,6 +334,7 @@ public class GameManager {
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
                                     c,
+                                    mLevelData.doorStates[doorIndex],
                                     mLevelData.doorKeys[doorIndex]);
                             break;
                         case Constants.Types.BUTTON:
@@ -354,8 +382,6 @@ public class GameManager {
                 asteroids[i].setTravelingAngle(mLevelData.asteroidDirections[i]);
             }
         }
-
-        border = new Border(context, mapWidth, mapHeight, pixelsPerMeter);
 
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(context, mapWidth, mapHeight);

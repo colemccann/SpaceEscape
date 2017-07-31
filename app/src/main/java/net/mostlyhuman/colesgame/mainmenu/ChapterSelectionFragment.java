@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -158,9 +159,8 @@ public class ChapterSelectionFragment extends Fragment implements
 
             TextView number;
             TextView title;
-            ImageView image;
             TextView levelsCompleted;
-            TextView availability;
+            ImageView chapterImageView;
 
             private ChapterItemListener chapterItemListener;
 
@@ -169,9 +169,8 @@ public class ChapterSelectionFragment extends Fragment implements
 
                 number = (TextView) itemView.findViewById(R.id.chapter_number);
                 title = (TextView) itemView.findViewById(R.id.chapter_title);
-                image = (ImageView) itemView.findViewById(R.id.chapter_image);
                 levelsCompleted = (TextView) itemView.findViewById(R.id.levels_completed);
-                availability = (TextView) itemView.findViewById(R.id.availability_tv);
+                chapterImageView = (ImageView) itemView.findViewById(R.id.chapter_imageview);
 
                 chapterItemListener = listener;
                 itemView.setOnClickListener(this);
@@ -198,22 +197,25 @@ public class ChapterSelectionFragment extends Fragment implements
         public void onBindViewHolder(ChapterListAdapter.ViewHolder holder, int position) {
             Chapter chapter = mChapters.get(position);
 
+            holder.number.setTextColor(Color.BLACK);
+            holder.title.setTextColor(Color.BLACK);
+            holder.levelsCompleted.setTextColor(Color.BLACK);
+
             if (chapter.isAvailable()) {
-                holder.number.setTextColor(Color.BLACK);
-                holder.title.setTextColor(Color.BLACK);
-                holder.levelsCompleted.setTextColor(Color.BLACK);
+                holder.chapterImageView.setImageResource(R.mipmap.icon_level_unlocked);
+                if (chapter.getLevelsCompleted() == 10) {
+                    holder.chapterImageView.setImageResource(R.mipmap.icon_level_checkmark);
+                }
             } else {
-                holder.number.setTextColor(Color.GRAY);
-                holder.title.setTextColor(Color.GRAY);
-                holder.levelsCompleted.setTextColor(Color.GRAY);
+                holder.chapterImageView.setImageResource(R.mipmap.icon_level_locked);
             }
 
             holder.number.setText(chapter.getChapterNumber());
             holder.title.setText(chapter.getChapterTitle());
-            holder.image.setImageResource(chapter.getChapterImage());
             holder.levelsCompleted.setText(String.format(context.getString(R.string.out_of_ten),
                     chapter.getLevelsCompleted()));
-            holder.availability.setText(chapter.isAvailable() ? "Unlocked" : "Locked");
+
+
         }
 
         @Override

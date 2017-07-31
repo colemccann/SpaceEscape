@@ -17,6 +17,11 @@ public class Constants {
         public static final int LEFT = 90;
     }
 
+    public static class MapOrientation {
+        public static final int vertical = 0;
+        public static final int horizontal = 1;
+    }
+
     public static class Sounds {
         public static final String BUMP = "bump";
         public static final String EXPLOSION = "explosion";
@@ -38,12 +43,12 @@ public class Constants {
         public static final char BLOCK = '#';
 
         public static final char ASTEROID = 'a';
+        public static final char BUTTON = 'b';
         public static final char REDIRECT_DOWN = 'd';
         public static final char EXIT = 'e';
         public static final char DOOR_HORIZONTAL = 'h';
         public static final char REDIRECT_LEFT = 'l';
         public static final char REDIRECT_RIGHT = 'r';
-        public static final char BUTTON = 'b';
         public static final char TURRET_BASE = 'T';
         public static final char TURRET = 't';
         public static final char REDIRECT_UP = 'u';

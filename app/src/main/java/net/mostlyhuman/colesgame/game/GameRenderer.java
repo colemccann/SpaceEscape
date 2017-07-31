@@ -558,14 +558,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         // Check button collisions
         if (gm.numButtons > 0) {
             for (Button button : gm.buttons) {
-                if (gm.numAsteroids > 0) {
-                    for (Asteroid asteroid : gm.asteroids) {
-                            button.detectPress(asteroid.getCollisionPackage());
-                        }
-                }
-                if (!button.isBeingPressed()) {
-                    button.detectPress(gm.player.getCollisionPackage());
-                }
+                button.detectPress(gm.player.getCollisionPackage());
             }
         }
     }
