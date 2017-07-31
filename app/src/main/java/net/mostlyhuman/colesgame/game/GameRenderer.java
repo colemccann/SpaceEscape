@@ -492,13 +492,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         }
         if (gm.numDoors > 0) {
             for (Door door : gm.doors) {
-                if (!door.isOpen()) {
-                    boolean hit = gm.player.detectCollision(door.getCollisionPackage());
-                    if (hit) {
-                        gm.player.stop();
-                        door.reposition(gm.player);
-                        sm.playSound(Constants.Sounds.BUMP);
-                    }
+                boolean hit = door.detectCollision(gm.player.getCollisionPackage());
+                if (hit) {
+                    gm.player.stop();
+                    door.reposition(gm.player);
+                    sm.playSound(Constants.Sounds.BUMP);
                 }
             }
         }
@@ -541,11 +539,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     }
                     if (gm.numDoors > 0) {
                         for (Door door : gm.doors) {
-                            if (!door.isOpen()) {
-                                boolean hit = asteroid.detectCollision(door.getCollisionPackage());
-                                if (hit) {
-                                    asteroid.bounce();
-                                }
+                            boolean hit = door.detectCollision(asteroid.getCollisionPackage());
+                            if (hit) {
+                                asteroid.bounce();
                             }
                         }
                     }
@@ -610,11 +606,9 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                     }
                     if (gm.numDoors > 0) {
                         for (Door door : gm.doors) {
-                            if (!door.isOpen()) {
-                                boolean hit = laser.detectCollision(door.getCollisionPackage());
-                                if (hit) {
-                                    laser.resetLaser();
-                                }
+                            boolean hit = door.detectCollision(laser.getCollisionPackage());
+                            if (hit) {
+                                laser.resetLaser();
                             }
                         }
                     }

@@ -25,7 +25,7 @@ public class Level4 extends LevelData {
 
         asteroidDirections = new int[]{};
 
-        doorStates = new boolean[]{};
+        doorStates = new boolean[]{false};
 
         doorKeys = new int[]{1};
 

@@ -77,7 +77,7 @@ public class GameManager {
     public EnemyLaser[] enemyLasers;
 
     public Exit exit;
-    boolean hasExit;
+    private boolean hasExit;
 
     private boolean playing = false;
 

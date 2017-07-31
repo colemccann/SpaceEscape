@@ -1,6 +1,7 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
+import android.graphics.PointF;
 
 import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
@@ -98,6 +99,39 @@ public class Door extends GameObject {
             bottom = .5f;
             setTextureVertices(left, right, 1 - top, 1 - bottom);
         }
+    }
+
+    public boolean detectCollision(CollisionPackage cp2) {
+        boolean collided = false;
+
+        if (getCollisionPackage().right > cp2.left &&
+                getCollisionPackage().left < cp2.right) {
+            // Intersecting on the x-axis
+            if (getCollisionPackage().top > cp2.bottom &&
+                    getCollisionPackage().bottom < cp2.top) {
+                // Intersecting on the y-axis also
+                // Collided!
+                if (!isOpen()) {
+                    // The door is closed, no matter what we have collided
+                    collided = true;
+                } else if (getType() == Constants.Types.DOOR_HORIZONTAL) {
+                    // Since the door is open, if the object is inside of the
+                    // horizontal plane of the door, no collision occurs
+                    if (cp2.top <= getCollisionPackage().top &&
+                            cp2.bottom >= getCollisionPackage().bottom) {
+                        return false;
+                    } else collided = true;
+                } else if (getType() == Constants.Types.DOOR_VERTICAL) {
+                    // Since the door is open, if the object is inside of the
+                    // vertical plane of the door, no collision occurs
+                    if (cp2.left >= getCollisionPackage().left &&
+                            cp2.right <= getCollisionPackage().right) {
+                        return false;
+                    } else collided = true;
+                }
+            }
+        }
+        return collided;
     }
 
     public void reposition(GameObject gameObject) {
