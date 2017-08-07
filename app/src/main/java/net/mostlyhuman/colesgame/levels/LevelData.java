@@ -15,7 +15,6 @@ public class LevelData {
     public boolean[] buttonStates;
     public int[] buttonKeys;
     public String[] warpTargets;
-    public boolean[] turretMovement;
     public int[] turretFacingAngles;
     public int mapOrientation;
 }

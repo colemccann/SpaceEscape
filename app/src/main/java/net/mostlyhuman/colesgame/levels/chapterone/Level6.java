@@ -14,11 +14,11 @@ public class Level6 extends LevelData {
     public Level6() {
 
         tiles = new ArrayList<>();
-        this.tiles.add("#p.............");
-        this.tiles.add("............#.#");
-        this.tiles.add(".............he");
-        this.tiles.add(".......b......#");
-        this.tiles.add("........#....hb");
+        this.tiles.add("#p...........");
+        this.tiles.add("..........#.#");
+        this.tiles.add("...........he");
+        this.tiles.add(".....b......#");
+        this.tiles.add("......#....hb");
 
         asteroidDirections = new int[]{};
 
