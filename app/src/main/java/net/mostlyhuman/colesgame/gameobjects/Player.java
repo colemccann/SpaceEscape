@@ -53,8 +53,8 @@ public class Player extends GameObject {
 
         float left = .2f;
         float right = .4f;
-        float top = .5f;
-        float bottom = .25f;
+        float top = .6f;
+        float bottom = .4f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }

@@ -15,7 +15,7 @@ public class Level8 extends LevelData {
         tiles = new ArrayList<>();
         this.tiles.add("p....");
         this.tiles.add(".....");
-        this.tiles.add("..e..");
+        this.tiles.add("..G..");
         this.tiles.add(".....");
         this.tiles.add(".....");
 
@@ -31,9 +31,7 @@ public class Level8 extends LevelData {
 
         warpTargets = new String[]{};
 
-        turretMovement = new boolean[]{};
-
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = new int[]{90};
 
         mapOrientation = Constants.MapOrientation.horizontal;
     }

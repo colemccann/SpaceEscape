@@ -4,13 +4,16 @@ import android.content.Context;
 
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
+import net.mostlyhuman.colesgame.gameobjects.BlueTurret;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
 import net.mostlyhuman.colesgame.gameobjects.Border;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
 import net.mostlyhuman.colesgame.gameobjects.Exit;
+import net.mostlyhuman.colesgame.gameobjects.GreenTurret;
 import net.mostlyhuman.colesgame.gameobjects.Player;
+import net.mostlyhuman.colesgame.gameobjects.RedTurret;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
 import net.mostlyhuman.colesgame.gameobjects.Star;
 import net.mostlyhuman.colesgame.gameobjects.TurretBase;
@@ -43,46 +46,46 @@ public class GameManager {
     private int mapWidth;
     private int mapHeight;
 
-    public Border border;
+    Border border;
 
-    public Star[] stars = new Star[5];
+    Star[] stars = new Star[5];
 
     public Player player;
 
-    public Asteroid[] asteroids;
+    Asteroid[] asteroids;
     int numAsteroids;
 
-    public Block[] blocks;
+    Block[] blocks;
     int numBlocks;
 
-    public Bomb[] bombs;
+    Bomb[] bombs;
     int numBombs;
 
-    public Redirect[] redirects;
+    Redirect[] redirects;
     int numRedirects;
 
-    public Turret[] turrets;
-    public TurretBase[] turretBases;
+    Turret[] turrets;
+    TurretBase[] turretBases;
     int numTurrets;
 
-    public Door[] doors;
+    Door[] doors;
     int numDoors;
 
-    public Button[] buttons;
+    Button[] buttons;
     int numButtons;
 
-    public Warp[] warps;
+    Warp[] warps;
     int numWarps;
 
-    public EnemyLaser[] enemyLasers;
+    EnemyLaser[] enemyLasers;
 
-    public Exit exit;
+    Exit exit;
     private boolean hasExit;
 
     private boolean playing = false;
 
-    public int screenWidth;
-    public int screenHeight;
+    int screenWidth;
+    int screenHeight;
     public int pixelsPerMeter;
 
     // These values are based on ratio of screen width to screen height.
@@ -92,7 +95,7 @@ public class GameManager {
     float metersToShowX;
     float metersToShowY;
 
-    public GameManager(Context context, int x, int y) {
+    GameManager(Context context, int x, int y) {
         this.context = context;
 
         screenWidth = x;
@@ -103,7 +106,7 @@ public class GameManager {
         pixelsPerMeter = screenHeight / 32;
     }
 
-    public void loadLevel(String level) {
+    void loadLevel(String level) {
 
         mLevelData = null;
         numBlocks = 0;
@@ -145,13 +148,21 @@ public class GameManager {
         initializeObjects();
     }
 
-    public void initializeObjects() {
+    private void initializeObjects() {
+
+        setMapSize();
+
+        countGameObjects();
+
+        createGameObjects();
+    }
+
+    private void setMapSize() {
         setMapHeight(mLevelData.tiles.size() * pixelsPerMeter);
         setMapWidth(mLevelData.tiles.get(0).length() * pixelsPerMeter);
+    }
 
-        border = new Border(context, getMapWidth(), getMapHeight(), pixelsPerMeter,
-                mLevelData.mapOrientation);
-
+    private void countGameObjects() {
         for (int i = 0; i < mLevelData.tiles.size(); i++) {
             for (int j = 0; j < mLevelData.tiles.get(i).length(); j++) {
                 char c = mLevelData.tiles.get(i).charAt(j);
@@ -177,7 +188,13 @@ public class GameManager {
                     case Constants.Types.REDIRECT_UP:
                         numRedirects++;
                         break;
-                    case Constants.Types.TURRET:
+                    case Constants.Types.TURRET_GREEN:
+                        numTurrets++;
+                        break;
+                    case Constants.Types.TURRET_BLUE:
+                        numTurrets++;
+                        break;
+                    case Constants.Types.TURRET_RED:
                         numTurrets++;
                         break;
                     case Constants.Types.DOOR_HORIZONTAL:
@@ -195,7 +212,9 @@ public class GameManager {
                 }
             }
         }
+    }
 
+    private void createGameObjects() {
         if (numAsteroids > 0) {
             asteroids = new Asteroid[numAsteroids];
         }
@@ -208,11 +227,17 @@ public class GameManager {
         if (numRedirects > 0) {
             redirects = new Redirect[numRedirects];
         }
+
         if (numTurrets > 0) {
             turrets = new Turret[numTurrets];
             turretBases = new TurretBase[numTurrets];
             enemyLasers = new EnemyLaser[numTurrets];
         }
+
+        if (numTurrets > 0) {
+            enemyLasers = new EnemyLaser[numTurrets];
+        }
+
         if (numDoors > 0) {
             doors = new Door[numDoors];
         }
@@ -234,6 +259,11 @@ public class GameManager {
         int doorIndex = -1;
         int buttonIndex = -1;
         int warpIndex = -1;
+
+        // Iterate through level data and create all game objects
+
+        border = new Border(context, getMapWidth(), getMapHeight(), pixelsPerMeter,
+                mLevelData.mapOrientation);
 
         for (int i = 0; i < mLevelData.tiles.size(); i++) {
             for (int j = 0; j < mLevelData.tiles.get(i).length(); j++) {
@@ -296,7 +326,7 @@ public class GameManager {
                                     pixelsPerMeter,
                                     c);
                             break;
-                        case Constants.Types.TURRET:
+                        case Constants.Types.TURRET_GREEN:
                             turretIndex++;
                             turretBases[turretIndex] = new TurretBase(context,
                                     j * pixelsPerMeter, -i * pixelsPerMeter,
@@ -307,11 +337,50 @@ public class GameManager {
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
                                     turretIndex);
-                            turrets[turretIndex] = new Turret(context,
+                            turrets[turretIndex] = new GreenTurret(context,
                                     j * pixelsPerMeter,
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
-                                    mLevelData.turretMovement[turretIndex],
+                                    mLevelData.turretFacingAngles[turretIndex],
+                                    turretIndex,
+                                    turretBases[turretIndex],
+                                    enemyLasers[turretIndex]);
+                            break;
+                        case Constants.Types.TURRET_BLUE:
+                            turretIndex++;
+                            turretBases[turretIndex] = new TurretBase(context,
+                                    j * pixelsPerMeter, -i * pixelsPerMeter,
+                                    pixelsPerMeter,
+                                    turretIndex);
+                            enemyLasers[turretIndex] = new EnemyLaser(context,
+                                    j * pixelsPerMeter,
+                                    -i * pixelsPerMeter,
+                                    pixelsPerMeter,
+                                    turretIndex);
+                            turrets[turretIndex] = new BlueTurret(context,
+                                    j * pixelsPerMeter,
+                                    -i * pixelsPerMeter,
+                                    pixelsPerMeter,
+                                    mLevelData.turretFacingAngles[turretIndex],
+                                    turretIndex,
+                                    turretBases[turretIndex],
+                                    enemyLasers[turretIndex]);
+                            break;
+                        case Constants.Types.TURRET_RED:
+                            turretIndex++;
+                            turretBases[turretIndex] = new TurretBase(context,
+                                    j * pixelsPerMeter, -i * pixelsPerMeter,
+                                    pixelsPerMeter,
+                                    turretIndex);
+                            enemyLasers[turretIndex] = new EnemyLaser(context,
+                                    j * pixelsPerMeter,
+                                    -i * pixelsPerMeter,
+                                    pixelsPerMeter,
+                                    turretIndex);
+                            turrets[turretIndex] = new RedTurret(context,
+                                    j * pixelsPerMeter,
+                                    -i * pixelsPerMeter,
+                                    pixelsPerMeter,
                                     mLevelData.turretFacingAngles[turretIndex],
                                     turretIndex,
                                     turretBases[turretIndex],
@@ -382,57 +451,53 @@ public class GameManager {
                 asteroids[i].setTravelingAngle(mLevelData.asteroidDirections[i]);
             }
         }
-
-        for (int i = 0; i < stars.length; i++) {
-            stars[i] = new Star(context, mapWidth, mapHeight);
-        }
     }
 
-    public boolean hasExit() {
+    boolean hasExit() {
         return hasExit;
     }
 
-    public void setMapWidth(int mapWidth) {
+    private void setMapWidth(int mapWidth) {
         this.mapWidth = mapWidth;
     }
 
-    public void setMapHeight(int mapHeight) {
+    private void setMapHeight(int mapHeight) {
         this.mapHeight = mapHeight;
     }
 
-    public int getMapWidth() {
+    int getMapWidth() {
         return mapWidth;
     }
 
-    public int getMapHeight() {
+    int getMapHeight() {
         return mapHeight;
     }
 
-    public void switchPlayingStatus() {
+    void switchPlayingStatus() {
         playing = !playing;
     }
 
-    public void setPlaying(boolean playing) {
+    void setPlaying(boolean playing) {
         this.playing = playing;
     }
 
-    public boolean isPlaying() {
+    boolean isPlaying() {
         return playing;
     }
 
-    public String getCurrentLevel() {
+    String getCurrentLevel() {
         return currentLevel;
     }
 
-    public void setCurrentLevel(String currentLevel) {
+    void setCurrentLevel(String currentLevel) {
         this.currentLevel = currentLevel;
     }
 
-    public int getLevelID() {
+    int getLevelID() {
         return levelID;
     }
 
-    public void setLevelID(int levelID) {
+    void setLevelID(int levelID) {
         this.levelID = levelID;
     }
 }

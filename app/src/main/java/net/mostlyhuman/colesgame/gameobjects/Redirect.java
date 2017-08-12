@@ -59,8 +59,8 @@ public class Redirect extends GameObject {
 
         float left = .4f;
         float right = .6f;
-        float top = .5f;
-        float bottom = .25f;
+        float top = .6f;
+        float bottom = .4f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }

@@ -73,6 +73,26 @@ public class Laser extends GameObject implements Turret.LaserContract {
         getCollisionPackage().updateHitbox(getWorldLocation());
     }
 
+    public boolean contain(float mapWidth, float mapHeight, int halfSideLength) {
+        boolean outOfBounds = false;
+
+        if (getCollisionPackage().right > mapWidth) {
+            outOfBounds = true;
+            resetLaser();
+        } else if (getCollisionPackage().left < -halfSideLength) {
+            outOfBounds = true;
+            resetLaser();
+        } else if (getCollisionPackage().top > halfSideLength) {
+            outOfBounds = true;
+            resetLaser();
+        } else if (getCollisionPackage().bottom < -mapHeight) {
+            outOfBounds = true;
+            resetLaser();
+        }
+
+        return outOfBounds;
+    }
+
     public boolean detectCollision(CollisionPackage cp2) {
         boolean collided = false;
 

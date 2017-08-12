@@ -42,8 +42,8 @@ public class Exit extends GameObject {
         // Set Texture Vertices here
         float left = .2f;
         float right = .4f;
-        float top = .25f;
-        float bottom = 0;
+        float top = .4f;
+        float bottom = .2f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }

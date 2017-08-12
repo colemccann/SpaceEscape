@@ -72,13 +72,13 @@ public class Button extends GameObject {
             left = .8f;
             right = 1;
             top = 1;
-            bottom = .75f;
+            bottom = .8f;
             setTextureVertices(left, right, 1 - top, 1 - bottom);
         } else {
             left = 0;
             right = .2f;
-            top = .75f;
-            bottom = .5f;
+            top = .8f;
+            bottom = .6f;
             setTextureVertices(left, right, 1 - top, 1 - bottom);
         }
     }

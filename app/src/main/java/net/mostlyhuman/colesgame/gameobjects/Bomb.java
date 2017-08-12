@@ -14,8 +14,6 @@ public class Bomb extends GameObject {
 
     String TAG = "Bomb";
 
-    public CollisionPackage cp;
-
     public Bomb(Context context, float worldLocationX,
                 float worldLocationY, int pixelsPerMeter) {
         super(context);
@@ -43,8 +41,8 @@ public class Bomb extends GameObject {
         // Set Texture Vertices here
         float left = .6f;
         float right = .8f;
-        float top = .5f;
-        float bottom = .25f;
+        float top = .6f;
+        float bottom = .4f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }

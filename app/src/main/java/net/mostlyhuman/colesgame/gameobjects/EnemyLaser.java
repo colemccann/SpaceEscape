@@ -18,8 +18,8 @@ public class EnemyLaser extends Laser {
         // Set Texture Vertices here
         float left = 0;
         float right = .2f;
-        float top = .5f;
-        float bottom = .25f;
+        float top = .6f;
+        float bottom = .4f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
 

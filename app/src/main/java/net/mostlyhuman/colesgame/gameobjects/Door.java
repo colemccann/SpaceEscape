@@ -89,14 +89,14 @@ public class Door extends GameObject {
         if (isOpen()) {
             left = .4f;
             right = .6f;
-            top = .75f;
-            bottom = .5f;
+            top = .8f;
+            bottom = .6f;
             setTextureVertices(left, right, 1 - top, 1 - bottom);
         } else {
             left = .2f;
             right = .4f;
-            top = .75f;
-            bottom = .5f;
+            top = .8f;
+            bottom = .6f;
             setTextureVertices(left, right, 1 - top, 1 - bottom);
         }
     }

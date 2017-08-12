@@ -34,8 +34,6 @@ public class Level5 extends LevelData {
 
         warpTargets = new String[]{};
 
-        turretMovement = new boolean[]{};
-
         turretFacingAngles = new int[]{};
 
         mapOrientation = Constants.MapOrientation.horizontal;

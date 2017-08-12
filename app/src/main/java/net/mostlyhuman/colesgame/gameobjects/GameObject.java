@@ -94,7 +94,7 @@ public class GameObject {
         isActive = active;
     }
 
-    char getType() {
+    public char getType() {
         return type;
     }
 

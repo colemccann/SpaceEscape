@@ -7,6 +7,8 @@ import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
+import java.util.Random;
+
 /**
  * Created by CaptainMcCann on 4/13/2017.
  */
@@ -43,14 +45,36 @@ public class Block extends GameObject {
         };
         setVertices(blockVertices);
 
-        float left = 0;
-        float right = .2f;
-        float top = .25f;
-        float bottom = 0;
+        float left;
+        float right;
+        float top;
+        float bottom;
 
-        setTextureVertices(left, right, 1 - top, 1 - bottom);
-
-        //Log.e(TAG, "World Location: " + getWorldLocation());
+        Random r = new Random();
+        int whichBlock = r.nextInt(3);
+        switch (whichBlock) {
+            case 0:
+                left = 0;
+                right = .2f;
+                top = .4f;
+                bottom = .2f;
+                setTextureVertices(left, right, 1 - top, 1 - bottom);
+                break;
+            case 1:
+                left = 0;
+                right = .2f;
+                top = .2f;
+                bottom = 0;
+                setTextureVertices(left, right, 1 - top, 1 - bottom);
+                break;
+            case 2:
+                left = .2f;
+                right = .4f;
+                top = .2f;
+                bottom = 0;
+                setTextureVertices(left, right, 1 - top, 1 - bottom);
+                break;
+        }
     }
 
     public void reposition(GameObject gameObject) {

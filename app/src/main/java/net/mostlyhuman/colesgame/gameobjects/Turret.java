@@ -36,7 +36,7 @@ public class Turret extends GameObject {
 
         setTurretID(turretID);
 
-        setType(Constants.Types.TURRET);
+        setType(Constants.Types.TURRET_GREEN);
         setWorldLocation(worldLocationX, worldLocationY);
 
         setSize(pixelsPerMeter, pixelsPerMeter);
@@ -83,6 +83,13 @@ public class Turret extends GameObject {
                 }
                 break;
         }
+    }
+
+    public void update() {
+    }
+
+    public void update(PointF playerLocation) {
+
     }
 
     @Override

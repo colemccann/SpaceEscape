@@ -14,11 +14,14 @@ import net.mostlyhuman.colesgame.data.DatabaseContract;
 import net.mostlyhuman.colesgame.data.DatabaseUpdateService;
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
+import net.mostlyhuman.colesgame.gameobjects.BlueTurret;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
+import net.mostlyhuman.colesgame.gameobjects.GreenTurret;
 import net.mostlyhuman.colesgame.gameobjects.Laser;
+import net.mostlyhuman.colesgame.gameobjects.RedTurret;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
@@ -292,12 +295,12 @@ public class GameRenderer implements GLSurfaceView.Renderer {
     }
 
     private void update(long fps) {
-        utilPointF = gm.player.getWorldLocation();
-
         // Update each relevant game object in succession
 
         // Update the player
         gm.player.update(fps);
+
+        utilPointF = gm.player.getWorldLocation();
 
         if (gm.player.contain(gm.getMapWidth() - (gm.pixelsPerMeter / 2),
                 gm.getMapHeight() - (gm.pixelsPerMeter / 2),
@@ -319,7 +322,17 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         if (gm.numTurrets > 0) {
             for (Turret turret : gm.turrets) {
                 if (turret.isActive()) {
-                    turret.update(utilPointF);
+                    switch (turret.getType()) {
+                        case Constants.Types.TURRET_GREEN:
+                            turret.update();
+                            break;
+                        case Constants.Types.TURRET_BLUE:
+                            turret.update(utilPointF);
+                            break;
+                        case Constants.Types.TURRET_RED:
+                            turret.update(utilPointF);
+                            break;
+                    }
                 }
             }
         }
@@ -354,7 +367,11 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         PointF utilPointF2;
         // Contain the lasers
         for (int i = 0; i < gm.numTurrets; i++) {
-            if (gm.enemyLasers[i].isActive()) {
+            if (gm.enemyLasers[i].isActive()
+                    && !gm.enemyLasers[i].contain(gm.getMapWidth() - (gm.pixelsPerMeter / 2),
+                    gm.getMapHeight() - (gm.pixelsPerMeter / 2),
+                    gm.pixelsPerMeter / 2)) {
+
                 utilPointF = gm.enemyLasers[i].getWorldLocation();
                 utilPointF2 = gm.player.getWorldLocation();
 

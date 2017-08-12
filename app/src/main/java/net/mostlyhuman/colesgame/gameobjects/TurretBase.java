@@ -38,8 +38,8 @@ public class TurretBase extends GameObject implements Turret.TurretContract {
 
         float left = .6f;
         float right = .8f;
-        float top = .75f;
-        float bottom = .5f;
+        float top = .8f;
+        float bottom = .6f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }

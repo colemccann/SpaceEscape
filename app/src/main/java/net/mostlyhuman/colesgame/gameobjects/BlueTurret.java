@@ -3,6 +3,8 @@ package net.mostlyhuman.colesgame.gameobjects;
 import android.content.Context;
 import android.graphics.PointF;
 
+import net.mostlyhuman.colesgame.helpers.Constants;
+
 /**
  * Created by CaptainMcCann on 8/6/2017.
  */
@@ -21,15 +23,18 @@ public class BlueTurret extends Turret {
         super(context, worldLocationX, worldLocationY, pixelsPerMeter,
                 facingAngle, turretID, turretContract, laser);
 
+        setType(Constants.Types.TURRET_BLUE);
+
         // Put actual texture vertices here
-        float left = .8f;
-        float right = 1;
-        float top = .75f;
-        float bottom = .5f;
+        float left = .6f;
+        float right = .8f;
+        float top = .4f;
+        float bottom = .2f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
+    @Override
     public void update(PointF playerLocation) {
 
         double angle;

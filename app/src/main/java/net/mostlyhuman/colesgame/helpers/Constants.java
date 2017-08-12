@@ -50,7 +50,9 @@ public class Constants {
         public static final char REDIRECT_LEFT = 'l';
         public static final char REDIRECT_RIGHT = 'r';
         public static final char TURRET_BASE = 'T';
-        public static final char TURRET = 't';
+        public static final char TURRET_GREEN = 'G';
+        public static final char TURRET_BLUE = 'B';
+        public static final char TURRET_RED = 'R';
         public static final char REDIRECT_UP = 'u';
         public static final char DOOR_VERTICAL = 'v';
         public static final char WARP = 'w';
