@@ -14,25 +14,29 @@ public class Level6 extends LevelData {
     public Level6() {
 
         tiles = new ArrayList<>();
-        this.tiles.add("#p...........");
-        this.tiles.add("..........#.#");
-        this.tiles.add("...........he");
-        this.tiles.add(".....b......#");
-        this.tiles.add("......#....hb");
+        this.tiles.add("....#e");
+        this.tiles.add("#...G.");
+        this.tiles.add("......");
+        this.tiles.add(".G...#");
+        this.tiles.add(".G...#");
+        this.tiles.add(".....p");
 
         asteroidDirections = new int[]{};
 
         doorStates = new boolean[]{false, false};
 
-        doorKeys = new int[]{1, 2};
+        doorKeys = new int[]{};
 
-        buttonStates = new boolean[]{false, false};
+        buttonStates = new boolean[]{};
 
-        buttonKeys = new int[]{2, 1};
+        buttonKeys = new int[]{};
 
         warpTargets = new String[]{};
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = new int[]{
+                Constants.Directions.RIGHT,
+                Constants.Directions.UP,
+                Constants.Directions.DOWN};
 
         mapOrientation = Constants.MapOrientation.horizontal;
     }

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 public class LevelData {
 
+    protected static final boolean OPEN = true;
+    protected static final boolean CLOSED = false;
+
     public ArrayList<String> tiles;
     public int[] asteroidDirections;
     public boolean[] doorStates;

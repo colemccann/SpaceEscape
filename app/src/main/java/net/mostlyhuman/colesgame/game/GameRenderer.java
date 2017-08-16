@@ -25,6 +25,7 @@ import net.mostlyhuman.colesgame.gameobjects.RedTurret;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
+import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.TextureHelper;
 
@@ -301,6 +302,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         gm.player.update(fps);
 
         utilPointF = gm.player.getWorldLocation();
+        CollisionPackage playerCP = gm.player.getCollisionPackage();
 
         if (gm.player.contain(gm.getMapWidth() - (gm.pixelsPerMeter / 2),
                 gm.getMapHeight() - (gm.pixelsPerMeter / 2),
@@ -327,7 +329,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                             turret.update();
                             break;
                         case Constants.Types.TURRET_BLUE:
-                            turret.update(utilPointF);
+                            turret.update(utilPointF, playerCP);
                             break;
                         case Constants.Types.TURRET_RED:
                             turret.update(utilPointF);

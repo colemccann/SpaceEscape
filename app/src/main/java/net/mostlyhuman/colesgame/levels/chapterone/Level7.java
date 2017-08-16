@@ -11,39 +11,35 @@ import java.util.ArrayList;
 
 public class Level7 extends LevelData {
 
+    // TODO: 8/13/2017 this level is too hard this early in the game
+
     public Level7() {
         tiles = new ArrayList<>();
-        this.tiles.add("##........");
-        this.tiles.add(".....#....");
-        this.tiles.add("..........");
-        this.tiles.add("..........");
-        this.tiles.add("....b..#..");
-        this.tiles.add("....v..b..");
-        this.tiles.add("....b.....");
-        this.tiles.add("........p.");
-        this.tiles.add("#....##.##");
-        this.tiles.add("bh....h.he");
-        this.tiles.add("#.....####");
-        this.tiles.add("#.....h..b");
+        this.tiles.add(".....e");
+        this.tiles.add("...GB.");
+        this.tiles.add("...G..");
+        this.tiles.add("#.....");
+        this.tiles.add("..G...");
+        this.tiles.add("..#..p");
 
 
         asteroidDirections = new int[]{};
 
-        doorStates = new boolean[]{
-                true, false, false, true, false
-        };
+        doorStates = new boolean[]{};
 
-        doorKeys = new int[]{4, 5, 1, 3, 2};
+        doorKeys = new int[]{};
 
-        buttonStates = new boolean[]{
-                false, false, true, true, false
-        };
+        buttonStates = new boolean[]{};
 
-        buttonKeys = new int[]{1, 2, 3, 4, 5};
+        buttonKeys = new int[]{};
 
         warpTargets = new String[]{};
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = new int[]{
+                Constants.Directions.UP,
+                Constants.Directions.RIGHT,
+                Constants.Directions.LEFT,
+                Constants.Directions.RIGHT};
 
         mapOrientation = Constants.MapOrientation.horizontal;
     }

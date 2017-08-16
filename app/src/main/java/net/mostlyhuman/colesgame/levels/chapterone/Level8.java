@@ -13,25 +13,27 @@ public class Level8 extends LevelData {
 
     public Level8() {
         tiles = new ArrayList<>();
-        this.tiles.add("p....");
-        this.tiles.add(".....");
-        this.tiles.add("..G..");
-        this.tiles.add(".....");
-        this.tiles.add(".....");
+        this.tiles.add(".b#..e");
+        this.tiles.add("..#..#");
+        this.tiles.add(".hRh.b");
+        this.tiles.add("......");
+        this.tiles.add("......");
+        this.tiles.add("p.....");
+
 
         asteroidDirections = new int[]{};
 
-        doorStates = new boolean[]{};
+        doorStates = new boolean[]{OPEN, OPEN};
 
-        doorKeys = new int[]{};
+        doorKeys = new int[]{1, 2};
 
         buttonStates = new boolean[]{};
 
-        buttonKeys = new int[]{};
+        buttonKeys = new int[]{2, 1};
 
         warpTargets = new String[]{};
 
-        turretFacingAngles = new int[]{90};
+        turretFacingAngles = new int[]{Constants.Directions.RIGHT};
 
         mapOrientation = Constants.MapOrientation.horizontal;
     }

@@ -32,28 +32,4 @@ public class GreenTurret extends Turret {
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
-
-    @Override
-    public void update() {
-        // Fire once per second
-        long interval = 1000;
-
-        if (firingTime == 0) {
-            fire();
-        } else {
-
-            long time = System.currentTimeMillis();
-
-            if (time - firingTime >= interval) {
-                fire();
-            }
-        }
-    }
-
-    private void fire() {
-
-        laser.fireLaser(getTurretID(), getFacingAngle());
-
-        firingTime = System.currentTimeMillis();
-    }
 }
