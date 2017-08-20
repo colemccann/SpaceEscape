@@ -21,6 +21,7 @@ import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.chapterone.Level1;
+import net.mostlyhuman.colesgame.levels.chapterone.Level10;
 import net.mostlyhuman.colesgame.levels.chapterone.Level2;
 import net.mostlyhuman.colesgame.levels.chapterone.Level3;
 import net.mostlyhuman.colesgame.levels.chapterone.Level4;
@@ -29,6 +30,7 @@ import net.mostlyhuman.colesgame.levels.chapterone.Level6;
 import net.mostlyhuman.colesgame.levels.LevelData;
 import net.mostlyhuman.colesgame.levels.chapterone.Level7;
 import net.mostlyhuman.colesgame.levels.chapterone.Level8;
+import net.mostlyhuman.colesgame.levels.chapterone.Level9;
 
 /**
  * Created by CaptainMcCann on 4/17/2017.
@@ -143,6 +145,11 @@ public class GameManager {
             case Constants.Levels.EIGHT:
                 mLevelData = new Level8();
                 break;
+            case Constants.Levels.NINE:
+                mLevelData = new Level9();
+                break;
+            case Constants.Levels.TEN:
+                mLevelData = new Level10();
         }
 
         initializeObjects();

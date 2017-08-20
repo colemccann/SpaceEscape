@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class Level7 extends LevelData {
 
-    // TODO: 8/13/2017 this level is too hard this early in the game
-
     public Level7() {
         tiles = new ArrayList<>();
         this.tiles.add(".....e");

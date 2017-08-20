@@ -2,7 +2,6 @@ package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.util.Log;
 
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
@@ -19,9 +18,9 @@ public class Turret extends GameObject {
     private final TurretContract turretBase;
 
     int pixelsPerMeter;
-    final LaserContract laser;
+    private final LaserContract laser;
 
-    private long firingTime;
+    private long frameCounter;
 
     public Turret(Context context, float worldLocationX,
                   float worldLocationY, int pixelsPerMeter,
@@ -87,20 +86,12 @@ public class Turret extends GameObject {
         }
     }
 
-    public void update() {
+    public void update(long fps) {
         // Fire once per second
-        long interval = 1000;
+        frameCounter++;
 
-        if (firingTime == 0) {
+        if (frameCounter >= fps) {
             fire();
-        } else {
-
-            long time = System.currentTimeMillis();
-
-            if (time - firingTime >= interval) {
-                fire();
-                firingTime = System.currentTimeMillis();
-            }
         }
     }
 

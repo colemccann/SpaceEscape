@@ -326,7 +326,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 if (turret.isActive()) {
                     switch (turret.getType()) {
                         case Constants.Types.TURRET_GREEN:
-                            turret.update();
+                            turret.update(fps);
                             break;
                         case Constants.Types.TURRET_BLUE:
                             turret.update(utilPointF, playerCP);

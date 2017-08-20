@@ -13,12 +13,12 @@ public class Level8 extends LevelData {
 
     public Level8() {
         tiles = new ArrayList<>();
-        this.tiles.add(".b#..e");
-        this.tiles.add("..#..#");
-        this.tiles.add(".hRh.b");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("p.....");
+        this.tiles.add("..b#..e");
+        this.tiles.add(".#.#..#");
+        this.tiles.add("..hRh.b");
+        this.tiles.add(".......");
+        this.tiles.add(".......");
+        this.tiles.add(".p.....");
 
 
         asteroidDirections = new int[]{};
@@ -27,7 +27,7 @@ public class Level8 extends LevelData {
 
         doorKeys = new int[]{1, 2};
 
-        buttonStates = new boolean[]{};
+        buttonStates = new boolean[]{true, true};
 
         buttonKeys = new int[]{2, 1};
 
