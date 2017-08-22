@@ -1,9 +1,7 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
-import android.graphics.PointF;
 
-import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
@@ -63,7 +61,7 @@ public class Door extends GameObject {
         return key;
     }
 
-    public void setKey(int key) {
+    private void setKey(int key) {
         this.key = key;
     }
 
@@ -76,11 +74,11 @@ public class Door extends GameObject {
         setBitmap();
     }
 
-    public boolean isOpen() {
+    private boolean isOpen() {
         return open;
     }
 
-    public void setBitmap() {
+    private void setBitmap() {
         float left;
         float right;
         float top;

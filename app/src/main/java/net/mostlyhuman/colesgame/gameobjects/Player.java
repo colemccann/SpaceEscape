@@ -1,14 +1,10 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
-import android.graphics.PointF;
-import android.util.Log;
 
-import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
-import java.util.ArrayList;
 
 /**
  * Created by CaptainMcCann on 4/6/2017.
@@ -59,7 +55,7 @@ public class Player extends GameObject {
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
-    public void setBoosting(boolean boosting) {
+    private void setBoosting(boolean boosting) {
         isBoosting = boosting;
     }
 

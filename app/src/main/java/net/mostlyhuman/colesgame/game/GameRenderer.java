@@ -14,14 +14,11 @@ import net.mostlyhuman.colesgame.data.DatabaseContract;
 import net.mostlyhuman.colesgame.data.DatabaseUpdateService;
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
-import net.mostlyhuman.colesgame.gameobjects.BlueTurret;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
-import net.mostlyhuman.colesgame.gameobjects.GreenTurret;
 import net.mostlyhuman.colesgame.gameobjects.Laser;
-import net.mostlyhuman.colesgame.gameobjects.RedTurret;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
@@ -42,7 +39,7 @@ import static android.opengl.GLES20.glViewport;
  * Created by CaptainMcCann on 4/4/2017.
  */
 
-public class GameRenderer implements GLSurfaceView.Renderer {
+class GameRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "Renderer";
 
     private Context context;
@@ -70,7 +67,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         void exit();
     }
 
-    public GameRenderer(Context context,
+    GameRenderer(Context context,
                         InputController inputController,
                         SoundManager soundManager,
                         GameManager gameManager,
@@ -304,13 +301,6 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         utilPointF = gm.player.getWorldLocation();
         CollisionPackage playerCP = gm.player.getCollisionPackage();
 
-        if (gm.player.contain(gm.getMapWidth() - (gm.pixelsPerMeter / 2),
-                gm.getMapHeight() - (gm.pixelsPerMeter / 2),
-                gm.pixelsPerMeter / 2)) {
-            sm.playSound(Constants.Sounds.BUMP);
-        }
-
-
         // Update the asteroids
         if (gm.numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
@@ -410,6 +400,14 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         utilPointF = gm.player.getWorldLocation();
         // Check player collision
 
+        // Check player collision against the border
+        if (gm.player.contain(gm.getMapWidth() - (gm.pixelsPerMeter / 2),
+                gm.getMapHeight() - (gm.pixelsPerMeter / 2),
+                gm.pixelsPerMeter / 2)) {
+            sm.playSound(Constants.Sounds.BUMP);
+        }
+
+        // Check player collision with Exit objects
         if (gm.hasExit()) {
             boolean hitExit = gm.player.detectCollision(gm.exit.getCollisionPackage());
             if (hitExit) {
@@ -417,6 +415,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
             }
         }
 
+        // check player collision with Block objects
         if (gm.numBlocks > 0) {
             for (Block block : gm.blocks) {
                 if (block.isActive()) {
@@ -429,6 +428,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
+        // Check player collisions against the Asteroid objects
         if (gm.numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
@@ -439,7 +440,7 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                                     gm.player.getFacingAngle())) {
                                 gm.player.stop();
                                 asteroid.reposition(gm.player);
-                                asteroid.setSpeed(gm.player.getMaxSpeed());
+                                //asteroid.setSpeed(gm.player.getMaxSpeed());
                                 asteroid.redirect(gm.player.getFacingAngle());
                             } else {
                                 asteroid.bounce();
@@ -452,6 +453,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
+        // Check player collisions against the Redirect objects
         if (gm.numRedirects > 0) {
             for (Redirect redirect : gm.redirects) {
                 if (redirect.isActive()) {
@@ -462,6 +465,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
+        // Check player collisions against the Bomb objects
         if (gm.numBombs > 0) {
             for (Bomb bomb : gm.bombs) {
                 if (bomb.isActive()) {
@@ -474,6 +479,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
+        // Check player collisions against the Turret objects
         if (gm.numTurrets > 0) {
             for (Turret turret : gm.turrets) {
                 if (turret.isActive()) {
@@ -486,6 +493,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
+        // Check player collisions against the Button objects
         if (gm.numButtons > 0) {
             for (Button button : gm.buttons) {
                 boolean hit = gm.player.detectCollision(button.getCollisionPackage());
@@ -501,6 +510,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
+        // Check player collisions against the Warp objects
         if (gm.numWarps > 0) {
             for (Warp warp : gm.warps) {
                 boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
@@ -509,6 +520,8 @@ public class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
+        // Check player collisions against the Door objects
         if (gm.numDoors > 0) {
             for (Door door : gm.doors) {
                 boolean hit = door.detectCollision(gm.player.getCollisionPackage());
@@ -526,6 +539,10 @@ public class GameRenderer implements GLSurfaceView.Renderer {
         if (gm.numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
+
+                    // Prevent the asteroid from leaving the map
+                    asteroid.contain(gm.getMapWidth(), gm.getMapHeight(), gm.pixelsPerMeter / 2);
+
                     if (gm.numBlocks > 0) {
                         for (Block block : gm.blocks) {
                             boolean hit = asteroid.detectCollision(block.getCollisionPackage());

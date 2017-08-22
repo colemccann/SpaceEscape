@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ColesGame.iml" filepath="$PROJECT_DIR$/ColesGame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpaceEscape.iml" filepath="$PROJECT_DIR$/SpaceEscape.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

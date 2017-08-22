@@ -2,9 +2,7 @@ package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.util.Log;
 
-import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
@@ -228,6 +226,23 @@ public class Asteroid extends GameObject {
             }
         }
         return collided;
+    }
+
+    public void contain(float mapWidth, float mapHeight, int halfSideLength) {
+
+        if (getCollisionPackage().right > mapWidth) {
+            bounce();
+            setWorldLocation(mapWidth - halfSideLength, getWorldLocation().y);
+        } else if (getCollisionPackage().left < -halfSideLength) {
+            bounce();
+            setWorldLocation(0, getWorldLocation().y);
+        } else if (getCollisionPackage().top > halfSideLength) {
+            bounce();
+            setWorldLocation(getWorldLocation().x, 0);
+        } else if (getCollisionPackage().bottom < -mapHeight) {
+            bounce();
+            setWorldLocation(getWorldLocation().x, -mapHeight + halfSideLength);
+        }
     }
 
     @Override
