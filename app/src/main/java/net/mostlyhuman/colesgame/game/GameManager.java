@@ -31,6 +31,46 @@ import net.mostlyhuman.colesgame.levels.LevelData;
 import net.mostlyhuman.colesgame.levels.chapter1.Level7;
 import net.mostlyhuman.colesgame.levels.chapter1.Level8;
 import net.mostlyhuman.colesgame.levels.chapter1.Level9;
+import net.mostlyhuman.colesgame.levels.chapter2.Level11;
+import net.mostlyhuman.colesgame.levels.chapter2.Level12;
+import net.mostlyhuman.colesgame.levels.chapter2.Level13;
+import net.mostlyhuman.colesgame.levels.chapter2.Level14;
+import net.mostlyhuman.colesgame.levels.chapter2.Level15;
+import net.mostlyhuman.colesgame.levels.chapter2.Level16;
+import net.mostlyhuman.colesgame.levels.chapter2.Level17;
+import net.mostlyhuman.colesgame.levels.chapter2.Level18;
+import net.mostlyhuman.colesgame.levels.chapter2.Level19;
+import net.mostlyhuman.colesgame.levels.chapter2.Level20;
+import net.mostlyhuman.colesgame.levels.chapter3.Level21;
+import net.mostlyhuman.colesgame.levels.chapter3.Level22;
+import net.mostlyhuman.colesgame.levels.chapter3.Level23;
+import net.mostlyhuman.colesgame.levels.chapter3.Level24;
+import net.mostlyhuman.colesgame.levels.chapter3.Level25;
+import net.mostlyhuman.colesgame.levels.chapter3.Level26;
+import net.mostlyhuman.colesgame.levels.chapter3.Level27;
+import net.mostlyhuman.colesgame.levels.chapter3.Level28;
+import net.mostlyhuman.colesgame.levels.chapter3.Level29;
+import net.mostlyhuman.colesgame.levels.chapter3.Level30;
+import net.mostlyhuman.colesgame.levels.chapter4.Level31;
+import net.mostlyhuman.colesgame.levels.chapter4.Level32;
+import net.mostlyhuman.colesgame.levels.chapter4.Level33;
+import net.mostlyhuman.colesgame.levels.chapter4.Level34;
+import net.mostlyhuman.colesgame.levels.chapter4.Level35;
+import net.mostlyhuman.colesgame.levels.chapter4.Level36;
+import net.mostlyhuman.colesgame.levels.chapter4.Level37;
+import net.mostlyhuman.colesgame.levels.chapter4.Level38;
+import net.mostlyhuman.colesgame.levels.chapter4.Level39;
+import net.mostlyhuman.colesgame.levels.chapter4.Level40;
+import net.mostlyhuman.colesgame.levels.chapter5.Level41;
+import net.mostlyhuman.colesgame.levels.chapter5.Level42;
+import net.mostlyhuman.colesgame.levels.chapter5.Level43;
+import net.mostlyhuman.colesgame.levels.chapter5.Level44;
+import net.mostlyhuman.colesgame.levels.chapter5.Level45;
+import net.mostlyhuman.colesgame.levels.chapter5.Level46;
+import net.mostlyhuman.colesgame.levels.chapter5.Level47;
+import net.mostlyhuman.colesgame.levels.chapter5.Level48;
+import net.mostlyhuman.colesgame.levels.chapter5.Level49;
+import net.mostlyhuman.colesgame.levels.chapter5.Level50;
 
 /**
  * Created by CaptainMcCann on 4/17/2017.
@@ -150,6 +190,128 @@ public class GameManager {
                 break;
             case Constants.Levels.TEN:
                 mLevelData = new Level10();
+                break;
+            case Constants.Levels.ELEVEN:
+                mLevelData = new Level11();
+                break;
+            case Constants.Levels.TWELVE:
+                mLevelData = new Level12();
+                break;
+            case Constants.Levels.THIRTEEN:
+                mLevelData = new Level13();
+                break;
+            case Constants.Levels.FOURTEEN:
+                mLevelData = new Level14();
+                break;
+            case Constants.Levels.FIFTEEN:
+                mLevelData = new Level15();
+                break;
+            case Constants.Levels.SIXTEEN:
+                mLevelData = new Level16();
+                break;
+            case Constants.Levels.SEVENTEEN:
+                mLevelData = new Level17();
+                break;
+            case Constants.Levels.EIGHTEEN:
+                mLevelData = new Level18();
+                break;
+            case Constants.Levels.NINETEEN:
+                mLevelData = new Level19();
+                break;
+            case Constants.Levels.TWENTY:
+                mLevelData = new Level20();
+                break;
+            case Constants.Levels.TWENTY_ONE:
+                mLevelData = new Level21();
+                break;
+            case Constants.Levels.TWENTY_TWO:
+                mLevelData = new Level22();
+                break;
+            case Constants.Levels.TWENTY_THREE:
+                mLevelData = new Level23();
+                break;
+            case Constants.Levels.TWENTY_FOUR:
+                mLevelData = new Level24();
+                break;
+            case Constants.Levels.TWENTY_FIVE:
+                mLevelData = new Level25();
+                break;
+            case Constants.Levels.TWENTY_SIX:
+                mLevelData = new Level26();
+                break;
+            case Constants.Levels.TWENTY_SEVEN:
+                mLevelData = new Level27();
+                break;
+            case Constants.Levels.TWENTY_EIGHT:
+                mLevelData = new Level28();
+                break;
+            case Constants.Levels.TWENTY_NINE:
+                mLevelData = new Level29();
+                break;
+            case Constants.Levels.THIRTY:
+                mLevelData = new Level30();
+                break;
+            case Constants.Levels.THIRTY_ONE:
+                mLevelData = new Level31();
+                break;
+            case Constants.Levels.THIRTY_TWO:
+                mLevelData = new Level32();
+                break;
+            case Constants.Levels.THIRTY_THREE:
+                mLevelData = new Level33();
+                break;
+            case Constants.Levels.THIRTY_FOUR:
+                mLevelData = new Level34();
+                break;
+            case Constants.Levels.THIRTY_FIVE:
+                mLevelData = new Level35();
+                break;
+            case Constants.Levels.THIRTY_SIX:
+                mLevelData = new Level36();
+                break;
+            case Constants.Levels.THIRTY_SEVEN:
+                mLevelData = new Level37();
+                break;
+            case Constants.Levels.THIRTY_EIGHT:
+                mLevelData = new Level38();
+                break;
+            case Constants.Levels.THIRTY_NINE:
+                mLevelData = new Level39();
+                break;
+            case Constants.Levels.FORTY:
+                mLevelData = new Level40();
+                break;
+            case Constants.Levels.FORTY_ONE:
+                mLevelData = new Level41();
+                break;
+            case Constants.Levels.FORTY_TWO:
+                mLevelData = new Level42();
+                break;
+            case Constants.Levels.FORTY_THREE:
+                mLevelData = new Level43();
+                break;
+            case Constants.Levels.FORTY_FOUR:
+                mLevelData = new Level44();
+                break;
+            case Constants.Levels.FORTY_FIVE:
+                mLevelData = new Level45();
+                break;
+            case Constants.Levels.FORTY_SIX:
+                mLevelData = new Level46();
+                break;
+            case Constants.Levels.FORTY_SEVEN:
+                mLevelData = new Level47();
+                break;
+            case Constants.Levels.FORTY_EIGHT:
+                mLevelData = new Level48();
+                break;
+            case Constants.Levels.FORTY_NINE:
+                mLevelData = new Level49();
+                break;
+            case Constants.Levels.FIFTY:
+                mLevelData = new Level50();
+                break;
+
         }
 
         initializeObjects();
