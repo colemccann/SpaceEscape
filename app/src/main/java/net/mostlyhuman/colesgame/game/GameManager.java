@@ -20,17 +20,17 @@ import net.mostlyhuman.colesgame.gameobjects.TurretBase;
 import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
-import net.mostlyhuman.colesgame.levels.chapterone.Level1;
-import net.mostlyhuman.colesgame.levels.chapterone.Level10;
-import net.mostlyhuman.colesgame.levels.chapterone.Level2;
-import net.mostlyhuman.colesgame.levels.chapterone.Level3;
-import net.mostlyhuman.colesgame.levels.chapterone.Level4;
-import net.mostlyhuman.colesgame.levels.chapterone.Level5;
-import net.mostlyhuman.colesgame.levels.chapterone.Level6;
+import net.mostlyhuman.colesgame.levels.chapter1.Level1;
+import net.mostlyhuman.colesgame.levels.chapter1.Level10;
+import net.mostlyhuman.colesgame.levels.chapter1.Level2;
+import net.mostlyhuman.colesgame.levels.chapter1.Level3;
+import net.mostlyhuman.colesgame.levels.chapter1.Level4;
+import net.mostlyhuman.colesgame.levels.chapter1.Level5;
+import net.mostlyhuman.colesgame.levels.chapter1.Level6;
 import net.mostlyhuman.colesgame.levels.LevelData;
-import net.mostlyhuman.colesgame.levels.chapterone.Level7;
-import net.mostlyhuman.colesgame.levels.chapterone.Level8;
-import net.mostlyhuman.colesgame.levels.chapterone.Level9;
+import net.mostlyhuman.colesgame.levels.chapter1.Level7;
+import net.mostlyhuman.colesgame.levels.chapter1.Level8;
+import net.mostlyhuman.colesgame.levels.chapter1.Level9;
 
 /**
  * Created by CaptainMcCann on 4/17/2017.

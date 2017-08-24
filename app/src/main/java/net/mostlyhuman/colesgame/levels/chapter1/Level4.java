@@ -1,4 +1,4 @@
-package net.mostlyhuman.colesgame.levels.chapterone;
+package net.mostlyhuman.colesgame.levels.chapter1;
 
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
