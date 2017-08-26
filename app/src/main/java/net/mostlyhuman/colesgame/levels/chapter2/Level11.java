@@ -14,15 +14,17 @@ public class Level11 extends LevelData {
     public Level11() {
 
         tiles = new ArrayList<>();
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
+        this.tiles.add("#p#");
+        this.tiles.add(".a.");
+        this.tiles.add("...");
+        this.tiles.add("e..");
+        this.tiles.add("...");
+        this.tiles.add("...");
+        this.tiles.add(".u.");
+        this.tiles.add("...");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = new int[]{0};
 
         doorStates = new boolean[]{};
 
@@ -36,6 +38,6 @@ public class Level11 extends LevelData {
 
         turretFacingAngles = new int[]{};
 
-        mapOrientation = Constants.MapOrientation.horizontal;
+        mapOrientation = Constants.MapOrientation.vertical;
     }
 }
