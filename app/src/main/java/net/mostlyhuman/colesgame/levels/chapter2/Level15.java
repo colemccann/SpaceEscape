@@ -15,28 +15,30 @@ public class Level15 extends LevelData {
     public Level15() {
 
         tiles = new ArrayList<>();
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
+        this.tiles.add("........");
+        this.tiles.add(".a.p....");
+        this.tiles.add("......a.");
+        this.tiles.add("....e...");
+        this.tiles.add(".....bv.");
+        this.tiles.add("........");
+        this.tiles.add("..a...a.");
+        this.tiles.add("..a....a");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = new int[]{0, 0, 0, 0, 0, 0};
 
-        doorStates = new boolean[]{};
+        doorStates = new boolean[]{CLOSED};
 
-        doorKeys = new int[]{};
+        doorKeys = new int[]{1};
 
-        buttonStates = new boolean[]{};
+        buttonStates = new boolean[]{CLOSED};
 
-        buttonKeys = new int[]{};
+        buttonKeys = new int[]{1};
 
         warpTargets = new String[]{};
 
         turretFacingAngles = new int[]{};
 
-        mapOrientation = Constants.MapOrientation.horizontal;
+        mapOrientation = HORIZONTAL;
     }
 }

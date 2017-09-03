@@ -36,6 +36,6 @@ public class Level47 extends LevelData {
 
         turretFacingAngles = new int[]{};
 
-        mapOrientation = Constants.MapOrientation.horizontal;
+        mapOrientation = HORIZONTAL;
     }
 }

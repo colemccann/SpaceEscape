@@ -1,9 +1,8 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.PointF;
 
-import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
@@ -50,58 +49,31 @@ public class Block extends GameObject {
         float top;
         float bottom;
 
-        Random r = new Random();
-        int whichBlock = r.nextInt(3);
-        switch (whichBlock) {
-            case 0:
-                left = 0;
-                right = .2f;
-                top = .4f;
-                bottom = .2f;
-                setTextureVertices(left, right, 1 - top, 1 - bottom);
-                break;
-            case 1:
-                left = 0;
-                right = .2f;
-                top = .2f;
-                bottom = 0;
-                setTextureVertices(left, right, 1 - top, 1 - bottom);
-                break;
-            case 2:
-                left = .2f;
-                right = .4f;
-                top = .2f;
-                bottom = 0;
-                setTextureVertices(left, right, 1 - top, 1 - bottom);
-                break;
-        }
+        left = .8f;
+        right = 1f;
+        top = .8f;
+        bottom = .6f;
+        setTextureVertices(left, right, 1 - top, 1 - bottom);
+
     }
 
-    public void reposition(GameObject gameObject) {
-        switch (gameObject.getType()) {
-            case Constants.Types.PLAYER:
-                if (gameObject.getFacingAngle() == 360) {
-                    // Facing up
-                    gameObject.setWorldLocation(
-                            gameObject.getWorldLocation().x,
-                            getWorldLocation().y - pixelsPerMeter);
-                } else if (gameObject.getFacingAngle() == 90) {
-                    // Facing left
-                    gameObject.setWorldLocation(
-                            getWorldLocation().x + pixelsPerMeter,
-                            gameObject.getWorldLocation().y);
-                } else if (gameObject.getFacingAngle() == 180) {
-                    // Facing down
-                    gameObject.setWorldLocation(
-                            gameObject.getWorldLocation().x,
-                            getWorldLocation().y + pixelsPerMeter);
-                } else if (gameObject.getFacingAngle() == 270) {
-                    // Facing right
-                    gameObject.setWorldLocation(
-                            getWorldLocation().x - pixelsPerMeter,
-                            gameObject.getWorldLocation().y);
-                }
-                break;
+    public PointF reposition(float objectFacingAngle, PointF objectLocation) {
+        PointF newLocation = new PointF();
+
+        if (objectFacingAngle == 180) {
+            // Collision from above
+            newLocation = new PointF(objectLocation.x, getWorldLocation().y + pixelsPerMeter);
+        } else if (objectFacingAngle == 360) {
+            // Collision from below
+            newLocation = new PointF(objectLocation.x, getWorldLocation().y - pixelsPerMeter);
+        } else if (objectFacingAngle == 90) {
+            // Collision from the right
+            newLocation = new PointF(getWorldLocation().x + pixelsPerMeter, objectLocation.y);
+        } else if (objectFacingAngle == 270) {
+            // Collision from the left
+            newLocation = new PointF(getWorldLocation().x - pixelsPerMeter, objectLocation.y);
         }
+
+        return newLocation;
     }
 }

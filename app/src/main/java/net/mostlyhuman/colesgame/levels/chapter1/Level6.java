@@ -1,6 +1,5 @@
 package net.mostlyhuman.colesgame.levels.chapter1;
 
-import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -34,10 +33,8 @@ public class Level6 extends LevelData {
         warpTargets = new String[]{};
 
         turretFacingAngles = new int[]{
-                Constants.Directions.RIGHT,
-                Constants.Directions.UP,
-                Constants.Directions.DOWN};
+                RIGHT, UP, DOWN};
 
-        mapOrientation = Constants.MapOrientation.horizontal;
+        mapOrientation = HORIZONTAL;
     }
 }

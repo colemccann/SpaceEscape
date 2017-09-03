@@ -14,13 +14,15 @@ import net.mostlyhuman.colesgame.data.DatabaseContract;
 import net.mostlyhuman.colesgame.data.DatabaseUpdateService;
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
+import net.mostlyhuman.colesgame.gameobjects.BlueTurret;
 import net.mostlyhuman.colesgame.gameobjects.Bomb;
 import net.mostlyhuman.colesgame.gameobjects.Button;
 import net.mostlyhuman.colesgame.gameobjects.Door;
 import net.mostlyhuman.colesgame.gameobjects.EnemyLaser;
+import net.mostlyhuman.colesgame.gameobjects.GreenTurret;
 import net.mostlyhuman.colesgame.gameobjects.Laser;
+import net.mostlyhuman.colesgame.gameobjects.RedTurret;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
-import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
@@ -131,7 +133,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
             if (frameCounter > 100) {
                 averageFPS = averageFPS / frameCounter;
                 frameCounter = 0;
-                Log.e(TAG, "Average FPS: " + averageFPS);
+                //Log.e(TAG, "Average FPS: " + averageFPS);
             }
         }
     }
@@ -216,7 +218,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
         // Draw the turret bases
         for (int i = 0; i < gm.numTurrets; i++) {
-            if (gm.turrets[i].isActive()) {
+            if (gm.turretBases[i].isActive()) {
                 textureShaderProgram.setUniforms(gm.turretBases[i].rotateMatrix(viewportMatrix));
                 gm.turretBases[i].bindTextureData(textureShaderProgram);
                 gm.turretBases[i].draw();
@@ -233,11 +235,38 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the turrets
-        for (int i = 0; i < gm.numTurrets; i++) {
-            if (gm.turrets[i].isActive()) {
-                textureShaderProgram.setUniforms(gm.turrets[i].rotateMatrix(viewportMatrix));
-                gm.turrets[i].bindTextureData(textureShaderProgram);
-                gm.turrets[i].draw();
+        if (gm.numTurrets > 0) {
+            // Draw the green turrets
+            if (gm.numGreenTurrets > 0) {
+                for (GreenTurret greenTurret : gm.greenTurrets) {
+                    if (greenTurret.isActive()) {
+                        textureShaderProgram.setUniforms(greenTurret.rotateMatrix(viewportMatrix));
+                        greenTurret.bindTextureData(textureShaderProgram);
+                        greenTurret.draw();
+                    }
+                }
+            }
+
+            // Draw the blue turrets
+            if (gm.numBlueTurrets > 0) {
+                for (BlueTurret blueTurret : gm.blueTurrets) {
+                    if (blueTurret.isActive()) {
+                        textureShaderProgram.setUniforms(blueTurret.rotateMatrix(viewportMatrix));
+                        blueTurret.bindTextureData(textureShaderProgram);
+                        blueTurret.draw();
+                    }
+                }
+            }
+
+            // Draw the red turrets
+            if (gm.numRedTurrets > 0) {
+                for (RedTurret redTurret : gm.redTurrets) {
+                    if (redTurret.isActive()) {
+                        textureShaderProgram.setUniforms(redTurret.rotateMatrix(viewportMatrix));
+                        redTurret.bindTextureData(textureShaderProgram);
+                        redTurret.draw();
+                    }
+                }
             }
         }
 
@@ -299,6 +328,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         gm.player.update(fps);
 
         utilPointF = gm.player.getWorldLocation();
+        float playerFacingAngle = gm.player.getFacingAngle();
         CollisionPackage playerCP = gm.player.getCollisionPackage();
 
         // Update the asteroids
@@ -306,25 +336,31 @@ class GameRenderer implements GLSurfaceView.Renderer {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
                     asteroid.update(fps);
+                    asteroid.analyzeAsteroidPosition(utilPointF, playerFacingAngle);
                 }
             }
         }
 
         // Update the turrets
         if (gm.numTurrets > 0) {
-            for (Turret turret : gm.turrets) {
-                if (turret.isActive()) {
-                    switch (turret.getType()) {
-                        case Constants.Types.TURRET_GREEN:
-                            turret.update(fps);
-                            break;
-                        case Constants.Types.TURRET_BLUE:
-                            turret.update(utilPointF, playerCP);
-                            break;
-                        case Constants.Types.TURRET_RED:
-                            turret.update(utilPointF);
-                            break;
-                    }
+            if (gm.numGreenTurrets > 0) {
+                for (GreenTurret greenTurret : gm.greenTurrets) {
+                    if (greenTurret.isActive())
+                        greenTurret.update();
+                }
+            }
+
+            if (gm.numBlueTurrets > 0) {
+                for (BlueTurret blueTurret : gm.blueTurrets) {
+                    if (blueTurret.isActive())
+                        blueTurret.update(utilPointF, playerCP);
+                }
+            }
+
+            if (gm.numRedTurrets > 0) {
+                for (RedTurret redTurret : gm.redTurrets) {
+                    if (redTurret.isActive())
+                        redTurret.update(utilPointF);
                 }
             }
         }
@@ -333,10 +369,27 @@ class GameRenderer implements GLSurfaceView.Renderer {
         if (gm.numTurrets > 0) {
             for (Laser laser : gm.enemyLasers) {
                 if (laser.isActive()) {
-                    for (Turret turret : gm.turrets) {
-                        if (turret.getTurretID() == laser.getLaserID()) {
-                            laser.update(fps, turret.getWorldLocation());
-                            break;
+                    if (gm.numGreenTurrets > 0) {
+                        for (GreenTurret greenTurret : gm.greenTurrets) {
+                            if (greenTurret.getTurretID() == laser.getLaserID()) {
+                                laser.update(fps, greenTurret.getWorldLocation());
+                            }
+                        }
+                    }
+
+                    if (gm.numBlueTurrets > 0) {
+                        for (BlueTurret blueTurret : gm.blueTurrets) {
+                            if (blueTurret.getTurretID() == laser.getLaserID()) {
+                                laser.update(fps, blueTurret.getWorldLocation());
+                            }
+                        }
+                    }
+
+                    if (gm.numRedTurrets > 0) {
+                        for (RedTurret redTurret : gm.redTurrets) {
+                            if (redTurret.getTurretID() == laser.getLaserID()) {
+                                laser.update(fps, redTurret.getWorldLocation());
+                            }
                         }
                     }
                 }
@@ -368,29 +421,29 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 utilPointF2 = gm.player.getWorldLocation();
 
                 if (utilPointF.x > utilPointF2.x + gm.metersToShowX / 2) {
-                    for (Turret turret : gm.turrets) {
-                        if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
+                    //for (Turret turret : gm.turrets) {
+                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
                             gm.enemyLasers[i].resetLaser();
-                        }
-                    }
+                    //}
+                    //}
                 } else if (utilPointF.x < utilPointF2.x - gm.metersToShowX / 2) {
-                    for (Turret turret : gm.turrets) {
-                        if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
+                    //for (Turret turret : gm.turrets) {
+                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
                             gm.enemyLasers[i].resetLaser();
-                        }
-                    }
+                    //}
+                    //}
                 } else if (utilPointF.y > utilPointF2.y + gm.metersToShowY / 2) {
-                    for (Turret turret : gm.turrets) {
-                        if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
+                    //for (Turret turret : gm.turrets) {
+                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
                             gm.enemyLasers[i].resetLaser();
-                        }
-                    }
+                    //}
+                    //}
                 } else if (utilPointF.y < utilPointF2.y - gm.metersToShowY / 2) {
-                    for (Turret turret : gm.turrets) {
-                        if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
+                    //for (Turret turret : gm.turrets) {
+                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
                             gm.enemyLasers[i].resetLaser();
-                        }
-                    }
+                    //}
+                    //}
                 }
             }
         }
@@ -398,6 +451,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
     private void checkPlayerCollisions() {
         utilPointF = gm.player.getWorldLocation();
+        float playerFacingAngle = gm.player.getFacingAngle();
         // Check player collision
 
         // Check player collision against the border
@@ -418,13 +472,12 @@ class GameRenderer implements GLSurfaceView.Renderer {
         // check player collision with Block objects
         if (gm.numBlocks > 0) {
             for (Block block : gm.blocks) {
-                if (block.isActive()) {
-                    boolean hit = gm.player.detectCollision(block.getCollisionPackage());
-                    if (hit) {
-                        gm.player.stop();
-                        block.reposition(gm.player);
-                        sm.playSound(Constants.Sounds.BUMP);
-                    }
+                boolean hit = gm.player.detectCollision(block.getCollisionPackage());
+                if (hit) {
+                    gm.player.stop();
+                    gm.player.setWorldLocation(block.reposition(playerFacingAngle, utilPointF).x,
+                            block.reposition(playerFacingAngle, utilPointF).y);
+                    sm.playSound(Constants.Sounds.BUMP);
                 }
             }
         }
@@ -436,19 +489,20 @@ class GameRenderer implements GLSurfaceView.Renderer {
                     boolean hit = gm.player.detectCollision(asteroid.getCollisionPackage());
                     if (hit) {
                         if (gm.player.isMoving()) {
-                            if (asteroid.isInFrontOf(gm.player.getWorldLocation(),
-                                    gm.player.getFacingAngle())) {
+                            if (asteroid.isInFrontOfPlayer()) {
                                 gm.player.stop();
-                                asteroid.reposition(gm.player);
-                                //asteroid.setSpeed(gm.player.getMaxSpeed());
+                                gm.player.setWorldLocation(asteroid.reposition(playerFacingAngle, utilPointF).x,
+                                        asteroid.reposition(playerFacingAngle, utilPointF).y);
+                                asteroid.setSpeed(asteroid.getMaxSpeed());
                                 asteroid.redirect(gm.player.getFacingAngle());
+                                sm.playSound(Constants.Sounds.BUMP);
                             } else {
                                 asteroid.bounce();
                             }
                         } else {
                             asteroid.bounce();
                         }
-                        sm.playSound(Constants.Sounds.BUMP);
+
                     }
                 }
             }
@@ -472,7 +526,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 if (bomb.isActive()) {
                     boolean hit = gm.player.detectCollision(bomb.getCollisionPackage());
                     if (hit) {
-                        bomb.kill(gm.player);
+                        bomb.kill(gm.player, sm);
                         sm.playSound(Constants.Sounds.EXPLOSION);
                         restartLevel();
                     }
@@ -482,13 +536,41 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
         // Check player collisions against the Turret objects
         if (gm.numTurrets > 0) {
-            for (Turret turret : gm.turrets) {
-                if (turret.isActive()) {
-                    boolean hit = gm.player.detectCollision(turret.getCollisionPackage());
-                    if (hit) {
-                        gm.player.stop();
-                        turret.reposition(gm.player);
-                        sm.playSound(Constants.Sounds.BUMP);
+            if (gm.numGreenTurrets > 0) {
+                for (GreenTurret greenTurret : gm.greenTurrets) {
+                    if (greenTurret.isActive()) {
+                        boolean hit = gm.player.detectCollision(greenTurret.getCollisionPackage());
+                        if (hit) {
+                            gm.player.stop();
+                            greenTurret.reposition(gm.player);
+                            sm.playSound(Constants.Sounds.BUMP);
+                        }
+                    }
+                }
+            }
+
+            if (gm.numBlueTurrets > 0) {
+                for (BlueTurret blueTurret : gm.blueTurrets) {
+                    if (blueTurret.isActive()) {
+                        boolean hit = gm.player.detectCollision(blueTurret.getCollisionPackage());
+                        if (hit) {
+                            gm.player.stop();
+                            blueTurret.reposition(gm.player);
+                            sm.playSound(Constants.Sounds.BUMP);
+                        }
+                    }
+                }
+            }
+
+            if (gm.numRedTurrets > 0) {
+                for (RedTurret redTurret : gm.redTurrets) {
+                    if (redTurret.isActive()) {
+                        boolean hit = gm.player.detectCollision(redTurret.getCollisionPackage());
+                        if (hit) {
+                            gm.player.stop();
+                            redTurret.reposition(gm.player);
+                            sm.playSound(Constants.Sounds.BUMP);
+                        }
                     }
                 }
             }
@@ -527,7 +609,8 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 boolean hit = door.detectCollision(gm.player.getCollisionPackage());
                 if (hit) {
                     gm.player.stop();
-                    door.reposition(gm.player);
+                    gm.player.setWorldLocation(door.reposition(playerFacingAngle, utilPointF).x,
+                            door.reposition(playerFacingAngle, utilPointF).y);
                     sm.playSound(Constants.Sounds.BUMP);
                 }
             }
@@ -539,9 +622,6 @@ class GameRenderer implements GLSurfaceView.Renderer {
         if (gm.numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
-
-                    // Prevent the asteroid from leaving the map
-                    asteroid.contain(gm.getMapWidth(), gm.getMapHeight(), gm.pixelsPerMeter / 2);
 
                     if (gm.numBlocks > 0) {
                         for (Block block : gm.blocks) {
@@ -564,15 +644,42 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
                     }
+
                     if (gm.numTurrets > 0) {
-                        for (Turret turret : gm.turrets) {
-                            boolean hit = asteroid.detectCollision(turret.getCollisionPackage());
-                            if (hit) {
-                                asteroid.bounce();
-                                break;
+                        if (gm.numGreenTurrets > 0) {
+                            for (GreenTurret greenTurret : gm.greenTurrets) {
+                                boolean hit = asteroid.detectCollision(
+                                        greenTurret.getCollisionPackage());
+                                if (hit) {
+                                    asteroid.bounce();
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (gm.numBlueTurrets > 0) {
+                            for (BlueTurret blueTurret : gm.blueTurrets) {
+                                boolean hit = asteroid.detectCollision
+                                        (blueTurret.getCollisionPackage());
+                                if (hit) {
+                                    asteroid.bounce();
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (gm.numRedTurrets > 0) {
+                            for (RedTurret redTurret : gm.redTurrets) {
+                                boolean hit = asteroid.detectCollision(
+                                        redTurret.getCollisionPackage());
+                                if (hit) {
+                                    asteroid.bounce();
+                                    break;
+                                }
                             }
                         }
                     }
+
                     if (gm.numDoors > 0) {
                         for (Door door : gm.doors) {
                             boolean hit = door.detectCollision(asteroid.getCollisionPackage());
@@ -618,23 +725,51 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
                     }
+
                     if (gm.numTurrets > 0) {
-                        for (Turret turret : gm.turrets) {
-                            if (turret.isActive() && turret.getTurretID() != laser.getLaserID()) {
-                                boolean hit = laser.detectCollision(turret.getCollisionPackage());
-                                if (hit) {
-                                    turret.destroy();
-                                    laser.resetLaser();
+                        if (gm.numGreenTurrets > 0) {
+                            for (GreenTurret greenTurret : gm.greenTurrets) {
+                                if (greenTurret.isActive() && greenTurret.getTurretID() != laser.getLaserID()) {
+                                    boolean hit = laser.detectCollision(greenTurret.getCollisionPackage());
+                                    if (hit) {
+                                        greenTurret.destroy(sm);
+                                        laser.resetLaser();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (gm.numBlueTurrets > 0) {
+                            for (BlueTurret blueTurret : gm.blueTurrets) {
+                                if (blueTurret.isActive() && blueTurret.getTurretID() != laser.getLaserID()) {
+                                    boolean hit = laser.detectCollision(blueTurret.getCollisionPackage());
+                                    if (hit) {
+                                        blueTurret.destroy(sm);
+                                        laser.resetLaser();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (gm.numRedTurrets > 0) {
+                            for (RedTurret redTurret : gm.redTurrets) {
+                                if (redTurret.isActive() && redTurret.getTurretID() != laser.getLaserID()) {
+                                    boolean hit = laser.detectCollision(redTurret.getCollisionPackage());
+                                    if (hit) {
+                                        redTurret.destroy(sm);
+                                        laser.resetLaser();
+                                    }
                                 }
                             }
                         }
                     }
+
                     if (gm.numBombs > 0) {
                         for (Bomb bomb : gm.bombs) {
                             if (bomb.isActive()) {
                                 boolean hit = laser.detectCollision(bomb.getCollisionPackage());
                                 if (hit) {
-                                    bomb.destroy();
+                                    bomb.destroy(sm);
                                     laser.resetLaser();
                                 }
                             }

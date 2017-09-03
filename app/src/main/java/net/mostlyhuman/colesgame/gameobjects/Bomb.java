@@ -3,6 +3,7 @@ package net.mostlyhuman.colesgame.gameobjects;
 import android.content.Context;
 
 import net.mostlyhuman.colesgame.R;
+import net.mostlyhuman.colesgame.game.SoundManager;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
@@ -48,15 +49,16 @@ public class Bomb extends GameObject {
     }
 
     @Override
-    public void destroy() {
-         super.destroy();
+    public void destroy(SoundManager sm) {
+        super.destroy(sm);
+        sm.playSound(Constants.Sounds.EXPLOSION);
         //// TODO: 5/29/2017 add animation
     }
 
-    public void kill(GameObject gameObject) {
+    public void kill(GameObject gameObject, SoundManager sm) {
         switch (gameObject.getType()) {
             case Constants.Types.PLAYER:
-                gameObject.destroy();
+                gameObject.destroy(sm);
                 //// TODO: 5/1/2017 ship explosion animation
                 break;
             //// TODO: 5/1/2017 Add interaction for other game objects here

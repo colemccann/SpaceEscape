@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PointF;
 
 import net.mostlyhuman.colesgame.game.ColorShaderProgram;
+import net.mostlyhuman.colesgame.game.SoundManager;
 import net.mostlyhuman.colesgame.game.TextureShaderProgram;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
@@ -308,7 +309,7 @@ public class GameObject {
         }
     }
 
-    public void destroy() {
+    public void destroy(SoundManager sm) {
         setActive(false);
     }
 

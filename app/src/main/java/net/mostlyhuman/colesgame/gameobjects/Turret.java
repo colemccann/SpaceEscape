@@ -5,6 +5,7 @@ import android.graphics.PointF;
 
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
+import net.mostlyhuman.colesgame.game.SoundManager;
 
 /**
  * Created by CaptainMcCann on 5/15/2017.
@@ -20,13 +21,11 @@ public class Turret extends GameObject {
     int pixelsPerMeter;
     private final LaserContract laser;
 
-    private long frameCounter;
-
-    public Turret(Context context, float worldLocationX,
-                  float worldLocationY, int pixelsPerMeter,
-                  float facingAngle, int turretID,
-                  TurretContract turretContract,
-                  LaserContract laser) {
+    Turret(Context context, float worldLocationX,
+           float worldLocationY, int pixelsPerMeter,
+           float facingAngle, int turretID,
+           TurretContract turretContract,
+           LaserContract laser) {
         super(context);
 
         this.pixelsPerMeter = pixelsPerMeter;
@@ -86,91 +85,15 @@ public class Turret extends GameObject {
         }
     }
 
-    public void update(long fps) {
-        // Fire once per second
-        frameCounter++;
-
-        if (frameCounter >= fps) {
-            fire();
-        }
-    }
-
-    public void update(PointF playerLocation) {
-        double angle;
-        float distanceX = getWorldLocation().x - playerLocation.x;
-        float distanceY = getWorldLocation().y - playerLocation.y;
-        double distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-        double sinValue = distanceY / distanceH;
-        angle = (Math.acos(sinValue) * (180 / Math.PI));
-
-        // Follow the player
-        if (playerLocation.x >= getWorldLocation().x) {
-            setFacingAngle(180 + (float) angle);
-        } else if (playerLocation.x < getWorldLocation().x) {
-            setFacingAngle(180 - (float) angle);
-        }
-
-        // If the player is close enough, fire
-        if (distanceH <= pixelsPerMeter * 2.2) {
-
-            fire();
-        }
-    }
-
-    public void update(PointF playerLocation, CollisionPackage playerCP) {
-        boolean playerIsInSight = false;
-
-        float distanceX = getWorldLocation().x - playerLocation.x;
-        float distanceY = getWorldLocation().y - playerLocation.y;
-        double distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-        // If the player is close enough and in sight, fire
-        if (distanceH <= pixelsPerMeter * 2.2) {
-            if (getFacingAngle() == Constants.Directions.RIGHT) {
-                if (playerCP.left >= getCollisionPackage().right &&
-                        playerCP.top > getCollisionPackage().bottom &&
-                        playerCP.bottom < getCollisionPackage().top) {
-
-                    playerIsInSight = true;
-                }
-            } else if (getFacingAngle() == Constants.Directions.LEFT) {
-                if (playerCP.right <= getCollisionPackage().left &&
-                        playerCP.top > getCollisionPackage().bottom &&
-                        playerCP.bottom < getCollisionPackage().top) {
-
-                    playerIsInSight = true;
-                }
-            } else if (getFacingAngle() == Constants.Directions.UP) {
-                if (playerCP.bottom >= getCollisionPackage().top &&
-                        playerCP.right > getCollisionPackage().left &&
-                        playerCP.left < getCollisionPackage().right) {
-
-                    playerIsInSight = true;
-                }
-            } else if (getFacingAngle() == Constants.Directions.DOWN) {
-                if (playerCP.top <= getCollisionPackage().bottom &&
-                        playerCP.right > getCollisionPackage().left &&
-                        playerCP.left < getCollisionPackage().right) {
-
-                    playerIsInSight = true;
-                }
-            }
-
-            if (playerIsInSight) {
-                fire();
-            }
-        }
-    }
-
-    private void fire() {
+    void fire() {
         laser.fireLaser(getTurretID(), getFacingAngle());
     }
 
     @Override
-    public void destroy() {
-        super.destroy();
+    public void destroy(SoundManager sm) {
+        super.destroy(sm);
         turretBase.destroyBase(getTurretID());
+        sm.playSound(Constants.Sounds.EXPLOSION);
         //// TODO: 5/29/2017 add animation
     }
 
@@ -178,7 +101,7 @@ public class Turret extends GameObject {
         return turretID;
     }
 
-    public void setTurretID(int turretID) {
+    private void setTurretID(int turretID) {
         this.turretID = turretID;
     }
 

@@ -15,15 +15,17 @@ public class Level16 extends LevelData {
     public Level16() {
 
         tiles = new ArrayList<>();
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
+        this.tiles.add(".a.x..x.");
+        this.tiles.add("........");
+        this.tiles.add("........");
+        this.tiles.add("........");
+        this.tiles.add("........");
+        this.tiles.add(".......e");
+        this.tiles.add("..a...p#");
+        this.tiles.add("..a.....");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = new int[]{0, 0, 0};
 
         doorStates = new boolean[]{};
 
@@ -37,6 +39,6 @@ public class Level16 extends LevelData {
 
         turretFacingAngles = new int[]{};
 
-        mapOrientation = Constants.MapOrientation.horizontal;
+        mapOrientation = HORIZONTAL;
     }
 }

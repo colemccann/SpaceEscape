@@ -106,7 +106,12 @@ public class GameManager {
     Redirect[] redirects;
     int numRedirects;
 
-    Turret[] turrets;
+    GreenTurret[] greenTurrets;
+    int numGreenTurrets;
+    BlueTurret[] blueTurrets;
+    int numBlueTurrets;
+    RedTurret[] redTurrets;
+    int numRedTurrets;
     TurretBase[] turretBases;
     int numTurrets;
 
@@ -156,6 +161,9 @@ public class GameManager {
         numRedirects = 0;
         numBombs = 0;
         numTurrets = 0;
+        numGreenTurrets = 0;
+        numBlueTurrets = 0;
+        numRedTurrets = 0;
         numDoors = 0;
         numButtons = 0;
         numWarps = 0;
@@ -359,12 +367,15 @@ public class GameManager {
                         break;
                     case Constants.Types.TURRET_GREEN:
                         numTurrets++;
+                        numGreenTurrets++;
                         break;
                     case Constants.Types.TURRET_BLUE:
                         numTurrets++;
+                        numBlueTurrets++;
                         break;
                     case Constants.Types.TURRET_RED:
                         numTurrets++;
+                        numRedTurrets++;
                         break;
                     case Constants.Types.DOOR_HORIZONTAL:
                         numDoors++;
@@ -398,7 +409,15 @@ public class GameManager {
         }
 
         if (numTurrets > 0) {
-            turrets = new Turret[numTurrets];
+            if (numGreenTurrets > 0) {
+                greenTurrets = new GreenTurret[numGreenTurrets];
+            }
+            if (numBlueTurrets > 0) {
+                blueTurrets = new BlueTurret[numBlueTurrets];
+            }
+            if (numRedTurrets > 0) {
+                redTurrets = new RedTurret[numRedTurrets];
+            }
             turretBases = new TurretBase[numTurrets];
             enemyLasers = new EnemyLaser[numTurrets];
         }
@@ -425,6 +444,9 @@ public class GameManager {
         int bombIndex = -1;
         int redirectIndex = -1;
         int turretIndex = -1;
+        int greenTurretIndex = -1;
+        int blueTurretIndex = -1;
+        int redTurretIndex = -1;
         int doorIndex = -1;
         int buttonIndex = -1;
         int warpIndex = -1;
@@ -497,6 +519,7 @@ public class GameManager {
                             break;
                         case Constants.Types.TURRET_GREEN:
                             turretIndex++;
+                            greenTurretIndex++;
                             turretBases[turretIndex] = new TurretBase(context,
                                     j * pixelsPerMeter, -i * pixelsPerMeter,
                                     pixelsPerMeter,
@@ -506,7 +529,7 @@ public class GameManager {
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
                                     turretIndex);
-                            turrets[turretIndex] = new GreenTurret(context,
+                            greenTurrets[greenTurretIndex] = new GreenTurret(context,
                                     j * pixelsPerMeter,
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
@@ -517,6 +540,7 @@ public class GameManager {
                             break;
                         case Constants.Types.TURRET_BLUE:
                             turretIndex++;
+                            blueTurretIndex++;
                             turretBases[turretIndex] = new TurretBase(context,
                                     j * pixelsPerMeter, -i * pixelsPerMeter,
                                     pixelsPerMeter,
@@ -526,7 +550,7 @@ public class GameManager {
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
                                     turretIndex);
-                            turrets[turretIndex] = new BlueTurret(context,
+                            blueTurrets[blueTurretIndex] = new BlueTurret(context,
                                     j * pixelsPerMeter,
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
@@ -537,6 +561,7 @@ public class GameManager {
                             break;
                         case Constants.Types.TURRET_RED:
                             turretIndex++;
+                            redTurretIndex++;
                             turretBases[turretIndex] = new TurretBase(context,
                                     j * pixelsPerMeter, -i * pixelsPerMeter,
                                     pixelsPerMeter,
@@ -546,7 +571,7 @@ public class GameManager {
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
                                     turretIndex);
-                            turrets[turretIndex] = new RedTurret(context,
+                            redTurrets[redTurretIndex] = new RedTurret(context,
                                     j * pixelsPerMeter,
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,

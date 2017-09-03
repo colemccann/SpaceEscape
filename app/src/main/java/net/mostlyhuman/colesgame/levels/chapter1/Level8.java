@@ -1,6 +1,5 @@
 package net.mostlyhuman.colesgame.levels.chapter1;
 
-import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class Level8 extends LevelData {
     public Level8() {
         tiles = new ArrayList<>();
         this.tiles.add("..b#..e");
-        this.tiles.add(".#.#..#");
+        this.tiles.add("#..#..#");
         this.tiles.add("..hRh.b");
         this.tiles.add(".......");
         this.tiles.add(".......");
@@ -33,8 +32,8 @@ public class Level8 extends LevelData {
 
         warpTargets = new String[]{};
 
-        turretFacingAngles = new int[]{Constants.Directions.RIGHT};
+        turretFacingAngles = new int[]{RIGHT};
 
-        mapOrientation = Constants.MapOrientation.horizontal;
+        mapOrientation = HORIZONTAL;
     }
 }

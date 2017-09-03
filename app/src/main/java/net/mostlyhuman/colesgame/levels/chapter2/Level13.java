@@ -6,6 +6,7 @@ import net.mostlyhuman.colesgame.levels.LevelData;
 import java.util.ArrayList;
 
 import static net.mostlyhuman.colesgame.helpers.Constants.Directions.DOWN;
+import static net.mostlyhuman.colesgame.helpers.Constants.Directions.RIGHT;
 import static net.mostlyhuman.colesgame.helpers.Constants.Directions.UP;
 
 /**
@@ -25,7 +26,7 @@ public class Level13 extends LevelData {
         this.tiles.add("...R..");
         this.tiles.add("....e.");
         this.tiles.add(".....#");
-        this.tiles.add("...p..");
+        this.tiles.add("..p...");
 
 
         asteroidDirections = new int[]{DOWN};
@@ -40,8 +41,8 @@ public class Level13 extends LevelData {
 
         warpTargets = new String[]{};
 
-        turretFacingAngles = new int[]{DOWN, UP};
+        turretFacingAngles = new int[]{DOWN, DOWN};
 
-        mapOrientation = Constants.MapOrientation.vertical;
+        mapOrientation = HORIZONTAL;
     }
 }

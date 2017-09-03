@@ -13,7 +13,6 @@ public class Laser extends GameObject implements Turret.LaserContract {
 
     private int laserID;
     private PointF masterLocation;
-    private long lastShot;
 
     Laser(Context context, float worldLocationX,
                  float worldLocationY, int pixelsPerMeter) {
@@ -27,7 +26,7 @@ public class Laser extends GameObject implements Turret.LaserContract {
         setSize(pixelsPerMeter, pixelsPerMeter);
         float halfW = pixelsPerMeter / 2;
         float halfH = pixelsPerMeter / 2;
-        float halfSideLength = pixelsPerMeter / 2.1f;
+        float halfSideLength = pixelsPerMeter / 4;
 
         CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(), halfSideLength);
         setCollisionPackage(collisionPackage);
@@ -44,12 +43,9 @@ public class Laser extends GameObject implements Turret.LaserContract {
     }
 
     private void shoot(float masterFacingAngle) {
-        if (System.currentTimeMillis() > lastShot + 1000) {
-            setActive(true);
-            setFacingAngle(masterFacingAngle);
-            setSpeed(500);
-            lastShot = System.currentTimeMillis();
-        }
+        setActive(true);
+        setFacingAngle(masterFacingAngle);
+        setSpeed(500);
     }
 
     public void resetLaser() {

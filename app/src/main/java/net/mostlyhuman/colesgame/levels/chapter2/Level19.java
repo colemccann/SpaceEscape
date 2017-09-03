@@ -1,6 +1,5 @@
 package net.mostlyhuman.colesgame.levels.chapter2;
 
-import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -15,15 +14,17 @@ public class Level19 extends LevelData {
     public Level19() {
 
         tiles = new ArrayList<>();
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
+        this.tiles.add("....BGe#x");
+        this.tiles.add("........x");
+        this.tiles.add("..p.#...x");
+        this.tiles.add(".......ax");
+        this.tiles.add("........x");
+        this.tiles.add("..#.....x");
+        this.tiles.add("#.......x");
+        this.tiles.add("#..a.#.#x");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = new int[]{DOWN, RIGHT};
 
         doorStates = new boolean[]{};
 
@@ -35,8 +36,8 @@ public class Level19 extends LevelData {
 
         warpTargets = new String[]{};
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = new int[]{LEFT, DOWN};
 
-        mapOrientation = Constants.MapOrientation.horizontal;
+        mapOrientation = HORIZONTAL;
     }
 }

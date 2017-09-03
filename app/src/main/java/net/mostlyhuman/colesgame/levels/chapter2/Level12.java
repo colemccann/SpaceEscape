@@ -25,7 +25,7 @@ public class Level12 extends LevelData {
         this.tiles.add("..#");
 
 
-        asteroidDirections = new int[]{Constants.Directions.DOWN};
+        asteroidDirections = new int[]{Constants.Directions.UP};
 
         doorStates = new boolean[]{};
 
@@ -39,6 +39,6 @@ public class Level12 extends LevelData {
 
         turretFacingAngles = new int[]{Constants.Directions.RIGHT};
 
-        mapOrientation = Constants.MapOrientation.vertical;
+        mapOrientation = HORIZONTAL;
     }
 }

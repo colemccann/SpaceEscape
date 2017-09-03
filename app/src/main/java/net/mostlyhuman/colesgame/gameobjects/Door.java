@@ -1,6 +1,7 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
+import android.graphics.PointF;
 
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
@@ -114,14 +115,14 @@ public class Door extends GameObject {
                     collided = true;
                 } else if (getType() == Constants.Types.DOOR_HORIZONTAL) {
                     // Since the door is open, if the object is inside of the
-                    // horizontal plane of the door, no collision occurs
+                    // HORIZONTAL plane of the door, no collision occurs
                     if (cp2.top <= getCollisionPackage().top &&
                             cp2.bottom >= getCollisionPackage().bottom) {
                         return false;
                     } else collided = true;
                 } else if (getType() == Constants.Types.DOOR_VERTICAL) {
                     // Since the door is open, if the object is inside of the
-                    // vertical plane of the door, no collision occurs
+                    // VERTICAL plane of the door, no collision occurs
                     if (cp2.left >= getCollisionPackage().left &&
                             cp2.right <= getCollisionPackage().right) {
                         return false;
@@ -132,31 +133,23 @@ public class Door extends GameObject {
         return collided;
     }
 
-    public void reposition(GameObject gameObject) {
-        switch (gameObject.getType()) {
-            case Constants.Types.PLAYER:
-                if (gameObject.getFacingAngle() == 360) {
-                    // Facing up
-                    gameObject.setWorldLocation(
-                            gameObject.getWorldLocation().x,
-                            getWorldLocation().y - pixelsPerMeter);
-                } else if (gameObject.getFacingAngle() == 90) {
-                    // Facing left
-                    gameObject.setWorldLocation(
-                            getWorldLocation().x + pixelsPerMeter,
-                            gameObject.getWorldLocation().y);
-                } else if (gameObject.getFacingAngle() == 180) {
-                    // Facing down
-                    gameObject.setWorldLocation(
-                            gameObject.getWorldLocation().x,
-                            getWorldLocation().y + pixelsPerMeter);
-                } else if (gameObject.getFacingAngle() == 270) {
-                    // Facing right
-                    gameObject.setWorldLocation(
-                            getWorldLocation().x - pixelsPerMeter,
-                            gameObject.getWorldLocation().y);
-                }
-                break;
+    public PointF reposition(float objectFacingAngle, PointF objectLocation) {
+        PointF newLocation = new PointF();
+
+        if (objectFacingAngle == 180) {
+            // Collision from above
+            newLocation = new PointF(objectLocation.x, getWorldLocation().y + pixelsPerMeter);
+        } else if (objectFacingAngle == 360) {
+            // Collision from below
+            newLocation = new PointF(objectLocation.x, getWorldLocation().y - pixelsPerMeter);
+        } else if (objectFacingAngle == 90) {
+            // Collision from the right
+            newLocation = new PointF(getWorldLocation().x + pixelsPerMeter, objectLocation.y);
+        } else if (objectFacingAngle == 270) {
+            // Collision from the left
+            newLocation = new PointF(getWorldLocation().x - pixelsPerMeter, objectLocation.y);
         }
+
+        return newLocation;
     }
 }

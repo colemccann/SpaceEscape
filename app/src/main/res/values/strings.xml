@@ -38,7 +38,7 @@
     <string name="hooray">Hooray!</string>
     <string name="first_time_setup_message">Performing first-time setup</string>
     <string name="setup_complete">Setup complete! Proceeding to main menu</string>
-    <string name="initialization_failed">Level initialization failed. Retrying...</string>
+    <string name="initialization_failed">Level initialization failed. Retrying&#8320;</string>
 
     <array name="chapter_numbers">
         <item>@string/chapter_one</item>

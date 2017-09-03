@@ -16,14 +16,16 @@ import java.io.IOException;
  * Created by CaptainMcCann on 4/4/2017.
  */
 
- class SoundManager {
+public class SoundManager {
 
     private static final String TAG = "SoundManager error";
 
     private int bump = -1;
     private int redirect = -1;
     private int explosion = -1;
-    private int music = -1;
+    private int laser_green = -1;
+    private int laser_blue = -1;
+    private int laser_red = -1;
 
     private SoundPool soundPool;
 
@@ -43,13 +45,22 @@ import java.io.IOException;
             descriptor = assetManager.openFd(context.getString(R.string.explosion_ogg));
             explosion = soundPool.load(descriptor, 0);
 
+            descriptor = assetManager.openFd("laser_green.ogg");
+            laser_green = soundPool.load(descriptor, 0);
+
+            descriptor = assetManager.openFd("laser_blue.ogg");
+            laser_blue = soundPool.load(descriptor, 0);
+
+            descriptor = assetManager.openFd("laser_red.ogg");
+            laser_red = soundPool.load(descriptor, 0);
+
             // // TODO: 4/4/2017 create sound fx here, including music
         } catch (IOException e) {
             Log.e(TAG, "failed to load sound files");
         }
     }
 
-    void playSound(String sound) {
+    public void playSound(String sound) {
         switch (sound) {
             case Constants.Sounds.BUMP:
                 soundPool.play(bump, 1, 1, 0, 0, 1);
@@ -59,6 +70,15 @@ import java.io.IOException;
                 break;
             case Constants.Sounds.EXPLOSION:
                 soundPool.play(explosion, 1, 1, 0, 0, 1);
+                break;
+            case Constants.Sounds.LASER_GREEN:
+                soundPool.play(laser_green, 1, 1, 0, 0, 1);
+                break;
+            case Constants.Sounds.LASER_BLUE:
+                soundPool.play(laser_blue, 1, 1, 0, 0, 1);
+                break;
+            case Constants.Sounds.LASER_RED:
+                soundPool.play(laser_red, 1, 1, 0, 0, 1);
                 break;
         }
     }

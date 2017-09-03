@@ -2,6 +2,7 @@ package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
 
+import net.mostlyhuman.colesgame.game.SoundManager;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
 /**
@@ -12,7 +13,7 @@ public class GreenTurret extends Turret {
 
     // Stays in place and shoots periodically
 
-    private long firingTime;
+    private long lastShot;
 
     public GreenTurret(Context context, float worldLocationX,
                        float worldLocationY, int pixelsPerMeter,
@@ -31,5 +32,13 @@ public class GreenTurret extends Turret {
         float bottom = .2f;
 
         setTextureVertices(left, right, 1 - top, 1 - bottom);
+    }
+
+    public void update() {
+        // Fire once per second
+        if (System.currentTimeMillis() > lastShot + 1000) {
+            fire();
+            lastShot = System.currentTimeMillis();
+        }
     }
 }

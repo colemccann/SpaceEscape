@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import net.mostlyhuman.colesgame.helpers.Constants;
+import net.mostlyhuman.colesgame.levels.LevelData;
 
 
 /**
@@ -27,7 +28,7 @@ public class Border extends GameObject {
 
         setSize(mapWidth, mapHeight);
 
-        if (orientation == Constants.MapOrientation.horizontal) {
+        if (orientation == LevelData.HORIZONTAL) {
             setFacingAngle(180);
         }
 

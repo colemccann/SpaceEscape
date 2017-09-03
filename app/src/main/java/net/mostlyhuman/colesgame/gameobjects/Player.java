@@ -2,6 +2,7 @@ package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
 
+import net.mostlyhuman.colesgame.game.SoundManager;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
@@ -33,8 +34,10 @@ public class Player extends GameObject {
         setSize(pixelsPerMeter, pixelsPerMeter);
         float halfW = pixelsPerMeter / 2;
         float halfH = pixelsPerMeter / 2;
+        float hitboxSideLength = pixelsPerMeter / 2f;
 
-        CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(), halfW);
+        CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(),
+                hitboxSideLength);
         setCollisionPackage(collisionPackage);
 
         float[] playerVertices = new float[] {
@@ -131,4 +134,9 @@ public class Player extends GameObject {
         return collision;
     }
 
+    @Override
+    public void destroy(SoundManager sm) {
+        super.destroy(sm);
+        sm.playSound(Constants.Sounds.EXPLOSION);
+    }
 }

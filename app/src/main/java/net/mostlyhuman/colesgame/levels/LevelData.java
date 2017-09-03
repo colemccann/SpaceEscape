@@ -11,6 +11,14 @@ public class LevelData {
     protected static final boolean OPEN = true;
     protected static final boolean CLOSED = false;
 
+    protected static final int UP = 360;
+    protected static final int RIGHT = 270;
+    protected static final int DOWN = 180;
+    protected static final int LEFT = 90;
+
+    public static final int VERTICAL = 0;
+    public static final int HORIZONTAL = 1;
+
     public ArrayList<String> tiles;
     public int[] asteroidDirections;
     public boolean[] doorStates;

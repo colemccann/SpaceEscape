@@ -75,7 +75,7 @@ public class InputController {
                 float diffY = e2.getY() - e1.getY();
                 float diffX = e2.getX() - e1.getX();
                 if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD /*&& Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD*/) {
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD) {
                         if (diffX > 0) {
                             onSwipeRight();
                         } else {
@@ -83,8 +83,7 @@ public class InputController {
                         }
                         result = true;
                     }
-                }
-                else if (Math.abs(diffY) > SWIPE_THRESHOLD /*&& Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD*/) {
+                } else if (Math.abs(diffY) > SWIPE_THRESHOLD) {
                     if (diffY > 0) {
                         onSwipeBottom();
                     } else {
@@ -100,7 +99,6 @@ public class InputController {
     }
 
     private void onSwipeRight() {
-        //Log.e(TAG, "Swiping right");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(270);
             gameManager.player.boost();
@@ -108,7 +106,6 @@ public class InputController {
     }
 
     private void onSwipeLeft() {
-        //Log.e(TAG, "Swiping left");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(90);
             gameManager.player.boost();
@@ -116,7 +113,6 @@ public class InputController {
     }
 
     private void onSwipeTop() {
-        //Log.e(TAG, "Swiping top");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(360);
             gameManager.player.boost();
@@ -124,7 +120,6 @@ public class InputController {
     }
 
     private void onSwipeBottom() {
-        //Log.e(TAG, "Swiping bottom");
         if (!gameManager.player.isMoving()) {
             gameManager.player.setFacingAngle(180);
             gameManager.player.boost();

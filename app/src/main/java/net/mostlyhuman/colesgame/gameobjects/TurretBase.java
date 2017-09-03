@@ -51,11 +51,11 @@ public class TurretBase extends GameObject implements Turret.TurretContract {
         }
     }
 
-    public int getBaseID() {
+    private int getBaseID() {
         return baseID;
     }
 
-    public void setBaseID(int baseID) {
+    private void setBaseID(int baseID) {
         this.baseID = baseID;
     }
 }

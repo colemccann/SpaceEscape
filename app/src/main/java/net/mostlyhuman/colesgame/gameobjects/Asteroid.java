@@ -1,11 +1,14 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.PointF;
+import android.util.Log;
 
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.Random;
 
 /**
@@ -19,6 +22,7 @@ public class Asteroid extends GameObject {
     private float mAngle;
     private int pixelsPerMeter;
     private boolean beingRedirected;
+    private boolean isInFrontOfPlayer;
 
     public Asteroid(Context context, float worldLocationX,
                     float worldLocationY, int pixelsPerMeter) {
@@ -39,7 +43,7 @@ public class Asteroid extends GameObject {
         setSize(pixelsPerMeter, pixelsPerMeter);
         float halfW = pixelsPerMeter / 2;
         float halfH = pixelsPerMeter / 2;
-        float hitboxSideLength = pixelsPerMeter / 3;
+        float hitboxSideLength = pixelsPerMeter / 2.1f;
 
         CollisionPackage collisionPackage = new CollisionPackage(getWorldLocation(), hitboxSideLength);
         setCollisionPackage(collisionPackage);
@@ -153,63 +157,71 @@ public class Asteroid extends GameObject {
         setTravelingAngle(newTravelingAngle);
     }
 
-    public boolean isInFrontOf(PointF objectLocation, float objectFacingAngle) {
-        boolean inFront = false;
+    public void analyzeAsteroidPosition(PointF playerLocation, float playerFacingAngle) {
 
-        double angle;
-        float distanceX = getWorldLocation().x - objectLocation.x;
-        float distanceY = getWorldLocation().y - objectLocation.y;
+        PointF worldLocation = getWorldLocation();
+
+        Double angle;
+        float distanceX = worldLocation.x - playerLocation.x;
+        float distanceY = worldLocation.y - playerLocation.y;
         double distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-        double sinValue = distanceY / distanceH;
-        angle = (Math.acos(sinValue) * (180 / Math.PI));
+        if (distanceH < pixelsPerMeter * 2) {
+            double sinValue = distanceY / distanceH;
+            angle = (Math.acos(sinValue) * (180 / Math.PI));
 
-        if (angle <= 45 || angle > 315) {
-            if (objectFacingAngle == 360) {
-                inFront = true;
+            if (angle.isNaN()) {
+                if (playerLocation.y > worldLocation.y) {
+                    angle = 180.0;
+                } else if (playerLocation.y < worldLocation.y) {
+                    angle = 0.0;
+                }
             }
-        } else if (angle <= 135 && angle > 45) {
-            if (objectFacingAngle == 90) {
-                inFront = true;
+
+            if (angle <= 45 || angle > 315) {
+                if (playerFacingAngle == 360) {
+                    setInFrontOfPlayer(true);
+                } else {
+                    setInFrontOfPlayer(false);
+                }
+            } else if (angle <= 135 && angle > 45) {
+                if (playerLocation.x < worldLocation.x && playerFacingAngle == 270) {
+                    setInFrontOfPlayer(true);
+                } else if (playerLocation.x > worldLocation.x && playerFacingAngle == 90) {
+                    setInFrontOfPlayer(true);
+                } else {
+                    setInFrontOfPlayer(false);
+                }
+            } else if (angle <= 225 && angle > 135) {
+                if (playerFacingAngle == 180) {
+                    setInFrontOfPlayer(true);
+                } else {
+                    setInFrontOfPlayer(false);
+                }
             }
-        } else if (angle <= 225 && angle > 135) {
-            if (objectFacingAngle == 180) {
-                inFront = true;
-            }
-        } else if (angle <= 315 && angle > 225) {
-            if (objectFacingAngle == 270) {
-                inFront = true;
-            }
+        } else {
+            setInFrontOfPlayer(false);
         }
-        return inFront;
     }
 
-    public void reposition(GameObject gameObject) {
-        switch (gameObject.getType()) {
-            case Constants.Types.PLAYER:
-                    if (gameObject.getFacingAngle() == 360) {
-                        // Facing up
-                        gameObject.setWorldLocation(
-                                gameObject.getWorldLocation().x,
-                                getWorldLocation().y - pixelsPerMeter);
-                    } else if (gameObject.getFacingAngle() == 90) {
-                        // Facing left
-                        gameObject.setWorldLocation(
-                                getWorldLocation().x + pixelsPerMeter,
-                                gameObject.getWorldLocation().y);
-                    } else if (gameObject.getFacingAngle() == 180) {
-                        // Facing down
-                        gameObject.setWorldLocation(
-                                gameObject.getWorldLocation().x,
-                                getWorldLocation().y + pixelsPerMeter);
-                    } else if (gameObject.getFacingAngle() == 270) {
-                        // Facing right
-                        gameObject.setWorldLocation(
-                                getWorldLocation().x - pixelsPerMeter,
-                                gameObject.getWorldLocation().y);
-                    }
-                break;
+    public PointF reposition(float objectFacingAngle, PointF objectLocation) {
+        PointF newLocation = new PointF();
+
+        if (objectFacingAngle == 180) {
+            // Collision from above
+            newLocation = new PointF(objectLocation.x, getWorldLocation().y + pixelsPerMeter);
+        } else if (objectFacingAngle == 360) {
+            // Collision from below
+            newLocation = new PointF(objectLocation.x, getWorldLocation().y - pixelsPerMeter);
+        } else if (objectFacingAngle == 90) {
+            // Collision from the right
+            newLocation = new PointF(getWorldLocation().x + pixelsPerMeter, objectLocation.y);
+        } else if (objectFacingAngle == 270) {
+            // Collision from the left
+            newLocation = new PointF(getWorldLocation().x - pixelsPerMeter, objectLocation.y);
         }
+
+        return newLocation;
     }
 
     public boolean detectCollision(CollisionPackage cp2) {
@@ -228,6 +240,7 @@ public class Asteroid extends GameObject {
         return collided;
     }
 
+    /*
     public void contain(float mapWidth, float mapHeight, int halfSideLength) {
 
         if (getCollisionPackage().right > mapWidth) {
@@ -244,12 +257,7 @@ public class Asteroid extends GameObject {
             setWorldLocation(getWorldLocation().x, -mapHeight + halfSideLength);
         }
     }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        //// TODO: 5/29/2017 add animation
-    }
+    */
 
     public boolean isBeingRedirected() {
         return beingRedirected;
@@ -257,5 +265,13 @@ public class Asteroid extends GameObject {
 
     public void setBeingRedirected(boolean beingRedirected) {
         this.beingRedirected = beingRedirected;
+    }
+
+    public boolean isInFrontOfPlayer() {
+        return isInFrontOfPlayer;
+    }
+
+    public void setInFrontOfPlayer(boolean inFrontOfPlayer) {
+        isInFrontOfPlayer = inFrontOfPlayer;
     }
 }
