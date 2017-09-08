@@ -14,15 +14,15 @@ public class Level24 extends LevelData {
     public Level24() {
 
         tiles = new ArrayList<>();
+        this.tiles.add("...#..");
         this.tiles.add("......");
+        this.tiles.add("..dap.");
         this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
+        this.tiles.add("..u...");
         this.tiles.add("......");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = new int[]{UP};
 
         doorStates = new boolean[]{};
 

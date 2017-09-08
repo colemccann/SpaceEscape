@@ -583,6 +583,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 if (hit) {
                     if (!button.isBeingPressed()) {
                         button.toggle();
+                        gm.levelButtonVariables[button.getKey()] = button.isToggled();
                         for (Door door : gm.doors) {
                             if (door.getKey() == button.getKey()) {
                                 door.toggleDoor();

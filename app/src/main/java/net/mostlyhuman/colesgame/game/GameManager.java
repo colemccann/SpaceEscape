@@ -135,6 +135,8 @@ public class GameManager {
     int screenHeight;
     public int pixelsPerMeter;
 
+    boolean[] levelButtonVariables;
+
     // These values are based on ratio of screen width to screen height.
     // Use percentage values so that the game view remains the same no matter what device
     // the game is running on. That way, the device the player is using does not
@@ -156,6 +158,7 @@ public class GameManager {
     void loadLevel(String level) {
 
         mLevelData = null;
+        hasExit = false;
         numBlocks = 0;
         numAsteroids = 0;
         numRedirects = 0;
@@ -230,13 +233,37 @@ public class GameManager {
                 mLevelData = new Level20();
                 break;
             case Constants.Levels.TWENTY_ONE:
-                mLevelData = new Level21();
+                mLevelData = new Level21('a');
+                break;
+            case Constants.Levels.TWENTY_ONE_B:
+                mLevelData = new Level21('b');
+                break;
+            case Constants.Levels.TWENTY_ONE_W:
+                mLevelData = new Level21('w');
                 break;
             case Constants.Levels.TWENTY_TWO:
-                mLevelData = new Level22();
+                mLevelData = new Level22('a');
+                break;
+            case Constants.Levels.TWENTY_TWO_B:
+                mLevelData = new Level22('b');
+                break;
+            case Constants.Levels.TWENTY_TWO_W:
+                mLevelData = new Level22('w');
                 break;
             case Constants.Levels.TWENTY_THREE:
-                mLevelData = new Level23();
+                mLevelData = new Level23("a", false);
+                break;
+            case Constants.Levels.TWENTY_THREE_B:
+                mLevelData = new Level23("b", levelButtonVariables[0]);
+                break;
+            case Constants.Levels.TWENTY_THREE_C:
+                mLevelData = new Level23("c", levelButtonVariables[0]);
+                break;
+            case Constants.Levels.TWENTY_THREE_WA:
+                mLevelData = new Level23("wa");
+                break;
+            case Constants.Levels.TWENTY_THREE_WB:
+                mLevelData = new Level23("wb");
                 break;
             case Constants.Levels.TWENTY_FOUR:
                 mLevelData = new Level24();
@@ -431,6 +458,7 @@ public class GameManager {
         }
         if (numButtons > 0) {
             buttons = new Button[numButtons];
+            levelButtonVariables = new boolean[numButtons];
         }
         if (numWarps > 0) {
             warps = new Warp[numWarps];
@@ -644,6 +672,10 @@ public class GameManager {
                 asteroids[i].setSpeed(asteroids[i].getMaxSpeed());
                 asteroids[i].setTravelingAngle(mLevelData.asteroidDirections[i]);
             }
+        }
+
+        for (int i = 0; i < numButtons; i++) {
+            levelButtonVariables[i] = buttons[i].isToggled();
         }
     }
 

@@ -1,5 +1,6 @@
 package net.mostlyhuman.colesgame.levels.chapter3;
 
+import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -10,30 +11,85 @@ import java.util.ArrayList;
 
 public class Level21 extends LevelData {
 
-    public Level21() {
+    public Level21(char version) {
 
-        tiles = new ArrayList<>();
-        this.tiles.add("#.a.#");
-        this.tiles.add(".....");
-        this.tiles.add("a.p.a");
-        this.tiles.add(".....");
-        this.tiles.add("#.a.#");
+        switch (version) {
+            case 'a':
+                tiles = new ArrayList<>();
+                this.tiles.add("........");
+                this.tiles.add(".e......");
+                this.tiles.add("########");
+                this.tiles.add(".w......");
+                this.tiles.add("........");
+                this.tiles.add("........");
+                this.tiles.add("........");
+                this.tiles.add("......p.");
 
+                asteroidDirections = new int[]{};
 
-        asteroidDirections = new int[]{RIGHT, DOWN, UP, LEFT};
+                doorStates = new boolean[]{};
 
-        doorStates = new boolean[]{};
+                doorKeys = new int[]{};
 
-        doorKeys = new int[]{};
+                buttonStates = new boolean[]{};
 
-        buttonStates = new boolean[]{};
+                buttonKeys = new int[]{};
 
-        buttonKeys = new int[]{};
+                warpTargets = new String[]{Constants.Levels.TWENTY_ONE_W};
 
-        warpTargets = new String[]{};
+                turretFacingAngles = new int[]{};
 
-        turretFacingAngles = new int[]{};
+                mapOrientation = HORIZONTAL;
+                break;
+            case 'b':
+                tiles = new ArrayList<>();
+                this.tiles.add("........");
+                this.tiles.add(".e....p.");
+                this.tiles.add("########");
+                this.tiles.add(".w......");
+                this.tiles.add("........");
+                this.tiles.add("........");
+                this.tiles.add("........");
+                this.tiles.add("........");
 
-        mapOrientation = HORIZONTAL;
+                asteroidDirections = new int[]{};
+
+                doorStates = new boolean[]{};
+
+                doorKeys = new int[]{};
+
+                buttonStates = new boolean[]{};
+
+                buttonKeys = new int[]{};
+
+                warpTargets = new String[]{Constants.Levels.TWENTY_ONE_W};
+
+                turretFacingAngles = new int[]{};
+
+                mapOrientation = HORIZONTAL;
+                break;
+            case 'w':
+                tiles = new ArrayList<>();
+                this.tiles.add("......");
+                this.tiles.add("p....w");
+                this.tiles.add("......");
+
+                asteroidDirections = new int[]{};
+
+                doorStates = new boolean[]{};
+
+                doorKeys = new int[]{};
+
+                buttonStates = new boolean[]{};
+
+                buttonKeys = new int[]{};
+
+                warpTargets = new String[]{Constants.Levels.TWENTY_ONE_B};
+
+                turretFacingAngles = new int[]{};
+
+                mapOrientation = HORIZONTAL;
+                break;
+        }
     }
 }

@@ -61,7 +61,6 @@ public class Constants {
     }
 
     public static class Levels {
-        public static final String LEVEL_ = "Level ";
         public static final String ONE = "Level 1";
         public static final String TWO = "Level 2";
         public static final String THREE = "Level 3";
@@ -82,9 +81,21 @@ public class Constants {
         public static final String EIGHTEEN = "Level 18";
         public static final String NINETEEN = "Level 19";
         public static final String TWENTY = "Level 20";
+
         public static final String TWENTY_ONE = "Level 21";
+        public static final String TWENTY_ONE_B = "Level 21b";
+        public static final String TWENTY_ONE_W = "Level 21w";
+
         public static final String TWENTY_TWO = "Level 22";
+        public static final String TWENTY_TWO_B = "Level 22b";
+        public static final String TWENTY_TWO_W = "Level 22w";
+
         public static final String TWENTY_THREE = "Level 23";
+        public static final String TWENTY_THREE_B = "Level 23b";
+        public static final String TWENTY_THREE_C = "Level 23c";
+        public static final String TWENTY_THREE_WA = "Level 23wa";
+        public static final String TWENTY_THREE_WB = "Level 23wb";
+
         public static final String TWENTY_FOUR = "Level 24";
         public static final String TWENTY_FIVE = "Level 25";
         public static final String TWENTY_SIX = "Level 26";
