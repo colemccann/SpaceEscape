@@ -13,6 +13,8 @@ public class Level18 extends LevelData {
 
     public Level18() {
 
+        levelType = MAIN_LEVEL;
+
         tiles = new ArrayList<>();
         this.tiles.add("....#.");
         this.tiles.add("....e.");

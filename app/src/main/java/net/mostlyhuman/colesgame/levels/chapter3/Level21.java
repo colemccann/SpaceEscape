@@ -15,6 +15,9 @@ public class Level21 extends LevelData {
 
         switch (version) {
             case 'a':
+
+                levelType = MAIN_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("........");
                 this.tiles.add(".e......");
@@ -41,7 +44,11 @@ public class Level21 extends LevelData {
 
                 mapOrientation = HORIZONTAL;
                 break;
+
             case 'b':
+
+                levelType = MAIN_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("........");
                 this.tiles.add(".e....p.");
@@ -68,7 +75,11 @@ public class Level21 extends LevelData {
 
                 mapOrientation = HORIZONTAL;
                 break;
+
             case 'w':
+
+                levelType = WARP_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("......");
                 this.tiles.add("p....w");

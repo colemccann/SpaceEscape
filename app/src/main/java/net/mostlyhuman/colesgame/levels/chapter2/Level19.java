@@ -13,6 +13,8 @@ public class Level19 extends LevelData {
 
     public Level19() {
 
+        levelType = MAIN_LEVEL;
+
         tiles = new ArrayList<>();
         this.tiles.add("....BGe#x");
         this.tiles.add("........x");

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 public class Level2 extends LevelData {
 
     public Level2() {
+
+        levelType = MAIN_LEVEL;
+
         tiles = new ArrayList<>();
         this.tiles.add("...#e");
         this.tiles.add("#....");

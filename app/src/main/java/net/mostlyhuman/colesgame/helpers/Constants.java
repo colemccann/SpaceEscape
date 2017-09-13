@@ -97,6 +97,11 @@ public class Constants {
         public static final String TWENTY_THREE_WB = "Level 23wb";
 
         public static final String TWENTY_FOUR = "Level 24";
+        public static final String TWENTY_FOUR_B = "Level 24b";
+        public static final String TWENTY_FOUR_C = "Level 24c";
+        public static final String TWENTY_FOUR_WA = "Level 24wa";
+        public static final String TWENTY_FOUR_WB = "Level 24wb";
+
         public static final String TWENTY_FIVE = "Level 25";
         public static final String TWENTY_SIX = "Level 26";
         public static final String TWENTY_SEVEN = "Level 27";
@@ -113,16 +118,6 @@ public class Constants {
         public static final String THIRTY_EIGHT = "Level 38";
         public static final String THIRTY_NINE = "Level 39";
         public static final String FORTY = "Level 40";
-        public static final String FORTY_ONE = "Level 41";
-        public static final String FORTY_TWO = "Level 42";
-        public static final String FORTY_THREE = "Level 43";
-        public static final String FORTY_FOUR = "Level 44";
-        public static final String FORTY_FIVE = "Level 45";
-        public static final String FORTY_SIX = "Level 46";
-        public static final String FORTY_SEVEN = "Level 47";
-        public static final String FORTY_EIGHT = "Level 48";
-        public static final String FORTY_NINE = "Level 49";
-        public static final String FIFTY = "Level 50";
 
         public static final String[] LEVEL_TITLES = {
                 ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE,
@@ -130,8 +125,7 @@ public class Constants {
                 TWENTY_ONE, TWENTY_TWO, TWENTY_THREE, TWENTY_FOUR, TWENTY_FIVE, TWENTY_SIX,
                 TWENTY_SEVEN, TWENTY_EIGHT, TWENTY_NINE, THIRTY, THIRTY_ONE, THIRTY_TWO,
                 THIRTY_THREE, THIRTY_FOUR, THIRTY_FIVE, THIRTY_SIX, THIRTY_SEVEN, THIRTY_EIGHT,
-                THIRTY_NINE, FORTY, FORTY_ONE, FORTY_TWO, FORTY_THREE, FORTY_FOUR, FORTY_FIVE,
-                FORTY_SIX, FORTY_SEVEN, FORTY_EIGHT, FORTY_NINE, FIFTY
+                THIRTY_NINE, FORTY
         };
 
     }

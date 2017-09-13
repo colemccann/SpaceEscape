@@ -1,6 +1,7 @@
 package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
+import android.util.Log;
 
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
@@ -15,9 +16,7 @@ import net.mostlyhuman.colesgame.gameobjects.GreenTurret;
 import net.mostlyhuman.colesgame.gameobjects.Player;
 import net.mostlyhuman.colesgame.gameobjects.RedTurret;
 import net.mostlyhuman.colesgame.gameobjects.Redirect;
-import net.mostlyhuman.colesgame.gameobjects.Star;
 import net.mostlyhuman.colesgame.gameobjects.TurretBase;
-import net.mostlyhuman.colesgame.gameobjects.Turret;
 import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.chapter1.Level1;
@@ -51,27 +50,6 @@ import net.mostlyhuman.colesgame.levels.chapter3.Level27;
 import net.mostlyhuman.colesgame.levels.chapter3.Level28;
 import net.mostlyhuman.colesgame.levels.chapter3.Level29;
 import net.mostlyhuman.colesgame.levels.chapter3.Level30;
-import net.mostlyhuman.colesgame.levels.chapter4.Level31;
-import net.mostlyhuman.colesgame.levels.chapter4.Level32;
-import net.mostlyhuman.colesgame.levels.chapter4.Level33;
-import net.mostlyhuman.colesgame.levels.chapter4.Level34;
-import net.mostlyhuman.colesgame.levels.chapter4.Level35;
-import net.mostlyhuman.colesgame.levels.chapter4.Level36;
-import net.mostlyhuman.colesgame.levels.chapter4.Level37;
-import net.mostlyhuman.colesgame.levels.chapter4.Level38;
-import net.mostlyhuman.colesgame.levels.chapter4.Level39;
-import net.mostlyhuman.colesgame.levels.chapter4.Level40;
-import net.mostlyhuman.colesgame.levels.chapter5.Level41;
-import net.mostlyhuman.colesgame.levels.chapter5.Level42;
-import net.mostlyhuman.colesgame.levels.chapter5.Level43;
-import net.mostlyhuman.colesgame.levels.chapter5.Level44;
-import net.mostlyhuman.colesgame.levels.chapter5.Level45;
-import net.mostlyhuman.colesgame.levels.chapter5.Level46;
-import net.mostlyhuman.colesgame.levels.chapter5.Level47;
-import net.mostlyhuman.colesgame.levels.chapter5.Level48;
-import net.mostlyhuman.colesgame.levels.chapter5.Level49;
-import net.mostlyhuman.colesgame.levels.chapter5.Level50;
-
 /**
  * Created by CaptainMcCann on 4/17/2017.
  */
@@ -89,8 +67,6 @@ public class GameManager {
     private int mapHeight;
 
     Border border;
-
-    Star[] stars = new Star[5];
 
     public Player player;
 
@@ -136,6 +112,8 @@ public class GameManager {
     public int pixelsPerMeter;
 
     boolean[] levelButtonVariables;
+    String levelType;
+
 
     // These values are based on ratio of screen width to screen height.
     // Use percentage values so that the game view remains the same no matter what device
@@ -266,7 +244,19 @@ public class GameManager {
                 mLevelData = new Level23("wb");
                 break;
             case Constants.Levels.TWENTY_FOUR:
-                mLevelData = new Level24();
+                mLevelData = new Level24("a", false, false);
+                break;
+            case Constants.Levels.TWENTY_FOUR_B:
+                mLevelData = new Level24("b", levelButtonVariables[0], levelButtonVariables[1]);
+                break;
+            case Constants.Levels.TWENTY_FOUR_C:
+                mLevelData = new Level24("c", levelButtonVariables[0], levelButtonVariables[1]);
+                break;
+            case Constants.Levels.TWENTY_FOUR_WA:
+                mLevelData = new Level24("wa");
+                break;
+            case Constants.Levels.TWENTY_FOUR_WB:
+                mLevelData = new Level24("wb");
                 break;
             case Constants.Levels.TWENTY_FIVE:
                 mLevelData = new Level25();
@@ -286,67 +276,6 @@ public class GameManager {
             case Constants.Levels.THIRTY:
                 mLevelData = new Level30();
                 break;
-            case Constants.Levels.THIRTY_ONE:
-                mLevelData = new Level31();
-                break;
-            case Constants.Levels.THIRTY_TWO:
-                mLevelData = new Level32();
-                break;
-            case Constants.Levels.THIRTY_THREE:
-                mLevelData = new Level33();
-                break;
-            case Constants.Levels.THIRTY_FOUR:
-                mLevelData = new Level34();
-                break;
-            case Constants.Levels.THIRTY_FIVE:
-                mLevelData = new Level35();
-                break;
-            case Constants.Levels.THIRTY_SIX:
-                mLevelData = new Level36();
-                break;
-            case Constants.Levels.THIRTY_SEVEN:
-                mLevelData = new Level37();
-                break;
-            case Constants.Levels.THIRTY_EIGHT:
-                mLevelData = new Level38();
-                break;
-            case Constants.Levels.THIRTY_NINE:
-                mLevelData = new Level39();
-                break;
-            case Constants.Levels.FORTY:
-                mLevelData = new Level40();
-                break;
-            case Constants.Levels.FORTY_ONE:
-                mLevelData = new Level41();
-                break;
-            case Constants.Levels.FORTY_TWO:
-                mLevelData = new Level42();
-                break;
-            case Constants.Levels.FORTY_THREE:
-                mLevelData = new Level43();
-                break;
-            case Constants.Levels.FORTY_FOUR:
-                mLevelData = new Level44();
-                break;
-            case Constants.Levels.FORTY_FIVE:
-                mLevelData = new Level45();
-                break;
-            case Constants.Levels.FORTY_SIX:
-                mLevelData = new Level46();
-                break;
-            case Constants.Levels.FORTY_SEVEN:
-                mLevelData = new Level47();
-                break;
-            case Constants.Levels.FORTY_EIGHT:
-                mLevelData = new Level48();
-                break;
-            case Constants.Levels.FORTY_NINE:
-                mLevelData = new Level49();
-                break;
-            case Constants.Levels.FIFTY:
-                mLevelData = new Level50();
-                break;
-
         }
 
         initializeObjects();
@@ -354,11 +283,13 @@ public class GameManager {
 
     private void initializeObjects() {
 
+        levelType = mLevelData.levelType;
+
         setMapSize();
 
         countGameObjects();
 
-        createGameObjects();
+        createGameObjects(levelType);
     }
 
     private void setMapSize() {
@@ -421,7 +352,7 @@ public class GameManager {
         }
     }
 
-    private void createGameObjects() {
+    private void createGameObjects(String levelType) {
         if (numAsteroids > 0) {
             asteroids = new Asteroid[numAsteroids];
         }
@@ -456,10 +387,16 @@ public class GameManager {
         if (numDoors > 0) {
             doors = new Door[numDoors];
         }
+
         if (numButtons > 0) {
             buttons = new Button[numButtons];
-            levelButtonVariables = new boolean[numButtons];
+
+            if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
+                levelButtonVariables = new boolean[numButtons];
+                Log.d(TAG, "Level Button Variables were RESET");
+            }
         }
+
         if (numWarps > 0) {
             warps = new Warp[numWarps];
         }
@@ -674,8 +611,10 @@ public class GameManager {
             }
         }
 
-        for (int i = 0; i < numButtons; i++) {
-            levelButtonVariables[i] = buttons[i].isToggled();
+        if (levelType.equals(LevelData.MAIN_LEVEL)) {
+            for (int i = 0; i < numButtons; i++) {
+                levelButtonVariables[i] = buttons[i].isToggled();
+            }
         }
     }
 

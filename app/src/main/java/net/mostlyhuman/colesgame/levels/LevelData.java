@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 public class LevelData {
 
+    public static final String MAIN_LEVEL = "main";
+    public static final String WARP_LEVEL = "warp";
+
     protected static final boolean OPEN = true;
     protected static final boolean CLOSED = false;
 
@@ -28,4 +31,5 @@ public class LevelData {
     public String[] warpTargets;
     public int[] turretFacingAngles;
     public int mapOrientation;
+    public String levelType;
 }

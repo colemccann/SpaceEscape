@@ -13,7 +13,6 @@
     <string name="start_game">Start Game!</string>
     <string name="space_escape_title">Space Escape</string>
     <string name="game_paused">Game Paused</string>
-    <string name="fuel_remaining">Fuel Remaining: %1$s</string>
     <string name="options">Options</string>
     <string name="initial_setup_message">Performing initial setup. Please wait</string>
     <string name="out_of_ten">"%1$d/10"</string>
@@ -22,14 +21,10 @@
     <string name="chapter_one">Chapter One</string>
     <string name="chapter_two">Chapter Two</string>
     <string name="chapter_three">Chapter Three</string>
-    <string name="chapter_four">Chapter Four</string>
-    <string name="chapter_five">Chapter Five</string>
 
     <string name="chapter_one_title">Learning to Escape</string>
     <string name="chapter_two_title">Escape the Asteroid Belt</string>
     <string name="chapter_three_title">Escape Deep Space</string>
-    <string name="chapter_four_title">Escape the Planet</string>
-    <string name="chapter_five_title">Escape the Starbase</string>
 
     <string name="level_one">Level One</string>
     <string name="level_complete">Level Complete!</string>
@@ -44,16 +39,12 @@
         <item>@string/chapter_one</item>
         <item>@string/chapter_two</item>
         <item>@string/chapter_three</item>
-        <item>@string/chapter_four</item>
-        <item>@string/chapter_five</item>
     </array>
 
     <array name="chapter_titles">
         <item>@string/chapter_one_title</item>
         <item>@string/chapter_two_title</item>
         <item>@string/chapter_three_title</item>
-        <item>@string/chapter_four_title</item>
-        <item>@string/chapter_five_title</item>
     </array>
 
 </resources>

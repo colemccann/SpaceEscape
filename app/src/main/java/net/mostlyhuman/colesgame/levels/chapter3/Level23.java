@@ -15,6 +15,9 @@ public class Level23 extends LevelData {
 
         switch (version) {
             case "a":
+
+                levelType = MAIN_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("#.......");
                 this.tiles.add(".....b..");
@@ -45,6 +48,9 @@ public class Level23 extends LevelData {
                 break;
 
             case "b":
+
+                levelType = MAIN_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("#.......");
                 this.tiles.add(".....b..");
@@ -75,6 +81,9 @@ public class Level23 extends LevelData {
                 break;
 
             case "c":
+
+                levelType = MAIN_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("#.......");
                 this.tiles.add(".....b..");
@@ -111,6 +120,9 @@ public class Level23 extends LevelData {
 
         switch (version) {
             case "wa":
+
+                levelType = WARP_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("..G..");
                 this.tiles.add("wp..w");
@@ -136,6 +148,9 @@ public class Level23 extends LevelData {
                 break;
 
             case "wb":
+
+                levelType = WARP_LEVEL;
+
                 tiles = new ArrayList<>();
                 this.tiles.add("..G..");
                 this.tiles.add("w..pw");

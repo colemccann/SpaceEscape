@@ -27,6 +27,7 @@ import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.TextureHelper;
+import net.mostlyhuman.colesgame.levels.LevelData;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -98,7 +99,6 @@ class GameRenderer implements GLSurfaceView.Renderer {
             Log.e(TAG, e.getMessage());
             gameActivity.exit();
         }
-
 
     }
 
@@ -583,7 +583,12 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 if (hit) {
                     if (!button.isBeingPressed()) {
                         button.toggle();
-                        gm.levelButtonVariables[button.getKey()] = button.isToggled();
+
+                        if (gm.levelType.equals(LevelData.MAIN_LEVEL)) {
+                            gm.levelButtonVariables[button.getKey()] = button.isToggled();
+                            Log.d(TAG, "button " + button.getKey() + " was saved: " + button.isToggled());
+                        }
+
                         for (Door door : gm.doors) {
                             if (door.getKey() == button.getKey()) {
                                 door.toggleDoor();

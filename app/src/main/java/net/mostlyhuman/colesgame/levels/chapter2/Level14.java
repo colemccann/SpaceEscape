@@ -1,6 +1,5 @@
 package net.mostlyhuman.colesgame.levels.chapter2;
 
-import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -13,6 +12,8 @@ public class Level14 extends LevelData {
 
 
     public Level14() {
+
+        levelType = MAIN_LEVEL;
 
         tiles = new ArrayList<>();
         this.tiles.add("........");

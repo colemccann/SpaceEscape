@@ -12,6 +12,8 @@ public class Level6 extends LevelData {
 
     public Level6() {
 
+        levelType = MAIN_LEVEL;
+
         tiles = new ArrayList<>();
         this.tiles.add("....#e");
         this.tiles.add("#...G.");

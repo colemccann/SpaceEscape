@@ -144,7 +144,7 @@ public class ChapterSelectionFragment extends Fragment implements
         private Context context;
 
         private static final int LEVELS_PER_CHAPTER = 10;
-        private static final int NUMBER_OF_CHAPTERS = 5;
+        private static final int NUMBER_OF_CHAPTERS = 3;
 
         ChapterListAdapter(Context context, ArrayList<Chapter> chapters,
                            ChapterItemListener listener) {
