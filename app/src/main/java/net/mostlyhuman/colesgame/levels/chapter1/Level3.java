@@ -27,11 +27,11 @@ public class Level3 extends LevelData {
 
         doorStates = new boolean[]{false};
 
-        doorKeys = new int[]{1};
+        doorKeys = new int[]{0};
 
         buttonStates = new boolean[]{false};
 
-        buttonKeys = new int[]{1};
+        buttonKeys = new int[]{0};
 
         warpTargets = new String[]{};
 

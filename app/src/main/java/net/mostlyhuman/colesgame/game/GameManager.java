@@ -611,7 +611,7 @@ public class GameManager {
             }
         }
 
-        if (levelType.equals(LevelData.MAIN_LEVEL)) {
+        if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
             for (int i = 0; i < numButtons; i++) {
                 levelButtonVariables[i] = buttons[i].isToggled();
             }

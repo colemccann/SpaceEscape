@@ -578,13 +578,16 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
         // Check player collisions against the Button objects
         if (gm.numButtons > 0) {
+            String levelType = gm.levelType;
+            int numWarps = gm.numWarps;
+
             for (Button button : gm.buttons) {
                 boolean hit = gm.player.detectCollision(button.getCollisionPackage());
                 if (hit) {
                     if (!button.isBeingPressed()) {
                         button.toggle();
 
-                        if (gm.levelType.equals(LevelData.MAIN_LEVEL)) {
+                        if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
                             gm.levelButtonVariables[button.getKey()] = button.isToggled();
                             Log.d(TAG, "button " + button.getKey() + " was saved: " + button.isToggled());
                         }
