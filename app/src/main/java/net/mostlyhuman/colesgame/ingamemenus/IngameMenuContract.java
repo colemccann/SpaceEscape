@@ -10,8 +10,6 @@ public interface IngameMenuContract {
     interface View {
         void showMuteIcon(boolean muted);
 
-        void restartLevel();
-
         void resumeGame();
 
         void exitLevel();
@@ -24,7 +22,10 @@ public interface IngameMenuContract {
     }
 
     interface ActivityCallback {
-        void onRestartPressed();
+
+        void mute();
+
+        void unmute();
 
         void onResumePressed();
 

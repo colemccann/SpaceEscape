@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 
 import net.mostlyhuman.colesgame.R;
@@ -18,7 +17,7 @@ import net.mostlyhuman.colesgame.ingamemenus.LevelCompleteDialogFragment;
 
 public class GameActivity extends Activity implements InputController.PauseMenu,
         IngameMenuContract.ActivityCallback,
-        GameRenderer.LevelCompleteContract {
+        GameRenderer.GameActivityContract {
 
     private static final String TAG = "GameActivity";
 
@@ -39,10 +38,14 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
         display.getSize(resolution);
 
         gameManager = new GameManager(this, resolution.x, resolution.y);
-        soundManager = new SoundManager();
+
+        soundManager = new SoundManager(this);
         this.soundManager.loadSounds(this);
+
         inputController = new InputController(this, resolution.x, gameManager, this);
+
         gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager, this);
+
         mediaPlayer = MediaPlayer.create(this, R.raw.music_1);
 
         gameView = new MyGLSurfaceView(this,
@@ -53,6 +56,7 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
 
         int levelID = getIntent().getIntExtra(Constants.LEVEL_ID, 50);
 
+        gameManager.setGameRenderer(gameRenderer);
         gameManager.setCurrentLevel(levelTitle);
         gameManager.setLevelID(levelID);
 
@@ -61,9 +65,6 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
 
     private void startGame() {
         gameManager.setPlaying(true);
-
-        //mediaPlayer.setLooping(true);
-        //mediaPlayer.start();
 
         setContentView(gameView);
     }
@@ -88,9 +89,13 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     }
 
     @Override
-    public void onRestartPressed() {
-        gameManager.switchPlayingStatus();
-        // Use Interface method to control Game Renderer from here
+    public void mute() {
+        soundManager.setMuted(true);
+    }
+
+    @Override
+    public void unmute() {
+        soundManager.setMuted(false);
     }
 
     @Override

@@ -2,8 +2,7 @@
     <string name="pref_key_initial">net.mostlyhuman.colesgame.PREF_KEY0</string>
     <string name="pref_initial_setup_key">#initial</string>
 
-    <string name="pref_key_1">net.mostlyhuman.colesgame.PREF_KEY1</string>
-    <string name="pref_fuel_key">#fuel</string>
+    <string name="pref_key_sound">net.mostlyhuman.colesgame.PREF_KEY1</string>
     <string name="pref_muted_key">#muted</string>
 
     <string name="app_name">Cole\'s Game</string>

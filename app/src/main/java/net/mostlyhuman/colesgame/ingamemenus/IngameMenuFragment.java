@@ -19,7 +19,6 @@ import net.mostlyhuman.colesgame.R;
 
 public class IngameMenuFragment extends DialogFragment implements IngameMenuContract.View {
 
-    private ImageButton restartButton;
     private ImageButton muteButton;
     private ImageButton resumeButton;
     private ImageButton exitButton;
@@ -27,7 +26,6 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
     private IngameMenuContract.UserActionsListener userActionsListener;
     private IngameMenuContract.ActivityCallback activityCallback;
 
-    private boolean restart;
     private boolean exit;
     private boolean resume;
 
@@ -51,15 +49,6 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
 
         final ViewGroup nullParent = null;
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_ingame_menu, nullParent);
-
-        restartButton = (ImageButton) v.findViewById(R.id.restartButton);
-        restartButton.setImageResource(R.drawable.icon_restart);
-        restartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restartLevel();
-            }
-        });
 
         muteButton = (ImageButton) v.findViewById(R.id.muteButton);
         userActionsListener.showMuted();
@@ -101,8 +90,6 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
 
         if (resume) {
             activityCallback.onResumePressed();
-        } else if (restart) {
-            activityCallback.onRestartPressed();
         } else if (exit) {
             activityCallback.onExitPressed();
         } else {
@@ -114,15 +101,11 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
     public void showMuteIcon(boolean muted) {
         if (muted) {
             muteButton.setImageResource(R.drawable.icon_sound_off);
+            activityCallback.mute();
         } else {
             muteButton.setImageResource(R.drawable.icon_sound_on);
+            activityCallback.unmute();
         }
-    }
-
-    @Override
-    public void restartLevel() {
-        restart = true;
-        this.dismiss();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class IngameMenuPresenter implements IngameMenuContract.UserActionsListen
         this.ingameMenuView = ingameMenuView;
         this.context = context;
         preferences = context.getSharedPreferences(
-                context.getString(R.string.pref_key_1),
+                context.getString(R.string.pref_key_sound),
                 Context.MODE_PRIVATE
         );
     }
@@ -27,10 +27,10 @@ public class IngameMenuPresenter implements IngameMenuContract.UserActionsListen
     @Override
     public void toggleMuted() {
         // write to preferences and mute / unmute sound
-        boolean muted = !preferences.getBoolean(
+        boolean muted = preferences.getBoolean(
                 context.getString(R.string.pref_muted_key), false);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(context.getString(R.string.pref_muted_key), muted);
+        editor.putBoolean(context.getString(R.string.pref_muted_key), !muted);
         editor.apply();
     }
 

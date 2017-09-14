@@ -27,6 +27,7 @@ import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.TextureHelper;
+import net.mostlyhuman.colesgame.ingamemenus.IngameMenuContract;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -42,14 +43,15 @@ import static android.opengl.GLES20.glViewport;
  * Created by CaptainMcCann on 4/4/2017.
  */
 
-class GameRenderer implements GLSurfaceView.Renderer {
+class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedContract {
+
     private static final String TAG = "Renderer";
 
     private Context context;
     private InputController ic;
     private SoundManager sm;
     private GameManager gm;
-    private LevelCompleteContract gameActivity;
+    private GameActivityContract gameActivity;
 
     private long frameCounter = 0;
     private long averageFPS = 0;
@@ -65,16 +67,31 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
     private GameButton gameButton;
 
-    interface LevelCompleteContract {
+    private String levelType;
+    private int numAsteroids;
+    private int numBlocks;
+    private int numBombs;
+    private int numButtons;
+    private int numDoors;
+    private int numRedirects;
+    private int numTurrets;
+    private int numGreenTurrets;
+    private int numBlueTurrets;
+    private int numRedTurrets;
+    private int numWarps;
+    private boolean hasExit;
+
+
+    interface GameActivityContract {
         void onLevelCompleted(int levelID);
         void exit();
     }
 
     GameRenderer(Context context,
-                        InputController inputController,
-                        SoundManager soundManager,
-                        GameManager gameManager,
-                        LevelCompleteContract gameActivity) {
+                 InputController inputController,
+                 SoundManager soundManager,
+                 GameManager gameManager,
+                 GameActivityContract gameActivity) {
 
         this.context = context;
         this.ic = inputController;
@@ -142,16 +159,35 @@ class GameRenderer implements GLSurfaceView.Renderer {
         // Loads the level data and passes it on to the game manager
         gm.loadLevel(gm.getCurrentLevel());
 
-        Log.d(TAG, "Level ID: " + gm.getLevelID());
-
         // Load the menu button
         Rect menuButton = ic.getMenuButton();
         gameButton = new GameButton(context, R.drawable.icon_menu, menuButton.top,
                 menuButton.left, menuButton.bottom, menuButton.right, gm);
-
     }
 
-    private void restartLevel() {
+    @Override
+    public void onLevelLoaded() {
+        // Initialize levelType and GameObject counters
+        levelType = gm.levelType;
+        numAsteroids = gm.numAsteroids;
+        numBlocks = gm.numBlocks;
+        numBombs = gm.numBombs;
+        numButtons = gm.numButtons;
+        numDoors = gm.numDoors;
+        numRedirects = gm.numRedirects;
+        numTurrets = gm.numTurrets;
+        numGreenTurrets = gm.numGreenTurrets;
+        numBlueTurrets = gm.numBlueTurrets;
+        numRedTurrets = gm.numRedTurrets;
+        numWarps = gm.numWarps;
+
+        hasExit = gm.hasExit();
+    }
+
+
+    void restartLevel() {
+        Log.d(TAG, "restartLevel()");
+
         loadLevel();
     }
 
@@ -194,21 +230,21 @@ class GameRenderer implements GLSurfaceView.Renderer {
         textureShaderProgram.setTexture(textureAtlas);
 
         // Draw the exit
-        if (gm.hasExit()) {
+        if (hasExit) {
             textureShaderProgram.setUniforms(gm.exit.rotateMatrix(viewportMatrix));
             gm.exit.bindTextureData(textureShaderProgram);
             gm.exit.draw();
         }
 
         // Draw the buttons
-        for (int i = 0; i < gm.numButtons; i++) {
+        for (int i = 0; i < numButtons; i++) {
             textureShaderProgram.setUniforms(gm.buttons[i].rotateMatrix(viewportMatrix));
             gm.buttons[i].bindTextureData(textureShaderProgram);
             gm.buttons[i].draw();
         }
 
         // Draw the Blocks
-        for (int i = 0; i < gm.numBlocks; i++) {
+        for (int i = 0; i < numBlocks; i++) {
             if (gm.blocks[i].isActive()) {
                 textureShaderProgram.setUniforms(gm.blocks[i].rotateMatrix(viewportMatrix));
                 gm.blocks[i].bindTextureData(textureShaderProgram);
@@ -217,7 +253,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the turret bases
-        for (int i = 0; i < gm.numTurrets; i++) {
+        for (int i = 0; i < numTurrets; i++) {
             if (gm.turretBases[i].isActive()) {
                 textureShaderProgram.setUniforms(gm.turretBases[i].rotateMatrix(viewportMatrix));
                 gm.turretBases[i].bindTextureData(textureShaderProgram);
@@ -226,7 +262,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the lasers
-        for (int i = 0; i < gm.numTurrets; i++) {
+        for (int i = 0; i < numTurrets; i++) {
             if (gm.enemyLasers[i].isActive()) {
                 textureShaderProgram.setUniforms(gm.enemyLasers[i].rotateMatrix(viewportMatrix));
                 gm.enemyLasers[i].bindTextureData(textureShaderProgram);
@@ -235,9 +271,9 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the turrets
-        if (gm.numTurrets > 0) {
+        if (numTurrets > 0) {
             // Draw the green turrets
-            if (gm.numGreenTurrets > 0) {
+            if (numGreenTurrets > 0) {
                 for (GreenTurret greenTurret : gm.greenTurrets) {
                     if (greenTurret.isActive()) {
                         textureShaderProgram.setUniforms(greenTurret.rotateMatrix(viewportMatrix));
@@ -248,7 +284,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
             }
 
             // Draw the blue turrets
-            if (gm.numBlueTurrets > 0) {
+            if (numBlueTurrets > 0) {
                 for (BlueTurret blueTurret : gm.blueTurrets) {
                     if (blueTurret.isActive()) {
                         textureShaderProgram.setUniforms(blueTurret.rotateMatrix(viewportMatrix));
@@ -259,7 +295,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
             }
 
             // Draw the red turrets
-            if (gm.numRedTurrets > 0) {
+            if (numRedTurrets > 0) {
                 for (RedTurret redTurret : gm.redTurrets) {
                     if (redTurret.isActive()) {
                         textureShaderProgram.setUniforms(redTurret.rotateMatrix(viewportMatrix));
@@ -271,7 +307,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the Redirects
-        for (int i = 0; i < gm.numRedirects; i++) {
+        for (int i = 0; i < numRedirects; i++) {
             if (gm.redirects[i].isActive()) {
                 textureShaderProgram.setUniforms(gm.redirects[i].rotateMatrix(viewportMatrix));
                 gm.redirects[i].bindTextureData(textureShaderProgram);
@@ -280,7 +316,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the Bombs
-        for (int i = 0; i < gm.numBombs; i++) {
+        for (int i = 0; i < numBombs; i++) {
             if (gm.bombs[i].isActive()) {
                 textureShaderProgram.setUniforms(gm.bombs[i].rotateMatrix(viewportMatrix));
                 gm.bombs[i].bindTextureData(textureShaderProgram);
@@ -289,7 +325,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the Asteroids
-        for (int i = 0; i < gm.numAsteroids; i++) {
+        for (int i = 0; i < numAsteroids; i++) {
             if (gm.asteroids[i].isActive()) {
                 textureShaderProgram.setUniforms(gm.asteroids[i].rotateMatrix(viewportMatrix));
                 gm.asteroids[i].bindTextureData(textureShaderProgram);
@@ -298,14 +334,14 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw the doors
-        for (int i = 0; i < gm.numDoors; i++) {
+        for (int i = 0; i < numDoors; i++) {
             textureShaderProgram.setUniforms(gm.doors[i].rotateMatrix(viewportMatrix));
             gm.doors[i].bindTextureData(textureShaderProgram);
             gm.doors[i].draw();
         }
 
         // Draw the warps
-        for (int i = 0; i < gm.numWarps; i++) {
+        for (int i = 0; i < numWarps; i++) {
             textureShaderProgram.setUniforms(gm.warps[i].rotateMatrix(viewportMatrix));
             gm.warps[i].bindTextureData(textureShaderProgram);
             gm.warps[i].draw();
@@ -332,7 +368,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         CollisionPackage playerCP = gm.player.getCollisionPackage();
 
         // Update the asteroids
-        if (gm.numAsteroids > 0) {
+        if (numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
                     asteroid.update(fps);
@@ -342,7 +378,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Update the turrets
-        if (gm.numTurrets > 0) {
+        if (numTurrets > 0) {
             if (gm.numGreenTurrets > 0) {
                 for (GreenTurret greenTurret : gm.greenTurrets) {
                     if (greenTurret.isActive())
@@ -350,14 +386,14 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
 
-            if (gm.numBlueTurrets > 0) {
+            if (numBlueTurrets > 0) {
                 for (BlueTurret blueTurret : gm.blueTurrets) {
                     if (blueTurret.isActive())
                         blueTurret.update(utilPointF, playerCP);
                 }
             }
 
-            if (gm.numRedTurrets > 0) {
+            if (numRedTurrets > 0) {
                 for (RedTurret redTurret : gm.redTurrets) {
                     if (redTurret.isActive())
                         redTurret.update(utilPointF);
@@ -366,10 +402,10 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Update the lasers
-        if (gm.numTurrets > 0) {
+        if (numTurrets > 0) {
             for (Laser laser : gm.enemyLasers) {
                 if (laser.isActive()) {
-                    if (gm.numGreenTurrets > 0) {
+                    if (numGreenTurrets > 0) {
                         for (GreenTurret greenTurret : gm.greenTurrets) {
                             if (greenTurret.getTurretID() == laser.getLaserID()) {
                                 laser.update(fps, greenTurret.getWorldLocation());
@@ -377,7 +413,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                         }
                     }
 
-                    if (gm.numBlueTurrets > 0) {
+                    if (numBlueTurrets > 0) {
                         for (BlueTurret blueTurret : gm.blueTurrets) {
                             if (blueTurret.getTurretID() == laser.getLaserID()) {
                                 laser.update(fps, blueTurret.getWorldLocation());
@@ -385,7 +421,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                         }
                     }
 
-                    if (gm.numRedTurrets > 0) {
+                    if (numRedTurrets > 0) {
                         for (RedTurret redTurret : gm.redTurrets) {
                             if (redTurret.getTurretID() == laser.getLaserID()) {
                                 laser.update(fps, redTurret.getWorldLocation());
@@ -411,7 +447,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
     private void containLasers() {
         PointF utilPointF2;
         // Contain the lasers
-        for (int i = 0; i < gm.numTurrets; i++) {
+        for (int i = 0; i < numTurrets; i++) {
             if (gm.enemyLasers[i].isActive()
                     && !gm.enemyLasers[i].contain(gm.getMapWidth() - (gm.pixelsPerMeter / 2),
                     gm.getMapHeight() - (gm.pixelsPerMeter / 2),
@@ -421,29 +457,16 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 utilPointF2 = gm.player.getWorldLocation();
 
                 if (utilPointF.x > utilPointF2.x + gm.metersToShowX / 2) {
-                    //for (Turret turret : gm.turrets) {
-                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
-                            gm.enemyLasers[i].resetLaser();
-                    //}
-                    //}
+                    gm.enemyLasers[i].resetLaser();
+
                 } else if (utilPointF.x < utilPointF2.x - gm.metersToShowX / 2) {
-                    //for (Turret turret : gm.turrets) {
-                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
-                            gm.enemyLasers[i].resetLaser();
-                    //}
-                    //}
+                    gm.enemyLasers[i].resetLaser();
+
                 } else if (utilPointF.y > utilPointF2.y + gm.metersToShowY / 2) {
-                    //for (Turret turret : gm.turrets) {
-                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
-                            gm.enemyLasers[i].resetLaser();
-                    //}
-                    //}
+                    gm.enemyLasers[i].resetLaser();
+
                 } else if (utilPointF.y < utilPointF2.y - gm.metersToShowY / 2) {
-                    //for (Turret turret : gm.turrets) {
-                    //if (gm.enemyLasers[i].getLaserID() == turret.getTurretID()) {
-                            gm.enemyLasers[i].resetLaser();
-                    //}
-                    //}
+                    gm.enemyLasers[i].resetLaser();
                 }
             }
         }
@@ -462,7 +485,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collision with Exit objects
-        if (gm.hasExit()) {
+        if (hasExit) {
             boolean hitExit = gm.player.detectCollision(gm.exit.getCollisionPackage());
             if (hitExit) {
                 beatLevel();
@@ -470,7 +493,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // check player collision with Block objects
-        if (gm.numBlocks > 0) {
+        if (numBlocks > 0) {
             for (Block block : gm.blocks) {
                 boolean hit = gm.player.detectCollision(block.getCollisionPackage());
                 if (hit) {
@@ -483,7 +506,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collisions against the Asteroid objects
-        if (gm.numAsteroids > 0) {
+        if (numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
                     boolean hit = gm.player.detectCollision(asteroid.getCollisionPackage());
@@ -509,7 +532,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collisions against the Redirect objects
-        if (gm.numRedirects > 0) {
+        if (numRedirects > 0) {
             for (Redirect redirect : gm.redirects) {
                 if (redirect.isActive()) {
                     boolean hit = gm.player.detectCollision(redirect.getCollisionPackage());
@@ -521,7 +544,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collisions against the Bomb objects
-        if (gm.numBombs > 0) {
+        if (numBombs > 0) {
             for (Bomb bomb : gm.bombs) {
                 if (bomb.isActive()) {
                     boolean hit = gm.player.detectCollision(bomb.getCollisionPackage());
@@ -535,7 +558,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collisions against the Turret objects
-        if (gm.numTurrets > 0) {
+        if (numTurrets > 0) {
             if (gm.numGreenTurrets > 0) {
                 for (GreenTurret greenTurret : gm.greenTurrets) {
                     if (greenTurret.isActive()) {
@@ -549,7 +572,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
 
-            if (gm.numBlueTurrets > 0) {
+            if (numBlueTurrets > 0) {
                 for (BlueTurret blueTurret : gm.blueTurrets) {
                     if (blueTurret.isActive()) {
                         boolean hit = gm.player.detectCollision(blueTurret.getCollisionPackage());
@@ -562,7 +585,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                 }
             }
 
-            if (gm.numRedTurrets > 0) {
+            if (numRedTurrets > 0) {
                 for (RedTurret redTurret : gm.redTurrets) {
                     if (redTurret.isActive()) {
                         boolean hit = gm.player.detectCollision(redTurret.getCollisionPackage());
@@ -577,9 +600,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collisions against the Button objects
-        if (gm.numButtons > 0) {
-            String levelType = gm.levelType;
-            int numWarps = gm.numWarps;
+        if (numButtons > 0) {
 
             for (Button button : gm.buttons) {
                 boolean hit = gm.player.detectCollision(button.getCollisionPackage());
@@ -589,7 +610,6 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
                         if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
                             gm.levelButtonVariables[button.getKey()] = button.isToggled();
-                            Log.d(TAG, "button " + button.getKey() + " was saved: " + button.isToggled());
                         }
 
                         for (Door door : gm.doors) {
@@ -603,7 +623,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collisions against the Warp objects
-        if (gm.numWarps > 0) {
+        if (numWarps > 0) {
             for (Warp warp : gm.warps) {
                 boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
                 if (hit) {
@@ -613,7 +633,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
         }
 
         // Check player collisions against the Door objects
-        if (gm.numDoors > 0) {
+        if (numDoors > 0) {
             for (Door door : gm.doors) {
                 boolean hit = door.detectCollision(gm.player.getCollisionPackage());
                 if (hit) {
@@ -628,11 +648,11 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
     private void checkAsteroidCollisions() {
         // Check asteroid collision
-        if (gm.numAsteroids > 0) {
+        if (numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
 
-                    if (gm.numBlocks > 0) {
+                    if (numBlocks > 0) {
                         for (Block block : gm.blocks) {
                             boolean hit = asteroid.detectCollision(block.getCollisionPackage());
                             if (hit && !asteroid.isBeingRedirected()) {
@@ -641,7 +661,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
                     }
-                    if (gm.numRedirects > 0) {
+                    if (numRedirects > 0) {
                         for (Redirect redirect : gm.redirects) {
                             boolean hit = asteroid.detectCollision(redirect.getCollisionPackage());
                             if (hit) {
@@ -654,8 +674,8 @@ class GameRenderer implements GLSurfaceView.Renderer {
                         }
                     }
 
-                    if (gm.numTurrets > 0) {
-                        if (gm.numGreenTurrets > 0) {
+                    if (numTurrets > 0) {
+                        if (numGreenTurrets > 0) {
                             for (GreenTurret greenTurret : gm.greenTurrets) {
                                 boolean hit = asteroid.detectCollision(
                                         greenTurret.getCollisionPackage());
@@ -666,7 +686,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
 
-                        if (gm.numBlueTurrets > 0) {
+                        if (numBlueTurrets > 0) {
                             for (BlueTurret blueTurret : gm.blueTurrets) {
                                 boolean hit = asteroid.detectCollision
                                         (blueTurret.getCollisionPackage());
@@ -677,7 +697,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
 
-                        if (gm.numRedTurrets > 0) {
+                        if (numRedTurrets > 0) {
                             for (RedTurret redTurret : gm.redTurrets) {
                                 boolean hit = asteroid.detectCollision(
                                         redTurret.getCollisionPackage());
@@ -689,7 +709,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                         }
                     }
 
-                    if (gm.numDoors > 0) {
+                    if (numDoors > 0) {
                         for (Door door : gm.doors) {
                             boolean hit = door.detectCollision(asteroid.getCollisionPackage());
                             if (hit) {
@@ -704,7 +724,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
     private void checkButtonCollisions() {
         // Check button collisions
-        if (gm.numButtons > 0) {
+        if (numButtons > 0) {
             for (Button button : gm.buttons) {
                 button.detectPress(gm.player.getCollisionPackage());
             }
@@ -713,10 +733,10 @@ class GameRenderer implements GLSurfaceView.Renderer {
 
     private void checkLaserCollisions() {
         // Check laser collisions
-        if (gm.numTurrets > 0) {
+        if (numTurrets > 0) {
             for (EnemyLaser laser : gm.enemyLasers) {
                 if (laser.isActive()) {
-                    if (gm.numBlocks > 0) {
+                    if (numBlocks > 0) {
                         for (Block block : gm.blocks) {
                             boolean hit = laser.detectCollision(block.getCollisionPackage());
                             if (hit) {
@@ -724,7 +744,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
                     }
-                    if (gm.numAsteroids > 0) {
+                    if (numAsteroids > 0) {
                         for (Asteroid asteroid : gm.asteroids) {
                             if (asteroid.isActive()) {
                                 boolean hit = laser.detectCollision(asteroid.getCollisionPackage());
@@ -735,8 +755,8 @@ class GameRenderer implements GLSurfaceView.Renderer {
                         }
                     }
 
-                    if (gm.numTurrets > 0) {
-                        if (gm.numGreenTurrets > 0) {
+                    if (numTurrets > 0) {
+                        if (numGreenTurrets > 0) {
                             for (GreenTurret greenTurret : gm.greenTurrets) {
                                 if (greenTurret.isActive() && greenTurret.getTurretID() != laser.getLaserID()) {
                                     boolean hit = laser.detectCollision(greenTurret.getCollisionPackage());
@@ -748,7 +768,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
 
-                        if (gm.numBlueTurrets > 0) {
+                        if (numBlueTurrets > 0) {
                             for (BlueTurret blueTurret : gm.blueTurrets) {
                                 if (blueTurret.isActive() && blueTurret.getTurretID() != laser.getLaserID()) {
                                     boolean hit = laser.detectCollision(blueTurret.getCollisionPackage());
@@ -760,7 +780,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
 
-                        if (gm.numRedTurrets > 0) {
+                        if (numRedTurrets > 0) {
                             for (RedTurret redTurret : gm.redTurrets) {
                                 if (redTurret.isActive() && redTurret.getTurretID() != laser.getLaserID()) {
                                     boolean hit = laser.detectCollision(redTurret.getCollisionPackage());
@@ -773,7 +793,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                         }
                     }
 
-                    if (gm.numBombs > 0) {
+                    if (numBombs > 0) {
                         for (Bomb bomb : gm.bombs) {
                             if (bomb.isActive()) {
                                 boolean hit = laser.detectCollision(bomb.getCollisionPackage());
@@ -784,7 +804,7 @@ class GameRenderer implements GLSurfaceView.Renderer {
                             }
                         }
                     }
-                    if (gm.numDoors > 0) {
+                    if (numDoors > 0) {
                         for (Door door : gm.doors) {
                             boolean hit = door.detectCollision(laser.getCollisionPackage());
                             if (hit) {

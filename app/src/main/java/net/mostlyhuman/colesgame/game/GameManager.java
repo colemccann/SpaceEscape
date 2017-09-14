@@ -122,6 +122,12 @@ public class GameManager {
     float metersToShowX;
     float metersToShowY;
 
+    interface levelLoadedContract {
+        void onLevelLoaded();
+    }
+
+    private levelLoadedContract gameRenderer;
+
     GameManager(Context context, int x, int y) {
         this.context = context;
 
@@ -149,6 +155,14 @@ public class GameManager {
         numButtons = 0;
         numWarps = 0;
 
+        loadLevelData(level);
+
+        initializeObjects();
+
+        gameRenderer.onLevelLoaded();
+    }
+
+    private void loadLevelData(String level) {
         switch (level) {
             case Constants.Levels.ONE:
                 mLevelData = new Level1();
@@ -277,8 +291,6 @@ public class GameManager {
                 mLevelData = new Level30();
                 break;
         }
-
-        initializeObjects();
     }
 
     private void initializeObjects() {
@@ -664,5 +676,9 @@ public class GameManager {
 
     void setLevelID(int levelID) {
         this.levelID = levelID;
+    }
+
+    public void setGameRenderer(levelLoadedContract gameRenderer) {
+        this.gameRenderer = gameRenderer;
     }
 }

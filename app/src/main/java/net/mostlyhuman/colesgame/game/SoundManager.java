@@ -1,6 +1,7 @@
 package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
@@ -29,6 +30,20 @@ public class SoundManager {
 
     private SoundPool soundPool;
 
+    private SharedPreferences preferences;
+
+    private boolean muted;
+
+    public SoundManager(Context context) {
+
+        preferences = context.getSharedPreferences(
+                context.getString(R.string.pref_key_sound),
+                Context.MODE_PRIVATE
+        );
+
+        muted = preferences.getBoolean(context.getString(R.string.pref_muted_key), false);
+    }
+
     void loadSounds(Context context) {
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 
@@ -54,32 +69,43 @@ public class SoundManager {
             descriptor = assetManager.openFd("laser_red.ogg");
             laser_red = soundPool.load(descriptor, 0);
 
-            // // TODO: 4/4/2017 create sound fx here, including music
+            // // TODO: 4/4/2017 create sound fx here
         } catch (IOException e) {
             Log.e(TAG, "failed to load sound files");
         }
     }
 
     public void playSound(String sound) {
-        switch (sound) {
-            case Constants.Sounds.BUMP:
-                soundPool.play(bump, 1, 1, 0, 0, 1);
-                break;
-            case Constants.Sounds.REDIRECT:
-                soundPool.play(redirect, 1, 1, 0, 0, 1);
-                break;
-            case Constants.Sounds.EXPLOSION:
-                soundPool.play(explosion, 1, 1, 0, 0, 1);
-                break;
-            case Constants.Sounds.LASER_GREEN:
-                soundPool.play(laser_green, 1, 1, 0, 0, 1);
-                break;
-            case Constants.Sounds.LASER_BLUE:
-                soundPool.play(laser_blue, 1, 1, 0, 0, 1);
-                break;
-            case Constants.Sounds.LASER_RED:
-                soundPool.play(laser_red, 1, 1, 0, 0, 1);
-                break;
+
+        if (!muted) {
+            switch (sound) {
+                case Constants.Sounds.BUMP:
+                    soundPool.play(bump, 1, 1, 0, 0, 1);
+                    break;
+                case Constants.Sounds.REDIRECT:
+                    soundPool.play(redirect, 1, 1, 0, 0, 1);
+                    break;
+                case Constants.Sounds.EXPLOSION:
+                    soundPool.play(explosion, 1, 1, 0, 0, 1);
+                    break;
+                case Constants.Sounds.LASER_GREEN:
+                    soundPool.play(laser_green, 1, 1, 0, 0, 1);
+                    break;
+                case Constants.Sounds.LASER_BLUE:
+                    soundPool.play(laser_blue, 1, 1, 0, 0, 1);
+                    break;
+                case Constants.Sounds.LASER_RED:
+                    soundPool.play(laser_red, 1, 1, 0, 0, 1);
+                    break;
+            }
         }
+    }
+
+    public boolean isMuted() {
+        return muted;
+    }
+
+    public void setMuted(boolean muted) {
+        this.muted = muted;
     }
 }
