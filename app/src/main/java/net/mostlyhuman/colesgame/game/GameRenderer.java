@@ -27,7 +27,6 @@ import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.helpers.TextureHelper;
-import net.mostlyhuman.colesgame.ingamemenus.IngameMenuContract;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -627,7 +626,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
             for (Warp warp : gm.warps) {
                 boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
                 if (hit) {
-                    gm.loadLevel(warp.getWarpTarget());
+                    gm.loadLevel(warp.getWarpDimensionTarget());
                 }
             }
         }

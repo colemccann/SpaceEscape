@@ -33,9 +33,11 @@ public class Level9 extends LevelData {
 
         buttonKeys = new int[]{0};
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = new String[]{};
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = null;
 
         mapOrientation = HORIZONTAL;
     }

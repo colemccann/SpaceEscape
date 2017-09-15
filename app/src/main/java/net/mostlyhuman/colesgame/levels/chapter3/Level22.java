@@ -1,5 +1,6 @@
 package net.mostlyhuman.colesgame.levels.chapter3;
 
+import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
@@ -28,19 +29,21 @@ public class Level22 extends LevelData {
                 this.tiles.add("e.#....#");
 
 
-                asteroidDirections = new int[]{};
+                asteroidDirections = null;
 
-                doorStates = new boolean[]{};
+                doorStates = null;
 
-                doorKeys = new int[]{};
+                doorKeys = null;
 
-                buttonStates = new boolean[]{};
+                buttonStates = null;
 
-                buttonKeys = new int[]{};
+                buttonKeys = null;
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_TWO_W};
+                warpTypes = new char[]{Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_TWO_W};
+                warpTeleportTargets = null;
 
-                turretFacingAngles = new int[]{};
+                turretFacingAngles = null;
 
                 mapOrientation = HORIZONTAL;
                 break;
@@ -59,19 +62,21 @@ public class Level22 extends LevelData {
                 this.tiles.add("ep#....#");
 
 
-                asteroidDirections = new int[]{};
+                asteroidDirections = null;
 
-                doorStates = new boolean[]{};
+                doorStates = null;
 
-                doorKeys = new int[]{};
+                doorKeys = null;
 
-                buttonStates = new boolean[]{};
+                buttonStates = null;
 
-                buttonKeys = new int[]{};
+                buttonKeys = null;
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_TWO_W};
+                warpTypes = new char[]{Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_TWO_W};
+                warpTeleportTargets = null;
 
-                turretFacingAngles = new int[]{};
+                turretFacingAngles = null;
 
                 mapOrientation = HORIZONTAL;
                 break;
@@ -88,19 +93,21 @@ public class Level22 extends LevelData {
                 this.tiles.add(".....#");
 
 
-                asteroidDirections = new int[]{};
+                asteroidDirections = null;
 
-                doorStates = new boolean[]{};
+                doorStates = null;
 
-                doorKeys = new int[]{};
+                doorKeys = null;
 
-                buttonStates = new boolean[]{};
+                buttonStates = null;
 
-                buttonKeys = new int[]{};
+                buttonKeys = null;
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_TWO_B};
+                warpTypes = new char[]{Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_TWO_B};
+                warpTeleportTargets = null;
 
-                turretFacingAngles = new int[]{};
+                turretFacingAngles = null;
 
                 mapOrientation = HORIZONTAL;
                 break;

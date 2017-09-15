@@ -23,17 +23,19 @@ public class Level7 extends LevelData {
         this.tiles.add("..#..p");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = null;
 
-        doorStates = new boolean[]{};
+        doorStates = null;
 
-        doorKeys = new int[]{};
+        doorKeys = null;
 
-        buttonStates = new boolean[]{};
+        buttonStates = null;
 
-        buttonKeys = new int[]{};
+        buttonKeys = null;
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = new String[]{};
 
         turretFacingAngles = new int[]{
                 UP, RIGHT, LEFT, RIGHT};

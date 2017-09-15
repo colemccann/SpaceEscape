@@ -1,7 +1,5 @@
 package net.mostlyhuman.colesgame.levels;
 
-import net.mostlyhuman.colesgame.helpers.Constants;
-
 import java.util.ArrayList;
 
 /**
@@ -31,7 +29,7 @@ public class BlankLevel extends LevelData {
 
         buttonKeys = new int[]{};
 
-        warpTargets = new String[]{};
+        warpDimensionalTargets = new String[]{};
 
         turretFacingAngles = new int[]{};
 

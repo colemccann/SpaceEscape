@@ -23,7 +23,7 @@ public class Level8 extends LevelData {
         this.tiles.add(".p.....");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = null;
 
         doorStates = new boolean[]{OPEN, OPEN};
 
@@ -33,7 +33,9 @@ public class Level8 extends LevelData {
 
         buttonKeys = new int[]{2, 1};
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = new String[]{};
 
         turretFacingAngles = new int[]{RIGHT};
 

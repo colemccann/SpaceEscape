@@ -24,7 +24,7 @@ public class Level4 extends LevelData {
         this.tiles.add("#.....he");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = null;
 
         doorStates = new boolean[]{false};
 
@@ -34,9 +34,11 @@ public class Level4 extends LevelData {
 
         buttonKeys = new int[]{1};
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = new String[]{};
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = null;
 
         mapOrientation = HORIZONTAL;
     }

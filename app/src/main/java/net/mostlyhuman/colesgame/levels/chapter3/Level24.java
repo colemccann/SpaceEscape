@@ -3,6 +3,7 @@ package net.mostlyhuman.colesgame.levels.chapter3;
 
 import android.util.Log;
 
+import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
@@ -47,8 +48,10 @@ public class Level24 extends LevelData {
 
                 buttonKeys = new int[]{0, 1};
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_FOUR_WB,
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FOUR_WB,
                         Constants.Levels.TWENTY_FOUR_WA};
+                warpTeleportTargets = null;
 
                 turretFacingAngles = new int[]{DOWN, UP, LEFT};
 
@@ -82,8 +85,10 @@ public class Level24 extends LevelData {
 
                 buttonKeys = new int[]{0, 1};
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_FOUR_WB,
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FOUR_WB,
                         Constants.Levels.TWENTY_FOUR_WA};
+                warpTeleportTargets = null;
 
                 turretFacingAngles = new int[]{DOWN, UP, LEFT};
 
@@ -117,8 +122,10 @@ public class Level24 extends LevelData {
 
                 buttonKeys = new int[]{0, 1};
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_FOUR_WB,
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FOUR_WB,
                         Constants.Levels.TWENTY_FOUR_WA};
+                warpTeleportTargets = null;
 
                 turretFacingAngles = new int[]{DOWN, UP, LEFT};
 
@@ -142,7 +149,7 @@ public class Level24 extends LevelData {
                 tiles.add("....b....#");
                 tiles.add(".....#..hb");
 
-                asteroidDirections = new int[]{};
+                asteroidDirections = null;
 
                 doorStates = new boolean[]{false, false};
 
@@ -152,10 +159,12 @@ public class Level24 extends LevelData {
 
                 buttonKeys = new int[]{0, 1};
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_FOUR_C,
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FOUR_C,
                         Constants.Levels.TWENTY_FOUR_B};
+                warpTeleportTargets = null;
 
-                turretFacingAngles = new int[]{};
+                turretFacingAngles = null;
 
                 mapOrientation = HORIZONTAL;
                 break;
@@ -171,7 +180,7 @@ public class Level24 extends LevelData {
                 tiles.add("....b....#");
                 tiles.add(".....#..hb");
 
-                asteroidDirections = new int[]{};
+                asteroidDirections = null;
 
                 doorStates = new boolean[]{false, false};
 
@@ -181,10 +190,12 @@ public class Level24 extends LevelData {
 
                 buttonKeys = new int[]{0, 1};
 
-                warpTargets = new String[]{Constants.Levels.TWENTY_FOUR_C,
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FOUR_C,
                         Constants.Levels.TWENTY_FOUR_B};
+                warpTeleportTargets = null;
 
-                turretFacingAngles = new int[]{};
+                turretFacingAngles = null;
 
                 mapOrientation = HORIZONTAL;
                 break;

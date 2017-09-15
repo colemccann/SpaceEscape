@@ -1,5 +1,7 @@
 package net.mostlyhuman.colesgame.levels.chapter2;
 
+import android.graphics.PointF;
+
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -35,8 +37,10 @@ public class Level20 extends LevelData {
         buttonStates = new boolean[]{CLOSED};
 
         buttonKeys = new int[]{1};
-
-        warpTargets = new String[]{};
+        
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = null;
 
         turretFacingAngles = new int[]{DOWN, UP, RIGHT};
 

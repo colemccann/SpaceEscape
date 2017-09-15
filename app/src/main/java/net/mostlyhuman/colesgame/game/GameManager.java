@@ -305,11 +305,15 @@ public class GameManager {
     }
 
     private void setMapSize() {
+
+        // Save map size
         setMapHeight(mLevelData.tiles.size() * pixelsPerMeter);
         setMapWidth(mLevelData.tiles.get(0).length() * pixelsPerMeter);
     }
 
     private void countGameObjects() {
+
+        // Count em up!
         for (int i = 0; i < mLevelData.tiles.size(); i++) {
             for (int j = 0; j < mLevelData.tiles.get(i).length(); j++) {
                 char c = mLevelData.tiles.get(i).charAt(j);
@@ -365,6 +369,8 @@ public class GameManager {
     }
 
     private void createGameObjects(String levelType) {
+
+        // Initialize arrays to hold our game objects
         if (numAsteroids > 0) {
             asteroids = new Asteroid[numAsteroids];
         }
@@ -413,7 +419,7 @@ public class GameManager {
             warps = new Warp[numWarps];
         }
 
-
+        // Reset object indices
         char c;
 
         int asteroidIndex = -1;
@@ -592,7 +598,7 @@ public class GameManager {
                                     j * pixelsPerMeter,
                                     -i * pixelsPerMeter,
                                     pixelsPerMeter,
-                                    mLevelData.warpTargets[warpIndex]);
+                                    mLevelData.warpTypes[warpIndex]);
                             break;
                         case Constants.Types.EXIT:
                             hasExit = true;
@@ -606,6 +612,7 @@ public class GameManager {
             }
         }
 
+        // Toggle the doors open or closed
         if (numDoors > 0) {
             for (Door door : doors) {
                 for (Button button : buttons) {
@@ -616,6 +623,7 @@ public class GameManager {
             }
         }
 
+        // Get the asteroids moving!
         for (int i = 0; i < numAsteroids; i++) {
             if (mLevelData.asteroidDirections[i] > 0) {
                 asteroids[i].setSpeed(asteroids[i].getMaxSpeed());
@@ -623,6 +631,24 @@ public class GameManager {
             }
         }
 
+        // Initialize warp target, either dimensional or teleport
+        for (int i = 0; i < numWarps; i++) {
+
+            int dimensionalWarpIndex = -1;
+            int teleportWarpIndex = -1;
+
+            if (warps[i].getWarpType() == Warp.DIMENSIONAL) {
+                dimensionalWarpIndex++;
+                warps[i].setWarpDimensionTarget(mLevelData.
+                        warpDimensionalTargets[dimensionalWarpIndex]);
+
+            } else if (warps[i].getWarpType() == Warp.TELEPORT) {
+                teleportWarpIndex++;
+                warps[i].setWarpTeleportTarget(mLevelData.warpTeleportTargets[teleportWarpIndex]);
+            }
+        }
+
+        // Save button states for future use (warping purposes)
         if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
             for (int i = 0; i < numButtons; i++) {
                 levelButtonVariables[i] = buttons[i].isToggled();

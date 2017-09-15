@@ -1,5 +1,7 @@
 package net.mostlyhuman.colesgame.levels;
 
+import android.graphics.PointF;
+
 import java.util.ArrayList;
 
 /**
@@ -28,8 +30,11 @@ public class LevelData {
     public int[] doorKeys;
     public boolean[] buttonStates;
     public int[] buttonKeys;
-    public String[] warpTargets;
     public int[] turretFacingAngles;
     public int mapOrientation;
     public String levelType;
+
+    public String[] warpDimensionalTargets;
+    public PointF[] warpTeleportTargets;
+    public char[] warpTypes;
 }

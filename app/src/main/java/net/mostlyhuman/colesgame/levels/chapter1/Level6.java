@@ -22,17 +22,19 @@ public class Level6 extends LevelData {
         this.tiles.add(".G...#");
         this.tiles.add(".....p");
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = null;
 
         doorStates = new boolean[]{false, false};
 
-        doorKeys = new int[]{};
+        doorKeys = null;
 
-        buttonStates = new boolean[]{};
+        buttonStates = null;
 
-        buttonKeys = new int[]{};
+        buttonKeys = null;
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = new String[]{};
 
         turretFacingAngles = new int[]{
                 RIGHT, UP, DOWN};

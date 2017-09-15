@@ -1,8 +1,8 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
+import android.graphics.PointF;
 
-import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
@@ -12,16 +12,20 @@ import net.mostlyhuman.colesgame.helpers.Constants;
 
 public class Warp extends GameObject {
 
-    private String warpTarget;
+    public static final char DIMENSIONAL = 'd';
+    public static final char TELEPORT = 't';
+
+    private String warpDimensionTarget;
+    private PointF warpTeleportTarget;
+    private char warpType;
 
     public Warp(Context context, float worldLocationX,
                 float worldLocationY, int pixelsPerMeter,
-                String warpTarget) {
+                char warpType) {
         super(context);
 
         setType(Constants.Types.WARP);
-
-        this.warpTarget = warpTarget;
+        setWarpType(warpType);
 
         setWorldLocation(worldLocationX, worldLocationY);
 
@@ -50,7 +54,27 @@ public class Warp extends GameObject {
         setTextureVertices(left, right, 1 - top, 1 - bottom);
     }
 
-    public String getWarpTarget() {
-        return warpTarget;
+    public String getWarpDimensionTarget() {
+        return warpDimensionTarget;
+    }
+
+    public void setWarpDimensionTarget(String warpDimensionTarget) {
+        this.warpDimensionTarget = warpDimensionTarget;
+    }
+
+    public void setWarpTeleportTarget(PointF warpTeleportTarget) {
+        this.warpTeleportTarget = warpTeleportTarget;
+    }
+
+    public PointF getWarpTeleportTarget() {
+        return warpTeleportTarget;
+    }
+
+    public char getWarpType() {
+        return warpType;
+    }
+
+    public void setWarpType(char warpType) {
+        this.warpType = warpType;
     }
 }

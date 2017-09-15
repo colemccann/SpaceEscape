@@ -37,9 +37,11 @@ public class Level15 extends LevelData {
 
         buttonKeys = new int[]{1};
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = null;
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = null;
 
         mapOrientation = HORIZONTAL;
     }

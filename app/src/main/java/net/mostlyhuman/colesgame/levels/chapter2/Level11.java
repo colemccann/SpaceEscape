@@ -27,17 +27,19 @@ public class Level11 extends LevelData {
 
         asteroidDirections = new int[]{0};
 
-        doorStates = new boolean[]{};
+        doorStates = null;
 
-        doorKeys = new int[]{};
+        doorKeys = null;
 
-        buttonStates = new boolean[]{};
+        buttonStates = null;
 
-        buttonKeys = new int[]{};
+        buttonKeys = null;
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = null;
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = null;
 
         mapOrientation = HORIZONTAL;
     }

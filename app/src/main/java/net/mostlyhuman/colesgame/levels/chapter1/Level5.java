@@ -24,7 +24,7 @@ public class Level5 extends LevelData {
         this.tiles.add("......#.");
         this.tiles.add("..#...#b");
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = null;
 
         doorStates = new boolean[]{false, false};
 
@@ -34,9 +34,11 @@ public class Level5 extends LevelData {
 
         buttonKeys = new int[]{1, 2};
 
-        warpTargets = new String[]{};
+        warpTypes = null;
+        warpTeleportTargets = null;
+        warpDimensionalTargets = new String[]{};
 
-        turretFacingAngles = new int[]{};
+        turretFacingAngles = null;
 
         mapOrientation = HORIZONTAL;
     }
