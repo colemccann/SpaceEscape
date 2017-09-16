@@ -18,8 +18,8 @@ public class Level18 extends LevelData {
         tiles = new ArrayList<>();
         this.tiles.add("....#.");
         this.tiles.add("....e.");
-        this.tiles.add(".G.ax.");
         this.tiles.add("......");
+        this.tiles.add(".G.ax.");
         this.tiles.add("......");
         this.tiles.add("......");
         this.tiles.add("....pa");

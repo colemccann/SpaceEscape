@@ -97,8 +97,11 @@ public class GameManager {
     Button[] buttons;
     int numButtons;
 
-    Warp[] warps;
+    Warp[] dimensionalWarps;
+    Warp[] teleportWarps;
     int numWarps;
+    int numDimensionalWarps;
+    int numTeleportWarps;
 
     EnemyLaser[] enemyLasers;
 
@@ -154,6 +157,8 @@ public class GameManager {
         numDoors = 0;
         numButtons = 0;
         numWarps = 0;
+        numDimensionalWarps = 0;
+        numTeleportWarps = 0;
 
         loadLevelData(level);
 
@@ -273,22 +278,58 @@ public class GameManager {
                 mLevelData = new Level24("wb");
                 break;
             case Constants.Levels.TWENTY_FIVE:
-                mLevelData = new Level25();
+                mLevelData = new Level25("a");
+                break;
+            case Constants.Levels.TWENTY_FIVE_B:
+                mLevelData = new Level25("b");
+                break;
+            case Constants.Levels.TWENTY_FIVE_C:
+                mLevelData = new Level25("c");
+                break;
+            case Constants.Levels.TWENTY_FIVE_D:
+                mLevelData = new Level25("d");
+                break;
+            case Constants.Levels.TWENTY_FIVE_WA:
+                mLevelData = new Level25("wa");
+                break;
+            case Constants.Levels.TWENTY_FIVE_WB:
+                mLevelData = new Level25("wb");
+                break;
+            case Constants.Levels.TWENTY_FIVE_WC:
+                mLevelData = new Level25("wc");
                 break;
             case Constants.Levels.TWENTY_SIX:
-                mLevelData = new Level26();
+                mLevelData = new Level26('a', pixelsPerMeter, false);
+                break;
+            case Constants.Levels.TWENTY_SIX_X:
+                mLevelData = new Level26('x', pixelsPerMeter, levelButtonVariables[0]);
+                break;
+            case Constants.Levels.TWENTY_SIX_B:
+                mLevelData = new Level26('b', pixelsPerMeter, levelButtonVariables[0]);
+                break;
+            case Constants.Levels.TWENTY_SIX_WA:
+                mLevelData = new Level26("wa");
+                break;
+            case Constants.Levels.TWENTY_SIX_WB:
+                mLevelData = new Level26("wb");
+                break;
+            case Constants.Levels.TWENTY_SIX_WC:
+                mLevelData = new Level26("wc");
+                break;
+            case Constants.Levels.TWENTY_SIX_WD:
+                mLevelData = new Level26("wd");
                 break;
             case Constants.Levels.TWENTY_SEVEN:
-                mLevelData = new Level27();
+                mLevelData = new Level27(pixelsPerMeter);
                 break;
             case Constants.Levels.TWENTY_EIGHT:
-                mLevelData = new Level28();
+                mLevelData = new Level28(pixelsPerMeter);
                 break;
             case Constants.Levels.TWENTY_NINE:
-                mLevelData = new Level29();
+                mLevelData = new Level29(pixelsPerMeter);
                 break;
             case Constants.Levels.THIRTY:
-                mLevelData = new Level30();
+                mLevelData = new Level30(pixelsPerMeter);
                 break;
         }
     }
@@ -362,6 +403,11 @@ public class GameManager {
                         break;
                     case Constants.Types.WARP:
                         numWarps++;
+                        if (mLevelData.warpTypes[numWarps - 1] == Warp.DIMENSIONAL) {
+                            numDimensionalWarps++;
+                        } else if (mLevelData.warpTypes[numWarps - 1] == Warp.TELEPORT) {
+                            numTeleportWarps++;
+                        }
                         break;
                 }
             }
@@ -411,12 +457,16 @@ public class GameManager {
 
             if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
                 levelButtonVariables = new boolean[numButtons];
-                Log.d(TAG, "Level Button Variables were RESET");
             }
         }
 
         if (numWarps > 0) {
-            warps = new Warp[numWarps];
+            if (numDimensionalWarps > 0) {
+                dimensionalWarps = new Warp[numDimensionalWarps];
+            }
+            if (numTeleportWarps > 0) {
+                teleportWarps = new Warp[numTeleportWarps];
+            }
         }
 
         // Reset object indices
@@ -433,6 +483,9 @@ public class GameManager {
         int doorIndex = -1;
         int buttonIndex = -1;
         int warpIndex = -1;
+        int dimensionalWarpIndex = -1;
+        int teleportWarpIndex = -1;
+
 
         // Iterate through level data and create all game objects
 
@@ -594,12 +647,23 @@ public class GameManager {
                             break;
                         case Constants.Types.WARP:
                             warpIndex++;
-                            warps[warpIndex] = new Warp(context,
-                                    j * pixelsPerMeter,
-                                    -i * pixelsPerMeter,
-                                    pixelsPerMeter,
-                                    mLevelData.warpTypes[warpIndex]);
-                            break;
+                            if (mLevelData.warpTypes[warpIndex] == Warp.DIMENSIONAL) {
+                                dimensionalWarpIndex++;
+                                dimensionalWarps[dimensionalWarpIndex] = new Warp(context,
+                                        j * pixelsPerMeter,
+                                        -i * pixelsPerMeter,
+                                        pixelsPerMeter,
+                                        mLevelData.warpDimensionalTargets[dimensionalWarpIndex]);
+                                break;
+                            } else if (mLevelData.warpTypes[warpIndex] == Warp.TELEPORT) {
+                                teleportWarpIndex++;
+                                teleportWarps[teleportWarpIndex] = new Warp(context,
+                                        j * pixelsPerMeter,
+                                        -i * pixelsPerMeter,
+                                        pixelsPerMeter,
+                                        mLevelData.warpTeleportTargets[teleportWarpIndex]);
+                                break;
+                            }
                         case Constants.Types.EXIT:
                             hasExit = true;
                             exit = new Exit(context,
@@ -628,23 +692,6 @@ public class GameManager {
             if (mLevelData.asteroidDirections[i] > 0) {
                 asteroids[i].setSpeed(asteroids[i].getMaxSpeed());
                 asteroids[i].setTravelingAngle(mLevelData.asteroidDirections[i]);
-            }
-        }
-
-        // Initialize warp target, either dimensional or teleport
-        for (int i = 0; i < numWarps; i++) {
-
-            int dimensionalWarpIndex = -1;
-            int teleportWarpIndex = -1;
-
-            if (warps[i].getWarpType() == Warp.DIMENSIONAL) {
-                dimensionalWarpIndex++;
-                warps[i].setWarpDimensionTarget(mLevelData.
-                        warpDimensionalTargets[dimensionalWarpIndex]);
-
-            } else if (warps[i].getWarpType() == Warp.TELEPORT) {
-                teleportWarpIndex++;
-                warps[i].setWarpTeleportTarget(mLevelData.warpTeleportTargets[teleportWarpIndex]);
             }
         }
 

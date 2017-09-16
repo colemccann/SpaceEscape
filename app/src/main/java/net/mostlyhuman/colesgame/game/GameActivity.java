@@ -3,12 +3,10 @@ package net.mostlyhuman.colesgame.game;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.graphics.Point;
-import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.Display;
 
-import net.mostlyhuman.colesgame.R;
 import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.ingamemenus.IngameMenuContract;
 import net.mostlyhuman.colesgame.ingamemenus.IngameMenuFragment;
@@ -26,7 +24,6 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     private GameManager gameManager;
     private SoundManager soundManager;
     private InputController inputController;
-    private MediaPlayer mediaPlayer;
 
 
     @Override
@@ -45,8 +42,6 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
         inputController = new InputController(this, resolution.x, gameManager, this);
 
         gameRenderer = new GameRenderer(this, inputController, soundManager, gameManager, this);
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.music_1);
 
         gameView = new MyGLSurfaceView(this,
                 gameRenderer, gameManager,

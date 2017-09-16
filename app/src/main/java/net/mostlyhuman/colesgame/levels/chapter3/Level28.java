@@ -1,5 +1,8 @@
 package net.mostlyhuman.colesgame.levels.chapter3;
 
+import android.graphics.PointF;
+
+import net.mostlyhuman.colesgame.gameobjects.Warp;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -10,30 +13,37 @@ import java.util.ArrayList;
 
 public class Level28 extends LevelData {
 
-    public Level28() {
+    public Level28(int pixelsPerMeter) {
+
+        levelType = MAIN_LEVEL;
 
         tiles = new ArrayList<>();
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
+        this.tiles.add("d....ll....#.p");
+        this.tiles.add("...#..........");
+        this.tiles.add("........#.....");
+        this.tiles.add(".d..........#.");
+        this.tiles.add("d...#.....#...");
+        this.tiles.add("w......#.#....");
+        this.tiles.add("e.#...u......l");
 
 
-        asteroidDirections = new int[]{};
+        asteroidDirections = null;
 
-        doorStates = new boolean[]{};
+        doorStates = null;
 
-        doorKeys = new int[]{};
+        doorKeys = null;
 
-        buttonStates = new boolean[]{};
+        buttonStates = null;
 
-        buttonKeys = new int[]{};
+        buttonKeys = null;
 
-        warpDimensionalTargets = new String[]{};
+        warpTypes = new char[]{Warp.TELEPORT};
 
-        turretFacingAngles = new int[]{};
+        warpDimensionalTargets = null;
+
+        warpTeleportTargets = new PointF[]{new PointF(13 * pixelsPerMeter, 0)};
+
+        turretFacingAngles = null;
 
         mapOrientation = HORIZONTAL;
     }

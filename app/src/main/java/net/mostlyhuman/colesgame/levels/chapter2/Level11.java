@@ -19,10 +19,10 @@ public class Level11 extends LevelData {
         this.tiles.add("#a#");
         this.tiles.add("#.#");
         this.tiles.add("#.#");
-        this.tiles.add("e.#");
-        this.tiles.add("#.#");
-        this.tiles.add(".u.");
-        this.tiles.add("...");
+        this.tiles.add("e..");
+        this.tiles.add("#..");
+        this.tiles.add("#u#");
+        this.tiles.add("###");
 
 
         asteroidDirections = new int[]{0};

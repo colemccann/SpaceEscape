@@ -87,9 +87,9 @@ public class Level22 extends LevelData {
 
                 tiles = new ArrayList<>();
                 this.tiles.add("......");
-                this.tiles.add("...p..");
+                this.tiles.add("......");
                 this.tiles.add("..w...");
-                this.tiles.add(".#....");
+                this.tiles.add("p#....");
                 this.tiles.add(".....#");
 
 

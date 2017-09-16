@@ -103,29 +103,31 @@ public class Constants {
         public static final String TWENTY_FOUR_WB = "Level 24wb";
 
         public static final String TWENTY_FIVE = "Level 25";
+        public static final String TWENTY_FIVE_B = "Level 25b";
+        public static final String TWENTY_FIVE_C = "Level 25c";
+        public static final String TWENTY_FIVE_D = "Level 25d";
+        public static final String TWENTY_FIVE_WA = "Level 25wa";
+        public static final String TWENTY_FIVE_WB = "Level 25wb";
+        public static final String TWENTY_FIVE_WC = "Level 25wc";
+
         public static final String TWENTY_SIX = "Level 26";
+        public static final String TWENTY_SIX_X = "Level 26x";
+        public static final String TWENTY_SIX_B = "Level 26b";
+        public static final String TWENTY_SIX_WA = "Level 26wa";
+        public static final String TWENTY_SIX_WB = "Level 26wb";
+        public static final String TWENTY_SIX_WC = "Level 26wc";
+        public static final String TWENTY_SIX_WD = "Level 26wd";
+
         public static final String TWENTY_SEVEN = "Level 27";
         public static final String TWENTY_EIGHT = "Level 28";
         public static final String TWENTY_NINE = "Level 29";
         public static final String THIRTY = "Level 30";
-        public static final String THIRTY_ONE = "Level 31";
-        public static final String THIRTY_TWO = "Level 32";
-        public static final String THIRTY_THREE = "Level 33";
-        public static final String THIRTY_FOUR = "Level 34";
-        public static final String THIRTY_FIVE = "Level 35";
-        public static final String THIRTY_SIX = "Level 36";
-        public static final String THIRTY_SEVEN = "Level 37";
-        public static final String THIRTY_EIGHT = "Level 38";
-        public static final String THIRTY_NINE = "Level 39";
-        public static final String FORTY = "Level 40";
 
         public static final String[] LEVEL_TITLES = {
                 ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE,
                 THIRTEEN, FOURTEEN, FIFTEEN, SIXTEEN, SEVENTEEN, EIGHTEEN, NINETEEN, TWENTY,
                 TWENTY_ONE, TWENTY_TWO, TWENTY_THREE, TWENTY_FOUR, TWENTY_FIVE, TWENTY_SIX,
-                TWENTY_SEVEN, TWENTY_EIGHT, TWENTY_NINE, THIRTY, THIRTY_ONE, THIRTY_TWO,
-                THIRTY_THREE, THIRTY_FOUR, THIRTY_FIVE, THIRTY_SIX, THIRTY_SEVEN, THIRTY_EIGHT,
-                THIRTY_NINE, FORTY
+                TWENTY_SEVEN, TWENTY_EIGHT, TWENTY_NINE, THIRTY
         };
 
     }

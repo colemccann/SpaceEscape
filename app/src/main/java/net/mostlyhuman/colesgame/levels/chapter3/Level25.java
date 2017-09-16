@@ -1,5 +1,9 @@
 package net.mostlyhuman.colesgame.levels.chapter3;
 
+import android.graphics.PointF;
+
+import net.mostlyhuman.colesgame.gameobjects.Warp;
+import net.mostlyhuman.colesgame.helpers.Constants;
 import net.mostlyhuman.colesgame.levels.LevelData;
 
 import java.util.ArrayList;
@@ -10,31 +14,236 @@ import java.util.ArrayList;
 
 public class Level25 extends LevelData {
 
-    public Level25() {
+    public Level25(String version) {
 
-        tiles = new ArrayList<>();
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
-        this.tiles.add("......");
+        switch (version) {
+            case "a":
+
+                levelType = MAIN_LEVEL;
+
+                tiles = new ArrayList<>();
+                this.tiles.add("p.#..");
+                this.tiles.add(".w#w.");
+                this.tiles.add("#####");
+                this.tiles.add(".w#e.");
+                this.tiles.add("..#..");
 
 
-        asteroidDirections = new int[]{};
+                asteroidDirections = null;
 
-        doorStates = new boolean[]{};
+                doorStates = null;
 
-        doorKeys = new int[]{};
+                doorKeys = null;
 
-        buttonStates = new boolean[]{};
+                buttonStates = null;
 
-        buttonKeys = new int[]{};
+                buttonKeys = null;
 
-        warpDimensionalTargets = new String[]{};
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FIVE_WA,
+                        Constants.Levels.TWENTY_FIVE_WB, Constants.Levels.TWENTY_FIVE_WC};
+                warpTeleportTargets = null;
 
-        turretFacingAngles = new int[]{};
+                turretFacingAngles = null;
 
-        mapOrientation = HORIZONTAL;
+                mapOrientation = HORIZONTAL;
+                break;
+            case "b":
+
+                levelType = MAIN_LEVEL;
+
+                tiles = new ArrayList<>();
+                this.tiles.add("..#.p");
+                this.tiles.add(".w#w.");
+                this.tiles.add("#####");
+                this.tiles.add(".w#e.");
+                this.tiles.add("..#..");
+
+
+                asteroidDirections = null;
+
+                doorStates = null;
+
+                doorKeys = null;
+
+                buttonStates = null;
+
+                buttonKeys = null;
+
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FIVE_WA,
+                        Constants.Levels.TWENTY_FIVE_WB, Constants.Levels.TWENTY_FIVE_WC};
+                warpTeleportTargets = null;
+
+                turretFacingAngles = null;
+
+                mapOrientation = HORIZONTAL;
+                break;
+            case "c":
+
+                levelType = MAIN_LEVEL;
+
+                tiles = new ArrayList<>();
+                this.tiles.add("..#..");
+                this.tiles.add(".w#w.");
+                this.tiles.add("#####");
+                this.tiles.add(".w#e.");
+                this.tiles.add("p.#..");
+
+
+                asteroidDirections = null;
+
+                doorStates = null;
+
+                doorKeys = null;
+
+                buttonStates = null;
+
+                buttonKeys = null;
+
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FIVE_WA,
+                        Constants.Levels.TWENTY_FIVE_WB, Constants.Levels.TWENTY_FIVE_WC};
+                warpTeleportTargets = null;
+
+                turretFacingAngles = null;
+
+                mapOrientation = HORIZONTAL;
+                break;
+            case "d":
+
+                levelType = MAIN_LEVEL;
+
+                tiles = new ArrayList<>();
+                this.tiles.add("..#..");
+                this.tiles.add(".w#w.");
+                this.tiles.add("#####");
+                this.tiles.add(".w#e.");
+                this.tiles.add("..#.p");
+
+
+                asteroidDirections = null;
+
+                doorStates = null;
+
+                doorKeys = null;
+
+                buttonStates = null;
+
+                buttonKeys = null;
+
+                warpTypes = new char[]{Warp.DIMENSIONAL, Warp.DIMENSIONAL, Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FIVE_WA,
+                        Constants.Levels.TWENTY_FIVE_WB, Constants.Levels.TWENTY_FIVE_WC};
+                warpTeleportTargets = null;
+
+                turretFacingAngles = null;
+
+                mapOrientation = HORIZONTAL;
+                break;
+            case "wa":
+
+                levelType = WARP_LEVEL;
+
+                tiles = new ArrayList<>();
+                this.tiles.add("p...#...");
+                this.tiles.add(".......B");
+                this.tiles.add("r.......");
+                this.tiles.add("#.......");
+                this.tiles.add("..w.....");
+                this.tiles.add(".u...#..");
+                this.tiles.add("...#x...");
+                this.tiles.add("........");
+
+
+                asteroidDirections = new int[]{};
+
+                doorStates = null;
+
+                doorKeys = null;
+
+                buttonStates = null;
+
+                buttonKeys = null;
+
+                warpTypes = new char[]{Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FIVE_B};
+                warpTeleportTargets = null;
+
+                turretFacingAngles = new int[]{DOWN};
+
+                mapOrientation = HORIZONTAL;
+                break;
+            case "wb":
+
+                levelType = WARP_LEVEL;
+
+                tiles = new ArrayList<>();
+                this.tiles.add(".....#..");
+                this.tiles.add(".......#");
+                this.tiles.add(".d.p.a..");
+                this.tiles.add("..w#....");
+                this.tiles.add(".r.....#");
+                this.tiles.add("...#....");
+                this.tiles.add("........");
+                this.tiles.add("#....u..");
+
+
+                asteroidDirections = new int[]{0};
+
+                doorStates = null;
+
+                doorKeys = null;
+
+                buttonStates = null;
+
+                buttonKeys = null;
+
+                warpTypes = new char[]{Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FIVE_C};
+                warpTeleportTargets = null;
+
+                turretFacingAngles = null;
+
+                mapOrientation = HORIZONTAL;
+                break;
+            case "wc":
+
+                levelType = WARP_LEVEL;
+
+                tiles = new ArrayList<>();
+                this.tiles.add("...p....");
+                this.tiles.add(".....b..");
+                this.tiles.add("#.......");
+                this.tiles.add("...#...#");
+                this.tiles.add("......hw");
+                this.tiles.add(".v#....#");
+                this.tiles.add(".b#.....");
+                this.tiles.add("........");
+
+
+                asteroidDirections = null;
+
+                doorStates = new boolean[]{CLOSED, CLOSED};
+
+                doorKeys = new int[]{1, 0};
+
+                buttonStates = new boolean[]{CLOSED, CLOSED};
+
+                buttonKeys = new int[]{0, 1};
+
+                warpTypes = new char[]{Warp.DIMENSIONAL};
+                warpDimensionalTargets = new String[]{Constants.Levels.TWENTY_FIVE_D};
+                warpTeleportTargets = null;
+
+                turretFacingAngles = null;
+
+                mapOrientation = HORIZONTAL;
+                break;
+        }
+
+
+
+
     }
 }

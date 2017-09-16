@@ -78,6 +78,8 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
     private int numBlueTurrets;
     private int numRedTurrets;
     private int numWarps;
+    private int numDimensionalWarps;
+    private int numTeleportWarps;
     private boolean hasExit;
 
 
@@ -149,7 +151,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
             if (frameCounter > 100) {
                 averageFPS = averageFPS / frameCounter;
                 frameCounter = 0;
-                //Log.e(TAG, "Average FPS: " + averageFPS);
+                Log.e(TAG, "Average FPS: " + averageFPS);
             }
         }
     }
@@ -179,6 +181,8 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         numBlueTurrets = gm.numBlueTurrets;
         numRedTurrets = gm.numRedTurrets;
         numWarps = gm.numWarps;
+        numDimensionalWarps = gm.numDimensionalWarps;
+        numTeleportWarps = gm.numTeleportWarps;
 
         hasExit = gm.hasExit();
     }
@@ -281,7 +285,6 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     }
                 }
             }
-
             // Draw the blue turrets
             if (numBlueTurrets > 0) {
                 for (BlueTurret blueTurret : gm.blueTurrets) {
@@ -292,7 +295,6 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     }
                 }
             }
-
             // Draw the red turrets
             if (numRedTurrets > 0) {
                 for (RedTurret redTurret : gm.redTurrets) {
@@ -340,10 +342,16 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         }
 
         // Draw the warps
-        for (int i = 0; i < numWarps; i++) {
-            textureShaderProgram.setUniforms(gm.warps[i].rotateMatrix(viewportMatrix));
-            gm.warps[i].bindTextureData(textureShaderProgram);
-            gm.warps[i].draw();
+        for (int i = 0; i < numDimensionalWarps; i++) {
+            textureShaderProgram.setUniforms(gm.dimensionalWarps[i].rotateMatrix(viewportMatrix));
+            gm.dimensionalWarps[i].bindTextureData(textureShaderProgram);
+            gm.dimensionalWarps[i].draw();
+        }
+
+        for (int i = 0; i < numTeleportWarps; i++) {
+            textureShaderProgram.setUniforms(gm.teleportWarps[i].rotateMatrix(viewportMatrix));
+            gm.teleportWarps[i].bindTextureData(textureShaderProgram);
+            gm.teleportWarps[i].draw();
         }
 
         // Draw the player
@@ -444,7 +452,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
     }
 
     private void containLasers() {
-        PointF utilPointF2;
+        PointF utilPointF2 = gm.player.getWorldLocation();
         // Contain the lasers
         for (int i = 0; i < numTurrets; i++) {
             if (gm.enemyLasers[i].isActive()
@@ -453,7 +461,6 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     gm.pixelsPerMeter / 2)) {
 
                 utilPointF = gm.enemyLasers[i].getWorldLocation();
-                utilPointF2 = gm.player.getWorldLocation();
 
                 if (utilPointF.x > utilPointF2.x + gm.metersToShowX / 2) {
                     gm.enemyLasers[i].resetLaser();
@@ -623,10 +630,24 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
 
         // Check player collisions against the Warp objects
         if (numWarps > 0) {
-            for (Warp warp : gm.warps) {
-                boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
-                if (hit) {
-                    gm.loadLevel(warp.getWarpDimensionTarget());
+            if (numDimensionalWarps > 0) {
+                for (Warp warp : gm.dimensionalWarps) {
+                    boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
+                    if (hit) {
+                        gm.loadLevel(warp.getWarpDimensionTarget());
+                    }
+                }
+            }
+
+            if (numTeleportWarps > 0) {
+                for (Warp warp : gm.teleportWarps) {
+                    boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
+                    if (hit) {
+                        gm.player.setWorldLocation(
+                                warp.getWarpTeleportTarget().x,
+                                warp.getWarpTeleportTarget().y);
+                        gm.player.stop();
+                    }
                 }
             }
         }

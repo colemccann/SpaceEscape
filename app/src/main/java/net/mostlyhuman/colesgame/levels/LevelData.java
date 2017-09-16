@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class LevelData {
 
     public static final String MAIN_LEVEL = "main";
-    public static final String WARP_LEVEL = "warp";
+    protected static final String WARP_LEVEL = "warp";
 
     protected static final boolean OPEN = true;
     protected static final boolean CLOSED = false;

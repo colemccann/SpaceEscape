@@ -252,8 +252,7 @@ public class ChapterSelectionFragment extends Fragment implements
             for (int complete : completeStatus) {
                 if (complete == 1) {
                     totalLevelsCompleted++;
-
-                } else break;
+                }
             }
 
             int chaptersCompleted = totalLevelsCompleted / LEVELS_PER_CHAPTER;
@@ -266,7 +265,7 @@ public class ChapterSelectionFragment extends Fragment implements
                     levelsCompletePerChapter[i] = 10;
                     chapterAvailability[i] = true;
                 }
-                if (totalLevelsCompleted >= chaptersCompleted * 10) {
+                if (totalLevelsCompleted > chaptersCompleted * 10) {
                     chapterAvailability[chaptersCompleted] = true;
                     levelsCompletePerChapter[chaptersCompleted] = remainder;
                 }
@@ -282,7 +281,7 @@ public class ChapterSelectionFragment extends Fragment implements
             }
 
             if (chaptersCompleted + 1 < NUMBER_OF_CHAPTERS) {
-                for (int i = chaptersCompleted + 2; i == NUMBER_OF_CHAPTERS; i++) {
+                for (int i = chaptersCompleted + 1; i == NUMBER_OF_CHAPTERS; i++) {
                     levelsCompletePerChapter[i] = 0;
                 }
             }
