@@ -188,7 +188,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
     }
 
 
-    void restartLevel() {
+    private void restartLevel() {
         Log.d(TAG, "restartLevel()");
 
         loadLevel();
@@ -441,13 +441,13 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
 
         containLasers();
 
+        checkLaserCollisions();
+
         checkPlayerCollisions();
 
         checkAsteroidCollisions();
 
         checkButtonCollisions();
-
-        checkLaserCollisions();
 
     }
 
@@ -481,6 +481,11 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
     private void checkPlayerCollisions() {
         utilPointF = gm.player.getWorldLocation();
         float playerFacingAngle = gm.player.getFacingAngle();
+        int safeDistance = gm.pixelsPerMeter * 2;
+
+        float distanceX, distanceY;
+        double distanceH;
+        boolean hit;
         // Check player collision
 
         // Check player collision against the border
@@ -492,21 +497,34 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
 
         // Check player collision with Exit objects
         if (hasExit) {
-            boolean hitExit = gm.player.detectCollision(gm.exit.getCollisionPackage());
-            if (hitExit) {
-                beatLevel();
+            distanceX = utilPointF.x - gm.exit.getWorldLocation().x;
+            distanceY = utilPointF.y - gm.exit.getWorldLocation().y;
+            distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+            if (distanceH < safeDistance) {
+                hit = gm.player.detectCollision(gm.exit.getCollisionPackage());
+                if (hit) {
+                    beatLevel();
+                }
             }
         }
 
         // check player collision with Block objects
         if (numBlocks > 0) {
             for (Block block : gm.blocks) {
-                boolean hit = gm.player.detectCollision(block.getCollisionPackage());
-                if (hit) {
-                    gm.player.stop();
-                    gm.player.setWorldLocation(block.reposition(playerFacingAngle, utilPointF).x,
-                            block.reposition(playerFacingAngle, utilPointF).y);
-                    sm.playSound(Constants.Sounds.BUMP);
+                distanceX = utilPointF.x - block.getWorldLocation().x;
+                distanceY = utilPointF.y - block.getWorldLocation().y;
+                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                if (distanceH < safeDistance) {
+
+                    hit = gm.player.detectCollision(block.getCollisionPackage());
+                    if (hit) {
+                        gm.player.stop();
+                        gm.player.setWorldLocation(block.reposition(playerFacingAngle, utilPointF).x,
+                                block.reposition(playerFacingAngle, utilPointF).y);
+                        sm.playSound(Constants.Sounds.BUMP);
+                    }
                 }
             }
         }
@@ -515,23 +533,28 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         if (numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
-                    boolean hit = gm.player.detectCollision(asteroid.getCollisionPackage());
-                    if (hit) {
-                        if (gm.player.isMoving()) {
-                            if (asteroid.isInFrontOfPlayer()) {
-                                gm.player.stop();
-                                gm.player.setWorldLocation(asteroid.reposition(playerFacingAngle, utilPointF).x,
-                                        asteroid.reposition(playerFacingAngle, utilPointF).y);
-                                asteroid.setSpeed(asteroid.getMaxSpeed());
-                                asteroid.redirect(gm.player.getFacingAngle());
-                                sm.playSound(Constants.Sounds.BUMP);
+                    distanceX = utilPointF.x - asteroid.getWorldLocation().x;
+                    distanceY = utilPointF.y - asteroid.getWorldLocation().y;
+                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                    if (distanceH < safeDistance) {
+                        hit = gm.player.detectCollision(asteroid.getCollisionPackage());
+                        if (hit) {
+                            if (gm.player.isMoving()) {
+                                if (asteroid.isInFrontOfPlayer()) {
+                                    gm.player.stop();
+                                    gm.player.setWorldLocation(asteroid.reposition(playerFacingAngle, utilPointF).x,
+                                            asteroid.reposition(playerFacingAngle, utilPointF).y);
+                                    asteroid.setSpeed(asteroid.getMaxSpeed());
+                                    asteroid.redirect(gm.player.getFacingAngle());
+                                    sm.playSound(Constants.Sounds.BUMP);
+                                } else {
+                                    asteroid.bounce();
+                                }
                             } else {
                                 asteroid.bounce();
                             }
-                        } else {
-                            asteroid.bounce();
                         }
-
                     }
                 }
             }
@@ -540,8 +563,12 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         // Check player collisions against the Redirect objects
         if (numRedirects > 0) {
             for (Redirect redirect : gm.redirects) {
-                if (redirect.isActive()) {
-                    boolean hit = gm.player.detectCollision(redirect.getCollisionPackage());
+                distanceX = utilPointF.x - redirect.getWorldLocation().x;
+                distanceY = utilPointF.y - redirect.getWorldLocation().y;
+                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                if (distanceH < safeDistance) {
+                    hit = gm.player.detectCollision(redirect.getCollisionPackage());
                     if (hit) {
                         redirect.redirect(gm.player);
                     }
@@ -553,11 +580,17 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         if (numBombs > 0) {
             for (Bomb bomb : gm.bombs) {
                 if (bomb.isActive()) {
-                    boolean hit = gm.player.detectCollision(bomb.getCollisionPackage());
-                    if (hit) {
-                        bomb.kill(gm.player, sm);
-                        sm.playSound(Constants.Sounds.EXPLOSION);
-                        restartLevel();
+                    distanceX = utilPointF.x - bomb.getWorldLocation().x;
+                    distanceY = utilPointF.y - bomb.getWorldLocation().y;
+                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                    if (distanceH < safeDistance) {
+                        hit = gm.player.detectCollision(bomb.getCollisionPackage());
+                        if (hit) {
+                            bomb.kill(gm.player, sm);
+                            sm.playSound(Constants.Sounds.EXPLOSION);
+                            restartLevel();
+                        }
                     }
                 }
             }
@@ -568,11 +601,18 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
             if (gm.numGreenTurrets > 0) {
                 for (GreenTurret greenTurret : gm.greenTurrets) {
                     if (greenTurret.isActive()) {
-                        boolean hit = gm.player.detectCollision(greenTurret.getCollisionPackage());
-                        if (hit) {
-                            gm.player.stop();
-                            greenTurret.reposition(gm.player);
-                            sm.playSound(Constants.Sounds.BUMP);
+
+                        distanceX = utilPointF.x - greenTurret.getWorldLocation().x;
+                        distanceY = utilPointF.y - greenTurret.getWorldLocation().y;
+                        distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                        if (distanceH < safeDistance) {
+                            hit = gm.player.detectCollision(greenTurret.getCollisionPackage());
+                            if (hit) {
+                                gm.player.stop();
+                                greenTurret.reposition(gm.player);
+                                sm.playSound(Constants.Sounds.BUMP);
+                            }
                         }
                     }
                 }
@@ -581,11 +621,18 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
             if (numBlueTurrets > 0) {
                 for (BlueTurret blueTurret : gm.blueTurrets) {
                     if (blueTurret.isActive()) {
-                        boolean hit = gm.player.detectCollision(blueTurret.getCollisionPackage());
-                        if (hit) {
-                            gm.player.stop();
-                            blueTurret.reposition(gm.player);
-                            sm.playSound(Constants.Sounds.BUMP);
+
+                        distanceX = utilPointF.x - blueTurret.getWorldLocation().x;
+                        distanceY = utilPointF.y - blueTurret.getWorldLocation().y;
+                        distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                        if (distanceH < safeDistance) {
+                            hit = gm.player.detectCollision(blueTurret.getCollisionPackage());
+                            if (hit) {
+                                gm.player.stop();
+                                blueTurret.reposition(gm.player);
+                                sm.playSound(Constants.Sounds.BUMP);
+                            }
                         }
                     }
                 }
@@ -594,11 +641,18 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
             if (numRedTurrets > 0) {
                 for (RedTurret redTurret : gm.redTurrets) {
                     if (redTurret.isActive()) {
-                        boolean hit = gm.player.detectCollision(redTurret.getCollisionPackage());
-                        if (hit) {
-                            gm.player.stop();
-                            redTurret.reposition(gm.player);
-                            sm.playSound(Constants.Sounds.BUMP);
+
+                        distanceX = utilPointF.x - redTurret.getWorldLocation().x;
+                        distanceY = utilPointF.y - redTurret.getWorldLocation().y;
+                        distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                        if (distanceH < safeDistance) {
+                            hit = gm.player.detectCollision(redTurret.getCollisionPackage());
+                            if (hit) {
+                                gm.player.stop();
+                                redTurret.reposition(gm.player);
+                                sm.playSound(Constants.Sounds.BUMP);
+                            }
                         }
                     }
                 }
@@ -609,18 +663,25 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         if (numButtons > 0) {
 
             for (Button button : gm.buttons) {
-                boolean hit = gm.player.detectCollision(button.getCollisionPackage());
-                if (hit) {
-                    if (!button.isBeingPressed()) {
-                        button.toggle();
 
-                        if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
-                            gm.levelButtonVariables[button.getKey()] = button.isToggled();
-                        }
+                distanceX = utilPointF.x - button.getWorldLocation().x;
+                distanceY = utilPointF.y - button.getWorldLocation().y;
+                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-                        for (Door door : gm.doors) {
-                            if (door.getKey() == button.getKey()) {
-                                door.toggleDoor();
+                if (distanceH < safeDistance) {
+                    hit = gm.player.detectCollision(button.getCollisionPackage());
+                    if (hit) {
+                        if (!button.isBeingPressed()) {
+                            button.toggle();
+
+                            if (levelType.equals(LevelData.MAIN_LEVEL) && numWarps > 0) {
+                                gm.levelButtonVariables[button.getKey()] = button.isToggled();
+                            }
+
+                            for (Door door : gm.doors) {
+                                if (door.getKey() == button.getKey()) {
+                                    door.toggleDoor();
+                                }
                             }
                         }
                     }
@@ -632,21 +693,35 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         if (numWarps > 0) {
             if (numDimensionalWarps > 0) {
                 for (Warp warp : gm.dimensionalWarps) {
-                    boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
-                    if (hit) {
-                        gm.loadLevel(warp.getWarpDimensionTarget());
+
+                    distanceX = utilPointF.x - warp.getWorldLocation().x;
+                    distanceY = utilPointF.y - warp.getWorldLocation().y;
+                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                    if (distanceH < safeDistance) {
+                        hit = gm.player.detectCollision(warp.getCollisionPackage());
+                        if (hit) {
+                            gm.loadLevel(warp.getWarpDimensionTarget());
+                        }
                     }
                 }
             }
 
             if (numTeleportWarps > 0) {
                 for (Warp warp : gm.teleportWarps) {
-                    boolean hit = gm.player.detectCollision(warp.getCollisionPackage());
-                    if (hit) {
-                        gm.player.setWorldLocation(
-                                warp.getWarpTeleportTarget().x,
-                                warp.getWarpTeleportTarget().y);
-                        gm.player.stop();
+
+                    distanceX = utilPointF.x - warp.getWorldLocation().x;
+                    distanceY = utilPointF.y - warp.getWorldLocation().y;
+                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                    if (distanceH < safeDistance) {
+                        hit = gm.player.detectCollision(warp.getCollisionPackage());
+                        if (hit) {
+                            gm.player.setWorldLocation(
+                                    warp.getWarpTeleportTarget().x,
+                                    warp.getWarpTeleportTarget().y);
+                            gm.player.stop();
+                        }
                     }
                 }
             }
@@ -655,41 +730,71 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
         // Check player collisions against the Door objects
         if (numDoors > 0) {
             for (Door door : gm.doors) {
-                boolean hit = door.detectCollision(gm.player.getCollisionPackage());
-                if (hit) {
-                    gm.player.stop();
-                    gm.player.setWorldLocation(door.reposition(playerFacingAngle, utilPointF).x,
-                            door.reposition(playerFacingAngle, utilPointF).y);
-                    sm.playSound(Constants.Sounds.BUMP);
+
+                distanceX = utilPointF.x - door.getWorldLocation().x;
+                distanceY = utilPointF.y - door.getWorldLocation().y;
+                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                if (distanceH < safeDistance) {
+                    hit = door.detectCollision(gm.player.getCollisionPackage());
+                    if (hit) {
+                        gm.player.stop();
+                        gm.player.setWorldLocation(door.reposition(playerFacingAngle, utilPointF).x,
+                                door.reposition(playerFacingAngle, utilPointF).y);
+                        sm.playSound(Constants.Sounds.BUMP);
+                    }
                 }
             }
         }
     }
 
     private void checkAsteroidCollisions() {
+        int safeDistance = gm.pixelsPerMeter * 2;
+
+        float asteroidX, asteroidY;
+        float distanceX, distanceY;
+        double distanceH;
+        boolean hit;
+
         // Check asteroid collision
         if (numAsteroids > 0) {
             for (Asteroid asteroid : gm.asteroids) {
                 if (asteroid.isActive()) {
+                    asteroidX = asteroid.getWorldLocation().x;
+                    asteroidY = asteroid.getWorldLocation().y;
 
                     if (numBlocks > 0) {
                         for (Block block : gm.blocks) {
-                            boolean hit = asteroid.detectCollision(block.getCollisionPackage());
-                            if (hit && !asteroid.isBeingRedirected()) {
-                                asteroid.bounce();
-                                break;
+
+                            distanceX = asteroidX - block.getWorldLocation().x;
+                            distanceY = asteroidY - block.getWorldLocation().y;
+                            distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                            if (distanceH < safeDistance) {
+                                hit = asteroid.detectCollision(block.getCollisionPackage());
+                                if (hit && !asteroid.isBeingRedirected()) {
+                                    asteroid.bounce();
+                                    break;
+                                }
                             }
                         }
                     }
                     if (numRedirects > 0) {
                         for (Redirect redirect : gm.redirects) {
-                            boolean hit = asteroid.detectCollision(redirect.getCollisionPackage());
-                            if (hit) {
-                                asteroid.setBeingRedirected(true);
-                                redirect.redirect(asteroid);
-                            }
-                            if (asteroid.getTravelingAngle() == redirect.getFacingAngle()) {
-                                asteroid.setBeingRedirected(false);
+
+                            distanceX = asteroidX - redirect.getWorldLocation().x;
+                            distanceY = asteroidY - redirect.getWorldLocation().y;
+                            distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                            if (distanceH < safeDistance) {
+                                hit = asteroid.detectCollision(redirect.getCollisionPackage());
+                                if (hit) {
+                                    asteroid.setBeingRedirected(true);
+                                    redirect.redirect(asteroid);
+                                }
+                                if (asteroid.getTravelingAngle() == redirect.getFacingAngle()) {
+                                    asteroid.setBeingRedirected(false);
+                                }
                             }
                         }
                     }
@@ -697,33 +802,54 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     if (numTurrets > 0) {
                         if (numGreenTurrets > 0) {
                             for (GreenTurret greenTurret : gm.greenTurrets) {
-                                boolean hit = asteroid.detectCollision(
-                                        greenTurret.getCollisionPackage());
-                                if (hit) {
-                                    asteroid.bounce();
-                                    break;
+
+                                distanceX = asteroidX - greenTurret.getWorldLocation().x;
+                                distanceY = asteroidY - greenTurret.getWorldLocation().y;
+                                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                                if (distanceH < safeDistance) {
+                                    hit = asteroid.detectCollision(
+                                            greenTurret.getCollisionPackage());
+                                    if (hit) {
+                                        asteroid.bounce();
+                                        break;
+                                    }
                                 }
                             }
                         }
 
                         if (numBlueTurrets > 0) {
                             for (BlueTurret blueTurret : gm.blueTurrets) {
-                                boolean hit = asteroid.detectCollision
-                                        (blueTurret.getCollisionPackage());
-                                if (hit) {
-                                    asteroid.bounce();
-                                    break;
+                                distanceX = asteroidX - blueTurret.getWorldLocation().x;
+                                distanceY = asteroidY - blueTurret.getWorldLocation().y;
+                                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                                if (distanceH < safeDistance) {
+                                    hit = asteroid.detectCollision
+                                            (blueTurret.getCollisionPackage());
+                                    if (hit) {
+                                        asteroid.bounce();
+                                        break;
+                                    }
                                 }
                             }
                         }
 
                         if (numRedTurrets > 0) {
                             for (RedTurret redTurret : gm.redTurrets) {
-                                boolean hit = asteroid.detectCollision(
-                                        redTurret.getCollisionPackage());
-                                if (hit) {
-                                    asteroid.bounce();
-                                    break;
+
+                                distanceX = asteroidX - redTurret.getWorldLocation().x;
+                                distanceY = asteroidY - redTurret.getWorldLocation().y;
+                                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+
+                                if (distanceH < safeDistance) {
+                                    hit = asteroid.detectCollision(
+                                            redTurret.getCollisionPackage());
+                                    if (hit) {
+                                        asteroid.bounce();
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -731,9 +857,16 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
 
                     if (numDoors > 0) {
                         for (Door door : gm.doors) {
-                            boolean hit = door.detectCollision(asteroid.getCollisionPackage());
-                            if (hit) {
-                                asteroid.bounce();
+
+                            distanceX = asteroidX - door.getWorldLocation().x;
+                            distanceY = asteroidY - door.getWorldLocation().y;
+                            distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                            if (distanceH < safeDistance) {
+                                hit = door.detectCollision(asteroid.getCollisionPackage());
+                                if (hit) {
+                                    asteroid.bounce();
+                                }
                             }
                         }
                     }
@@ -752,24 +885,49 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
     }
 
     private void checkLaserCollisions() {
+        int safeDistance = gm.pixelsPerMeter * 2;
+        utilPointF = gm.player.getWorldLocation();
+
+        float laserX, laserY;
+        float distanceX, distanceY;
+        double distanceH;
+        boolean hit;
+
         // Check laser collisions
         if (numTurrets > 0) {
             for (EnemyLaser laser : gm.enemyLasers) {
                 if (laser.isActive()) {
+                    laserX = laser.getWorldLocation().x;
+                    laserY = laser.getWorldLocation().y;
+
                     if (numBlocks > 0) {
                         for (Block block : gm.blocks) {
-                            boolean hit = laser.detectCollision(block.getCollisionPackage());
-                            if (hit) {
-                                laser.resetLaser();
+
+                            distanceX = laserX - block.getWorldLocation().x;
+                            distanceY = laserY - block.getWorldLocation().y;
+                            distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                            if (distanceH < safeDistance) {
+                                hit = laser.detectCollision(block.getCollisionPackage());
+                                if (hit) {
+                                    laser.resetLaser();
+                                }
                             }
                         }
                     }
                     if (numAsteroids > 0) {
                         for (Asteroid asteroid : gm.asteroids) {
                             if (asteroid.isActive()) {
-                                boolean hit = laser.detectCollision(asteroid.getCollisionPackage());
-                                if (hit) {
-                                    laser.resetLaser();
+
+                                distanceX = laserX - asteroid.getWorldLocation().x;
+                                distanceY = laserY - asteroid.getWorldLocation().y;
+                                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                                if (distanceH < safeDistance) {
+                                    hit = laser.detectCollision(asteroid.getCollisionPackage());
+                                    if (hit) {
+                                        laser.resetLaser();
+                                    }
                                 }
                             }
                         }
@@ -779,10 +937,18 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                         if (numGreenTurrets > 0) {
                             for (GreenTurret greenTurret : gm.greenTurrets) {
                                 if (greenTurret.isActive() && greenTurret.getTurretID() != laser.getLaserID()) {
-                                    boolean hit = laser.detectCollision(greenTurret.getCollisionPackage());
-                                    if (hit) {
-                                        greenTurret.destroy(sm);
-                                        laser.resetLaser();
+
+                                    distanceX = laserX - greenTurret.getWorldLocation().x;
+                                    distanceY = laserY - greenTurret.getWorldLocation().y;
+                                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+
+                                    if (distanceH < safeDistance) {
+                                        hit = laser.detectCollision(greenTurret.getCollisionPackage());
+                                        if (hit) {
+                                            greenTurret.destroy(sm);
+                                            laser.resetLaser();
+                                        }
                                     }
                                 }
                             }
@@ -791,10 +957,18 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                         if (numBlueTurrets > 0) {
                             for (BlueTurret blueTurret : gm.blueTurrets) {
                                 if (blueTurret.isActive() && blueTurret.getTurretID() != laser.getLaserID()) {
-                                    boolean hit = laser.detectCollision(blueTurret.getCollisionPackage());
-                                    if (hit) {
-                                        blueTurret.destroy(sm);
-                                        laser.resetLaser();
+
+                                    distanceX = laserX - blueTurret.getWorldLocation().x;
+                                    distanceY = laserY - blueTurret.getWorldLocation().y;
+                                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+
+                                    if (distanceH < safeDistance) {
+                                        hit = laser.detectCollision(blueTurret.getCollisionPackage());
+                                        if (hit) {
+                                            blueTurret.destroy(sm);
+                                            laser.resetLaser();
+                                        }
                                     }
                                 }
                             }
@@ -803,10 +977,17 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                         if (numRedTurrets > 0) {
                             for (RedTurret redTurret : gm.redTurrets) {
                                 if (redTurret.isActive() && redTurret.getTurretID() != laser.getLaserID()) {
-                                    boolean hit = laser.detectCollision(redTurret.getCollisionPackage());
-                                    if (hit) {
-                                        redTurret.destroy(sm);
-                                        laser.resetLaser();
+
+                                    distanceX = laserX - redTurret.getWorldLocation().x;
+                                    distanceY = laserY - redTurret.getWorldLocation().y;
+                                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                                    if (distanceH < safeDistance) {
+                                        hit = laser.detectCollision(redTurret.getCollisionPackage());
+                                        if (hit) {
+                                            redTurret.destroy(sm);
+                                            laser.resetLaser();
+                                        }
                                     }
                                 }
                             }
@@ -816,26 +997,46 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     if (numBombs > 0) {
                         for (Bomb bomb : gm.bombs) {
                             if (bomb.isActive()) {
-                                boolean hit = laser.detectCollision(bomb.getCollisionPackage());
-                                if (hit) {
-                                    bomb.destroy(sm);
-                                    laser.resetLaser();
+
+                                distanceX = laserX - bomb.getWorldLocation().x;
+                                distanceY = laserY - bomb.getWorldLocation().y;
+                                distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                                if (distanceH < safeDistance) {
+                                    hit = laser.detectCollision(bomb.getCollisionPackage());
+                                    if (hit) {
+                                        bomb.destroy(sm);
+                                        laser.resetLaser();
+                                    }
                                 }
                             }
                         }
                     }
                     if (numDoors > 0) {
                         for (Door door : gm.doors) {
-                            boolean hit = door.detectCollision(laser.getCollisionPackage());
-                            if (hit) {
-                                laser.resetLaser();
+
+                            distanceX = laserX - door.getWorldLocation().x;
+                            distanceY = laserY - door.getWorldLocation().y;
+                            distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                            if (distanceH < safeDistance) {
+                                hit = door.detectCollision(laser.getCollisionPackage());
+                                if (hit) {
+                                    laser.resetLaser();
+                                }
                             }
                         }
                     }
-                    boolean hit = laser.detectCollision(gm.player.getCollisionPackage());
-                    if (hit) {
-                        laser.resetLaser();
-                        restartLevel();
+
+                    distanceX = laserX - utilPointF.x;
+                    distanceY = laserY - utilPointF.y;
+                    distanceH = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                    if (distanceH < safeDistance) {
+                        hit = laser.detectCollision(gm.player.getCollisionPackage());
+                        if (hit) {
+                            restartLevel();
+                        }
                     }
                 }
             }

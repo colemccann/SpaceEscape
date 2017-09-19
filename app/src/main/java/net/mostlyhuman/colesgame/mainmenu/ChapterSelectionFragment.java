@@ -29,6 +29,7 @@ import net.mostlyhuman.colesgame.data.DatabaseContract;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 
 public class ChapterSelectionFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -72,11 +73,6 @@ public class ChapterSelectionFragment extends Fragment implements
         }
 
         getActivity().getLoaderManager().initLoader(0, null, this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -197,16 +193,15 @@ public class ChapterSelectionFragment extends Fragment implements
         public void onBindViewHolder(ChapterListAdapter.ViewHolder holder, int position) {
             Chapter chapter = mChapters.get(position);
 
-            holder.number.setTextColor(Color.BLACK);
-            holder.title.setTextColor(Color.BLACK);
-            holder.levelsCompleted.setTextColor(Color.BLACK);
-
             if (chapter.isAvailable()) {
                 holder.chapterImageView.setImageResource(R.mipmap.icon_level_unlocked);
                 if (chapter.getLevelsCompleted() == 10) {
                     holder.chapterImageView.setImageResource(R.mipmap.icon_level_checkmark);
                 }
             } else {
+                holder.number.setTextColor(Color.GRAY);
+                holder.title.setTextColor(Color.GRAY);
+                holder.levelsCompleted.setTextColor(Color.GRAY);
                 holder.chapterImageView.setImageResource(R.mipmap.icon_level_locked);
             }
 
@@ -214,7 +209,6 @@ public class ChapterSelectionFragment extends Fragment implements
             holder.title.setText(chapter.getChapterTitle());
             holder.levelsCompleted.setText(String.format(context.getString(R.string.out_of_ten),
                     chapter.getLevelsCompleted()));
-
 
         }
 
@@ -265,9 +259,11 @@ public class ChapterSelectionFragment extends Fragment implements
                     levelsCompletePerChapter[i] = 10;
                     chapterAvailability[i] = true;
                 }
-                if (totalLevelsCompleted > chaptersCompleted * 10) {
-                    chapterAvailability[chaptersCompleted] = true;
-                    levelsCompletePerChapter[chaptersCompleted] = remainder;
+                if (totalLevelsCompleted >= chaptersCompleted * 10) {
+                    if (chaptersCompleted != 3) {
+                        chapterAvailability[chaptersCompleted] = true;
+                        levelsCompletePerChapter[chaptersCompleted] = remainder;
+                    }
                 }
             } else {
                 chapterAvailability[0] = true;

@@ -15,12 +15,12 @@ public class Level8 extends LevelData {
         levelType = MAIN_LEVEL;
 
         tiles = new ArrayList<>();
-        this.tiles.add("..b#..e");
-        this.tiles.add("#..#..#");
-        this.tiles.add("..hRh.b");
-        this.tiles.add(".......");
-        this.tiles.add(".......");
-        this.tiles.add(".p.....");
+        this.tiles.add("..b.#..e");
+        this.tiles.add("#...#..#");
+        this.tiles.add("...hRh.b");
+        this.tiles.add("........");
+        this.tiles.add("........");
+        this.tiles.add("p.......");
 
 
         asteroidDirections = null;

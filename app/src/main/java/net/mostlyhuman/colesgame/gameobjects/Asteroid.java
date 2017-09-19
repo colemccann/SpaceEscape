@@ -1,14 +1,11 @@
 package net.mostlyhuman.colesgame.gameobjects;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.PointF;
-import android.util.Log;
 
 import net.mostlyhuman.colesgame.helpers.CollisionPackage;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
-import java.util.IllegalFormatCodePointException;
 import java.util.Random;
 
 /**
@@ -240,25 +237,6 @@ public class Asteroid extends GameObject {
         return collided;
     }
 
-    /*
-    public void contain(float mapWidth, float mapHeight, int halfSideLength) {
-
-        if (getCollisionPackage().right > mapWidth) {
-            bounce();
-            setWorldLocation(mapWidth - halfSideLength, getWorldLocation().y);
-        } else if (getCollisionPackage().left < -halfSideLength) {
-            bounce();
-            setWorldLocation(0, getWorldLocation().y);
-        } else if (getCollisionPackage().top > halfSideLength) {
-            bounce();
-            setWorldLocation(getWorldLocation().x, 0);
-        } else if (getCollisionPackage().bottom < -mapHeight) {
-            bounce();
-            setWorldLocation(getWorldLocation().x, -mapHeight + halfSideLength);
-        }
-    }
-    */
-
     public boolean isBeingRedirected() {
         return beingRedirected;
     }
@@ -271,7 +249,7 @@ public class Asteroid extends GameObject {
         return isInFrontOfPlayer;
     }
 
-    public void setInFrontOfPlayer(boolean inFrontOfPlayer) {
+    private void setInFrontOfPlayer(boolean inFrontOfPlayer) {
         isInFrontOfPlayer = inFrontOfPlayer;
     }
 }

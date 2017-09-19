@@ -10,7 +10,7 @@ import android.util.Log;
 public class CollisionPackage {
     String TAG = "Collision Package";
 
-    private PointF worldLocation;
+    public PointF worldLocation;
     private float halfSideLength;
 
     public float top;

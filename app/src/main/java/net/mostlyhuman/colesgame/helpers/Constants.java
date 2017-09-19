@@ -99,16 +99,12 @@ public class Constants {
         public static final String TWENTY_FOUR = "Level 24";
         public static final String TWENTY_FOUR_B = "Level 24b";
         public static final String TWENTY_FOUR_C = "Level 24c";
+        public static final String TWENTY_FOUR_D = "Level 24D";
         public static final String TWENTY_FOUR_WA = "Level 24wa";
         public static final String TWENTY_FOUR_WB = "Level 24wb";
+        public static final String TWENTY_FOUR_WC = "Level 24wc";
 
         public static final String TWENTY_FIVE = "Level 25";
-        public static final String TWENTY_FIVE_B = "Level 25b";
-        public static final String TWENTY_FIVE_C = "Level 25c";
-        public static final String TWENTY_FIVE_D = "Level 25d";
-        public static final String TWENTY_FIVE_WA = "Level 25wa";
-        public static final String TWENTY_FIVE_WB = "Level 25wb";
-        public static final String TWENTY_FIVE_WC = "Level 25wc";
 
         public static final String TWENTY_SIX = "Level 26";
         public static final String TWENTY_SIX_X = "Level 26x";
@@ -120,16 +116,14 @@ public class Constants {
 
         public static final String TWENTY_SEVEN = "Level 27";
         public static final String TWENTY_EIGHT = "Level 28";
+
         public static final String TWENTY_NINE = "Level 29";
+        public static final String TWENTY_NINE_B = "Level 29b";
+        public static final String TWENTY_NINE_C = "Level 29c";
+        public static final String TWENTY_NINE_WA = "Level 29wa";
+        public static final String TWENTY_NINE_WB = "Level 29wb";
+
         public static final String THIRTY = "Level 30";
-
-        public static final String[] LEVEL_TITLES = {
-                ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE,
-                THIRTEEN, FOURTEEN, FIFTEEN, SIXTEEN, SEVENTEEN, EIGHTEEN, NINETEEN, TWENTY,
-                TWENTY_ONE, TWENTY_TWO, TWENTY_THREE, TWENTY_FOUR, TWENTY_FIVE, TWENTY_SIX,
-                TWENTY_SEVEN, TWENTY_EIGHT, TWENTY_NINE, THIRTY
-        };
-
     }
 
 }

@@ -97,6 +97,7 @@ public class Button extends GameObject {
 
     public void detectPress(CollisionPackage cp2) {
         beingPressed = false;
+
         if (getCollisionPackage().right > cp2.left &&
                 getCollisionPackage().left < cp2.right) {
             // Intersecting on the x-axis

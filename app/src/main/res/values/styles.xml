@@ -3,6 +3,31 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+
     </style>
+
+    <style name="ButtonTextStyle">
+        <item name="android:textColor">@color/textRed</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="ButtonTextStyleLarge">
+        <item name="android:textColor">@color/textRed</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="CardViewStyleTitle" parent="@style/TextAppearance.AppCompat.Display1">
+        <item name="android:textColor">@color/textRed</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="CardViewStyleRegular" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/textRed</item>
+        <item name="android:typeface">monospace</item>
+
+    </style>
+
 
 </resources>

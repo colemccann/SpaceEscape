@@ -15,7 +15,7 @@ import net.mostlyhuman.colesgame.R;
 public class MainMenuFragment extends Fragment {
 
     Button startButton;
-    Button optionsButton;
+    Button howToPlayButton;
     View.OnClickListener buttonListener;
 
     public MainMenuFragment() {
@@ -35,7 +35,7 @@ public class MainMenuFragment extends Fragment {
                     case R.id.startButton:
                         openChapterSelection();
                         break;
-                    case R.id.optionsButton:
+                    case R.id.howToPlayButton:
                         Toast.makeText(getActivity(), "Implement options functionality!", Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -45,8 +45,8 @@ public class MainMenuFragment extends Fragment {
         startButton = (Button) v.findViewById(R.id.startButton);
         startButton.setOnClickListener(buttonListener);
 
-        optionsButton = (Button) v.findViewById(R.id.optionsButton);
-        optionsButton.setOnClickListener(buttonListener);
+        howToPlayButton = (Button) v.findViewById(R.id.howToPlayButton);
+        howToPlayButton.setOnClickListener(buttonListener);
 
         return v;
     }
@@ -68,4 +68,11 @@ public class MainMenuFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
+
+    /*
+    private void showInstructions() {
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment =
+    }
+    */
 }

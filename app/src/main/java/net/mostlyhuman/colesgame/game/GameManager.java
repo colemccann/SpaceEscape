@@ -1,7 +1,6 @@
 package net.mostlyhuman.colesgame.game;
 
 import android.content.Context;
-import android.util.Log;
 
 import net.mostlyhuman.colesgame.gameobjects.Asteroid;
 import net.mostlyhuman.colesgame.gameobjects.Block;
@@ -54,7 +53,7 @@ import net.mostlyhuman.colesgame.levels.chapter3.Level30;
  * Created by CaptainMcCann on 4/17/2017.
  */
 
-public class GameManager {
+class GameManager {
 
     private final String TAG = "GM";
 
@@ -263,13 +262,16 @@ public class GameManager {
                 mLevelData = new Level23("wb");
                 break;
             case Constants.Levels.TWENTY_FOUR:
-                mLevelData = new Level24("a", false, false);
+                mLevelData = new Level24("a");
                 break;
             case Constants.Levels.TWENTY_FOUR_B:
-                mLevelData = new Level24("b", levelButtonVariables[0], levelButtonVariables[1]);
+                mLevelData = new Level24("b");
                 break;
             case Constants.Levels.TWENTY_FOUR_C:
-                mLevelData = new Level24("c", levelButtonVariables[0], levelButtonVariables[1]);
+                mLevelData = new Level24("c");
+                break;
+            case Constants.Levels.TWENTY_FOUR_D:
+                mLevelData = new Level24("d");
                 break;
             case Constants.Levels.TWENTY_FOUR_WA:
                 mLevelData = new Level24("wa");
@@ -277,26 +279,11 @@ public class GameManager {
             case Constants.Levels.TWENTY_FOUR_WB:
                 mLevelData = new Level24("wb");
                 break;
+            case Constants.Levels.TWENTY_FOUR_WC:
+                mLevelData = new Level24("wc");
+                break;
             case Constants.Levels.TWENTY_FIVE:
-                mLevelData = new Level25("a");
-                break;
-            case Constants.Levels.TWENTY_FIVE_B:
-                mLevelData = new Level25("b");
-                break;
-            case Constants.Levels.TWENTY_FIVE_C:
-                mLevelData = new Level25("c");
-                break;
-            case Constants.Levels.TWENTY_FIVE_D:
-                mLevelData = new Level25("d");
-                break;
-            case Constants.Levels.TWENTY_FIVE_WA:
-                mLevelData = new Level25("wa");
-                break;
-            case Constants.Levels.TWENTY_FIVE_WB:
-                mLevelData = new Level25("wb");
-                break;
-            case Constants.Levels.TWENTY_FIVE_WC:
-                mLevelData = new Level25("wc");
+                mLevelData = new Level25(pixelsPerMeter);
                 break;
             case Constants.Levels.TWENTY_SIX:
                 mLevelData = new Level26('a', pixelsPerMeter, false);
@@ -326,10 +313,22 @@ public class GameManager {
                 mLevelData = new Level28(pixelsPerMeter);
                 break;
             case Constants.Levels.TWENTY_NINE:
-                mLevelData = new Level29(pixelsPerMeter);
+                mLevelData = new Level29("a", false, false);
+                break;
+            case Constants.Levels.TWENTY_NINE_B:
+                mLevelData = new Level29("b", levelButtonVariables[0], levelButtonVariables[1]);
+                break;
+            case Constants.Levels.TWENTY_NINE_C:
+                mLevelData = new Level29("c", levelButtonVariables[0], levelButtonVariables[1]);
+                break;
+            case Constants.Levels.TWENTY_NINE_WA:
+                mLevelData = new Level29("wa");
+                break;
+            case Constants.Levels.TWENTY_NINE_WB:
+                mLevelData = new Level29("wb");
                 break;
             case Constants.Levels.THIRTY:
-                mLevelData = new Level30(pixelsPerMeter);
+                mLevelData = new Level30();
                 break;
         }
     }
@@ -751,7 +750,7 @@ public class GameManager {
         this.levelID = levelID;
     }
 
-    public void setGameRenderer(levelLoadedContract gameRenderer) {
+    void setGameRenderer(levelLoadedContract gameRenderer) {
         this.gameRenderer = gameRenderer;
     }
 }

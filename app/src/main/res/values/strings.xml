@@ -10,9 +10,9 @@
     <string name="explosion_ogg">explosion.ogg</string>
     <string name="redirect_ogg">redirect.ogg</string>
     <string name="start_game">Start Game!</string>
-    <string name="space_escape_title">Space Escape</string>
+    <string name="space_escape_title">Space Escape!</string>
     <string name="game_paused">Game Paused</string>
-    <string name="options">Options</string>
+    <string name="how_to_play">How to Play</string>
     <string name="initial_setup_message">Performing initial setup. Please wait</string>
     <string name="out_of_ten">"%1$d/10"</string>
     <string name="level_title">"Level %1$d"</string>

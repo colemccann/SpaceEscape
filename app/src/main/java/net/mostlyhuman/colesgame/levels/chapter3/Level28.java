@@ -18,13 +18,18 @@ public class Level28 extends LevelData {
         levelType = MAIN_LEVEL;
 
         tiles = new ArrayList<>();
-        this.tiles.add("d....ll....#.p");
-        this.tiles.add("...#..........");
-        this.tiles.add("........#.....");
-        this.tiles.add(".d..........#.");
-        this.tiles.add("d...#.....#...");
-        this.tiles.add("w......#.#....");
-        this.tiles.add("e.#...u......l");
+        this.tiles.add("#p#B..#");
+        this.tiles.add("w...##e");
+        this.tiles.add("....##.");
+        this.tiles.add("w..#.w#");
+        this.tiles.add("w.w#..w");
+        this.tiles.add(".#..#.w");
+        this.tiles.add("w.w#...");
+        this.tiles.add("......w");
+        this.tiles.add("#.#w.w#");
+        this.tiles.add("w#.###w");
+        this.tiles.add(".......");
+        this.tiles.add("w.w#..w");
 
 
         asteroidDirections = null;
@@ -37,13 +42,34 @@ public class Level28 extends LevelData {
 
         buttonKeys = null;
 
-        warpTypes = new char[]{Warp.TELEPORT};
+        warpTypes = new char[]{Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT,
+                Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT,
+                Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT,
+                Warp.TELEPORT, Warp.TELEPORT, Warp.TELEPORT,};
 
         warpDimensionalTargets = null;
 
-        warpTeleportTargets = new PointF[]{new PointF(13 * pixelsPerMeter, 0)};
+        warpTeleportTargets = new PointF[]{
+                new PointF(pixelsPerMeter, 0),
+                new PointF(pixelsPerMeter, -8 * pixelsPerMeter),
+                new PointF(5 * pixelsPerMeter, 0),
+                new PointF(5 * pixelsPerMeter, 0),
+                new PointF(3 * pixelsPerMeter, -2 * pixelsPerMeter),
+                new PointF(pixelsPerMeter, 0),
+                new PointF(3 * pixelsPerMeter, -10 * pixelsPerMeter),
+                new PointF(3 * pixelsPerMeter, -10 * pixelsPerMeter),
+                new PointF(pixelsPerMeter, 0),
+                new PointF(6 * pixelsPerMeter, -2 * pixelsPerMeter),
+                new PointF(5 * pixelsPerMeter, 0),
+                new PointF(pixelsPerMeter, 0),
+                new PointF(4 * pixelsPerMeter, -6 * pixelsPerMeter),
+                new PointF(pixelsPerMeter, 0),
+                new PointF(5 * pixelsPerMeter, 0),
+                new PointF(pixelsPerMeter, 0),
+                new PointF(4 * pixelsPerMeter, -4 * pixelsPerMeter),
+        };
 
-        turretFacingAngles = null;
+        turretFacingAngles = new int[]{RIGHT};
 
         mapOrientation = HORIZONTAL;
     }
