@@ -21,7 +21,7 @@
 
         <activity
             android:name=".game.GameActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <service
