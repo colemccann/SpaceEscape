@@ -94,7 +94,6 @@ public class Turret extends GameObject {
         super.destroy(sm);
         turretBase.destroyBase(getTurretID());
         sm.playSound(Constants.Sounds.EXPLOSION);
-        //// TODO: 5/29/2017 add animation
     }
 
     public int getTurretID() {

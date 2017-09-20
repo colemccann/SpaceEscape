@@ -52,16 +52,14 @@ public class Bomb extends GameObject {
     public void destroy(SoundManager sm) {
         super.destroy(sm);
         sm.playSound(Constants.Sounds.EXPLOSION);
-        //// TODO: 5/29/2017 add animation
+
     }
 
     public void kill(GameObject gameObject, SoundManager sm) {
         switch (gameObject.getType()) {
             case Constants.Types.PLAYER:
                 gameObject.destroy(sm);
-                //// TODO: 5/1/2017 ship explosion animation
                 break;
-            //// TODO: 5/1/2017 Add interaction for other game objects here
         }
     }
 }

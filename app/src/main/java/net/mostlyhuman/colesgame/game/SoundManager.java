@@ -69,7 +69,6 @@ public class SoundManager {
             descriptor = assetManager.openFd("laser_red.ogg");
             laser_red = soundPool.load(descriptor, 0);
 
-            // // TODO: 4/4/2017 create sound fx here
         } catch (IOException e) {
             Log.e(TAG, "failed to load sound files");
         }

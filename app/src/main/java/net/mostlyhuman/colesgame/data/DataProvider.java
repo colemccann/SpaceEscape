@@ -65,7 +65,6 @@ public class DataProvider extends ContentProvider {
                 selectionArgs = new String[]{String.valueOf(id)};
                 break;
             default:
-                //// TODO: 7/21/2017 Where to catch the exception?
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
 

@@ -165,7 +165,6 @@ public class LevelSelectionFragment extends Fragment implements
 
     private static class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.ViewHolder> {
 
-        // TODO: 6/8/2017 put a checkmark or something on the tiles for the levels that have been completed.
 
         private int itemWidth;
 
@@ -243,7 +242,6 @@ public class LevelSelectionFragment extends Fragment implements
 
             } catch (IllegalStateException e) {
                 Log.e("ViewHolder", e.getMessage());
-                // TODO: 7/21/2017 set up placeholders here?
             }
 
         }

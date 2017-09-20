@@ -294,10 +294,8 @@ public class GameObject {
 
     // For Asteroids only
     public void redirect(float newTravelingAngle) {
-        //// TODO: 5/29/2017 eliminate the need for this junk
     }
 
-    //// TODO: 6/15/2017 move traveling angle stuff to Asteroid if possible
     public float getTravelingAngle() {
         return travelingAngle;
     }
