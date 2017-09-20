@@ -234,8 +234,8 @@ public class LevelSelectionFragment extends Fragment implements
                     else
                         holder.levelImageView.setImageResource(R.mipmap.icon_level_unlocked);
                 } else {
-                    holder.levelTitle.setTextColor(Color.GRAY);
                     holder.levelImageView.setImageResource(R.mipmap.icon_level_locked);
+                    holder.levelTitle.setTextColor(Color.GRAY);
                 }
 
                 holder.levelTitle.setText(String.valueOf(level.getTitle()));

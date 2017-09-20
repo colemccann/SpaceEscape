@@ -285,7 +285,6 @@ public class ChapterSelectionFragment extends Fragment implements
             for (int i = 0; i < NUMBER_OF_CHAPTERS; i++) {
                 chapters.add(new Chapter(numbers[i],
                         titles[i],
-                        R.mipmap.icon_ship_logo,
                         levelsCompletePerChapter[i],
                         chapterAvailability[i]));
             }

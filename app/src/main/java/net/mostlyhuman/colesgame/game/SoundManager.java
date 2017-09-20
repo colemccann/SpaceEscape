@@ -24,9 +24,8 @@ public class SoundManager {
     private int bump = -1;
     private int redirect = -1;
     private int explosion = -1;
-    private int laser_green = -1;
-    private int laser_blue = -1;
-    private int laser_red = -1;
+    private int warp = -1;
+    private int door = -1;
 
     private SoundPool soundPool;
 
@@ -60,14 +59,11 @@ public class SoundManager {
             descriptor = assetManager.openFd(context.getString(R.string.explosion_ogg));
             explosion = soundPool.load(descriptor, 0);
 
-            descriptor = assetManager.openFd("laser_green.ogg");
-            laser_green = soundPool.load(descriptor, 0);
+            descriptor = assetManager.openFd("warp.ogg");
+            warp = soundPool.load(descriptor, 0);
 
-            descriptor = assetManager.openFd("laser_blue.ogg");
-            laser_blue = soundPool.load(descriptor, 0);
-
-            descriptor = assetManager.openFd("laser_red.ogg");
-            laser_red = soundPool.load(descriptor, 0);
+            descriptor = assetManager.openFd("door.ogg");
+            door = soundPool.load(descriptor, 0);
 
         } catch (IOException e) {
             Log.e(TAG, "failed to load sound files");
@@ -87,14 +83,11 @@ public class SoundManager {
                 case Constants.Sounds.EXPLOSION:
                     soundPool.play(explosion, 1, 1, 0, 0, 1);
                     break;
-                case Constants.Sounds.LASER_GREEN:
-                    soundPool.play(laser_green, 1, 1, 0, 0, 1);
+                case Constants.Sounds.WARP:
+                    soundPool.play(warp, 1, 1, 0, 0, 1);
                     break;
-                case Constants.Sounds.LASER_BLUE:
-                    soundPool.play(laser_blue, 1, 1, 0, 0, 1);
-                    break;
-                case Constants.Sounds.LASER_RED:
-                    soundPool.play(laser_red, 1, 1, 0, 0, 1);
+                case Constants.Sounds.DOOR:
+                    soundPool.play(door, 1, 1, 0, 0, 1);
                     break;
             }
         }
@@ -104,7 +97,7 @@ public class SoundManager {
         return muted;
     }
 
-    public void setMuted(boolean muted) {
+    void setMuted(boolean muted) {
         this.muted = muted;
     }
 }

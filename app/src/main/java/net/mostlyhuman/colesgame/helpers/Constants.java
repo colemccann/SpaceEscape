@@ -21,9 +21,8 @@ public class Constants {
         public static final String BUMP = "bump";
         public static final String EXPLOSION = "explosion";
         public static final String REDIRECT = "redirect";
-        public static final String LASER_GREEN = "laser_green";
-        public static final String LASER_BLUE = "laser_blue";
-        public static final String LASER_RED = "laser_red";
+        public static final String WARP = "warp";
+        public static final String DOOR = "door";
     }
 
     public static class OpenGL {

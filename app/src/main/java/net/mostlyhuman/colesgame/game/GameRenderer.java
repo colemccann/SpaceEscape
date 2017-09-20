@@ -681,6 +681,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                             for (Door door : gm.doors) {
                                 if (door.getKey() == button.getKey()) {
                                     door.toggleDoor();
+                                    sm.playSound(Constants.Sounds.DOOR);
                                 }
                             }
                         }
@@ -701,6 +702,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     if (distanceH < safeDistance) {
                         hit = gm.player.detectCollision(warp.getCollisionPackage());
                         if (hit) {
+                            sm.playSound(Constants.Sounds.WARP);
                             gm.loadLevel(warp.getWarpDimensionTarget());
                         }
                     }
@@ -717,6 +719,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     if (distanceH < safeDistance) {
                         hit = gm.player.detectCollision(warp.getCollisionPackage());
                         if (hit) {
+                            sm.playSound(Constants.Sounds.WARP);
                             gm.player.setWorldLocation(
                                     warp.getWarpTeleportTarget().x,
                                     warp.getWarpTeleportTarget().y);
