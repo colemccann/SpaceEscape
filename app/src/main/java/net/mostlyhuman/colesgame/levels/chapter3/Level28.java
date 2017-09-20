@@ -18,7 +18,7 @@ public class Level28 extends LevelData {
         levelType = MAIN_LEVEL;
 
         tiles = new ArrayList<>();
-        this.tiles.add("#p#B..#");
+        this.tiles.add("#pB...#");
         this.tiles.add("w...##e");
         this.tiles.add("....##.");
         this.tiles.add("w..#.w#");

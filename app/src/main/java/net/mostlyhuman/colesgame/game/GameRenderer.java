@@ -1035,6 +1035,7 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
                     if (distanceH < safeDistance) {
                         hit = laser.detectCollision(gm.player.getCollisionPackage());
                         if (hit) {
+                            sm.playSound(Constants.Sounds.EXPLOSION);
                             restartLevel();
                         }
                     }

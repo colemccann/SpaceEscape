@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/instructions_TV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:linksClickable="false"
+        android:password="false"
+        android:phoneNumber="false"
+        android:text="@string/instructions"
+        android:textAlignment="center"
+        android:textAppearance="@style/CardViewStyleRegular"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/instructions_TV2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/instructions_2"
+        android:textAlignment="center"
+        android:textAppearance="@style/CardViewStyleRegular"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/instructions_TV3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/instructions_3"
+        android:textAlignment="center"
+        android:textAppearance="@style/CardViewStyleRegular"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/instructions_TV4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/instructions_4"
+        android:textAlignment="center"
+        android:textAppearance="@style/CardViewStyleRegular"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/button_gotit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:background="@color/cardview_dark_background"
+        android:text="Got it!"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="30sp" />
+</LinearLayout>

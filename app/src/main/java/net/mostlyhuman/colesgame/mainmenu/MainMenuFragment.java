@@ -36,7 +36,7 @@ public class MainMenuFragment extends Fragment {
                         openChapterSelection();
                         break;
                     case R.id.howToPlayButton:
-                        Toast.makeText(getActivity(), "Implement options functionality!", Toast.LENGTH_SHORT).show();
+                        showInstructions();
                         break;
                 }
             }
@@ -69,10 +69,14 @@ public class MainMenuFragment extends Fragment {
                 .commit();
     }
 
-    /*
+
     private void showInstructions() {
         FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment =
+        Fragment fragment = InstructionsFragment.newInstance();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_frame, fragment)
+                .addToBackStack(null)
+                .commit();
     }
-    */
+
 }

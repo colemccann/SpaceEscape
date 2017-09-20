@@ -228,8 +228,6 @@ public class LevelSelectionFragment extends Fragment implements
                 holder.linearLayout.setMinimumWidth(itemWidth);
                 holder.linearLayout.setMinimumHeight(itemWidth);
 
-                holder.levelTitle.setTextColor(Color.BLACK);
-
                 if (level.isAvailable()) {
 
                     if (level.isCompleted())
@@ -237,6 +235,7 @@ public class LevelSelectionFragment extends Fragment implements
                     else
                         holder.levelImageView.setImageResource(R.mipmap.icon_level_unlocked);
                 } else {
+                    holder.levelTitle.setTextColor(Color.GRAY);
                     holder.levelImageView.setImageResource(R.mipmap.icon_level_locked);
                 }
 
