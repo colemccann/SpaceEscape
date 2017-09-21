@@ -1,5 +1,10 @@
 <resources>
 
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
     <style name="ButtonTextStyle">
         <item name="android:textColor">@color/textRed</item>
         <item name="android:typeface">monospace</item>

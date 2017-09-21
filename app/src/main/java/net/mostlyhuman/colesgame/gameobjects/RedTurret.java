@@ -2,9 +2,7 @@ package net.mostlyhuman.colesgame.gameobjects;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.util.Log;
 
-import net.mostlyhuman.colesgame.game.SoundManager;
 import net.mostlyhuman.colesgame.helpers.Constants;
 
 /**
@@ -18,7 +16,6 @@ public class RedTurret extends Turret {
     private long lastShot;
 
     // Follows player and shoots when player gets close enough
-    // Perhaps increase laser speed
 
     public RedTurret(Context context, float worldLocationX,
                      float worldLocationY, int pixelsPerMeter,
@@ -55,13 +52,12 @@ public class RedTurret extends Turret {
             setFacingAngle(180 - (float) angle);
         }
 
-        // If the player is close enough, fire
+        // If the player is close enough, fire once per second
         if (distanceH <= pixelsPerMeter * 2.5) {
-            if (System.currentTimeMillis() > lastShot + 500) {
+            if (System.currentTimeMillis() > lastShot + 1000) {
                 fire();
                 lastShot = System.currentTimeMillis();
             }
-            Log.d(TAG, "Red turret firing. ID: " + getTurretID());
         }
     }
 }

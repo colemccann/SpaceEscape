@@ -25,6 +25,8 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     private SoundManager soundManager;
     private InputController inputController;
 
+    private boolean playerPaused;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +69,26 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
     @Override
     protected void onPause() {
         super.onPause();
-        gameView.onPause();
+        gameManager.setPlaying(false);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (!gameManager.isPlaying() && !playerPaused) {
+            onMenuButtonPressed();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameView.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         gameView.onResume();
     }
 
@@ -81,6 +97,8 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
         FragmentManager fragmentManager = getFragmentManager();
         IngameMenuFragment dialog = new IngameMenuFragment();
         dialog.show(fragmentManager, "pause dialog");
+
+        playerPaused = true;
     }
 
     @Override
@@ -95,7 +113,8 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
 
     @Override
     public void onResumePressed() {
-        gameManager.switchPlayingStatus();
+        gameManager.setPlaying(true);
+        playerPaused = false;
     }
 
     @Override

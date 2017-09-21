@@ -78,7 +78,7 @@ public class ChapterSelectionFragment extends Fragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().getLoaderManager().destroyLoader(0);
+        //getActivity().getLoaderManager().destroyLoader(0);
     }
 
     @Override

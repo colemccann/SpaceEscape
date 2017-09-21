@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -29,6 +30,8 @@ public class MainActivity extends Activity {
 
 
     private SharedPreferences preferences;
+
+    private MediaPlayer mediaPlayer;
 
     private BroadcastReceiver DataInitializationReceiver = new BroadcastReceiver() {
         @Override
@@ -83,4 +86,19 @@ public class MainActivity extends Activity {
         transaction.commit();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.main_menu_music);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mediaPlayer.stop();
+    }
 }

@@ -30,6 +30,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         setRenderer(gameRenderer);
 
+        setPreserveEGLContextOnPause(true);
+
     }
 
     @Override

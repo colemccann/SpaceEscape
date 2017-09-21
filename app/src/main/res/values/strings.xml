@@ -41,6 +41,10 @@
     <string name="instructions_3">Bump into objects in space to come to a complete stop,
         then swipe again to send the ship in a new direction.</string>
     <string name="instructions_4">Steer the ship to the exit to complete the level!</string>
+    <string name="mute">Mute</string>
+    <string name="unmute">Unmute</string>
+    <string name="resume">Resume</string>
+    <string name="exit">Exit</string>
 
     <array name="chapter_numbers">
         <item>@string/chapter_one</item>

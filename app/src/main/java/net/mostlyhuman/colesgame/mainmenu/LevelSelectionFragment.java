@@ -78,6 +78,7 @@ public class LevelSelectionFragment extends Fragment implements
         getActivity().getLoaderManager().initLoader(1, args, this);
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -165,7 +166,6 @@ public class LevelSelectionFragment extends Fragment implements
 
     private static class LevelListAdapter extends RecyclerView.Adapter<LevelListAdapter.ViewHolder> {
 
-
         private int itemWidth;
 
         private Cursor mCursor;
@@ -179,7 +179,6 @@ public class LevelSelectionFragment extends Fragment implements
         }
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
 
             TextView levelTitle;
             LinearLayout linearLayout;
@@ -235,7 +234,6 @@ public class LevelSelectionFragment extends Fragment implements
                         holder.levelImageView.setImageResource(R.mipmap.icon_level_unlocked);
                 } else {
                     holder.levelImageView.setImageResource(R.mipmap.icon_level_locked);
-                    holder.levelTitle.setTextColor(Color.GRAY);
                 }
 
                 holder.levelTitle.setText(String.valueOf(level.getTitle()));

@@ -239,6 +239,19 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
             gm.exit.draw();
         }
 
+        // Draw the warps
+        for (int i = 0; i < numDimensionalWarps; i++) {
+            textureShaderProgram.setUniforms(gm.dimensionalWarps[i].rotateMatrix(viewportMatrix));
+            gm.dimensionalWarps[i].bindTextureData(textureShaderProgram);
+            gm.dimensionalWarps[i].draw();
+        }
+
+        for (int i = 0; i < numTeleportWarps; i++) {
+            textureShaderProgram.setUniforms(gm.teleportWarps[i].rotateMatrix(viewportMatrix));
+            gm.teleportWarps[i].bindTextureData(textureShaderProgram);
+            gm.teleportWarps[i].draw();
+        }
+
         // Draw the buttons
         for (int i = 0; i < numButtons; i++) {
             textureShaderProgram.setUniforms(gm.buttons[i].rotateMatrix(viewportMatrix));
@@ -339,19 +352,6 @@ class GameRenderer implements GLSurfaceView.Renderer, GameManager.levelLoadedCon
             textureShaderProgram.setUniforms(gm.doors[i].rotateMatrix(viewportMatrix));
             gm.doors[i].bindTextureData(textureShaderProgram);
             gm.doors[i].draw();
-        }
-
-        // Draw the warps
-        for (int i = 0; i < numDimensionalWarps; i++) {
-            textureShaderProgram.setUniforms(gm.dimensionalWarps[i].rotateMatrix(viewportMatrix));
-            gm.dimensionalWarps[i].bindTextureData(textureShaderProgram);
-            gm.dimensionalWarps[i].draw();
-        }
-
-        for (int i = 0; i < numTeleportWarps; i++) {
-            textureShaderProgram.setUniforms(gm.teleportWarps[i].rotateMatrix(viewportMatrix));
-            gm.teleportWarps[i].bindTextureData(textureShaderProgram);
-            gm.teleportWarps[i].draw();
         }
 
         // Draw the player

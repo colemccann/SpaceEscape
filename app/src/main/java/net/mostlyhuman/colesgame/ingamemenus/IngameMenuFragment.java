@@ -8,8 +8,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
+
 
 import net.mostlyhuman.colesgame.R;
 
@@ -19,9 +20,9 @@ import net.mostlyhuman.colesgame.R;
 
 public class IngameMenuFragment extends DialogFragment implements IngameMenuContract.View {
 
-    private ImageButton muteButton;
-    private ImageButton resumeButton;
-    private ImageButton exitButton;
+    private Button muteButton;
+    private Button resumeButton;
+    private Button exitButton;
 
     private IngameMenuContract.UserActionsListener userActionsListener;
     private IngameMenuContract.ActivityCallback activityCallback;
@@ -50,7 +51,7 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
         final ViewGroup nullParent = null;
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_ingame_menu, nullParent);
 
-        muteButton = (ImageButton) v.findViewById(R.id.muteButton);
+        muteButton = (Button) v.findViewById(R.id.muteButton);
         userActionsListener.showMuted();
         muteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +61,8 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
             }
         });
 
-        resumeButton = (ImageButton) v.findViewById(R.id.resumeGameButton);
-        resumeButton.setImageResource(R.drawable.icon_resume);
+        resumeButton = (Button) v.findViewById(R.id.resumeGameButton);
+        resumeButton.setText(R.string.resume);
         resumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,8 +70,8 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
             }
         });
 
-        exitButton = (ImageButton) v.findViewById(R.id.exitGameButton);
-        exitButton.setImageResource(R.drawable.icon_exit);
+        exitButton = (Button) v.findViewById(R.id.exitLevelButton);
+        exitButton.setText(R.string.exit);
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,10 +101,10 @@ public class IngameMenuFragment extends DialogFragment implements IngameMenuCont
     @Override
     public void showMuteIcon(boolean muted) {
         if (muted) {
-            muteButton.setImageResource(R.drawable.icon_sound_off);
+            muteButton.setText(R.string.unmute);
             activityCallback.mute();
         } else {
-            muteButton.setImageResource(R.drawable.icon_sound_on);
+            muteButton.setText(R.string.mute);
             activityCallback.unmute();
         }
     }

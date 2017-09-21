@@ -60,7 +60,7 @@ public class InputController {
                 case MotionEvent.ACTION_DOWN:
                     if (menu.contains(x, y)) {
                         //Log.e(TAG, "menu pressed");
-                        gameManager.switchPlayingStatus();
+                        gameManager.setPlaying(false);
                         gameActivity.onMenuButtonPressed();
                     }
                     break;
