@@ -1,5 +1,6 @@
 package net.mostlyhuman.colesgame.ingamemenus;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -17,6 +18,19 @@ import net.mostlyhuman.colesgame.R;
  */
 
 public class LevelCompleteDialogFragment extends DialogFragment implements View.OnClickListener {
+
+    public interface finishActivityListener {
+        public void onUserDismiss();
+    }
+
+    private finishActivityListener callback;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        callback = (finishActivityListener) activity;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -46,6 +60,6 @@ public class LevelCompleteDialogFragment extends DialogFragment implements View.
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
 
-        getActivity().finish();
+        callback.onUserDismiss();
     }
 }

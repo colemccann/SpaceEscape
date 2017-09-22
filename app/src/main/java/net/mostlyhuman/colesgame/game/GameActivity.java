@@ -15,7 +15,8 @@ import net.mostlyhuman.colesgame.ingamemenus.LevelCompleteDialogFragment;
 
 public class GameActivity extends Activity implements InputController.PauseMenu,
         IngameMenuContract.ActivityCallback,
-        GameRenderer.GameActivityContract {
+        GameRenderer.GameActivityContract,
+        LevelCompleteDialogFragment.finishActivityListener {
 
     private static final String TAG = "GameActivity";
 
@@ -137,6 +138,11 @@ public class GameActivity extends Activity implements InputController.PauseMenu,
 
     @Override
     public void exit() {
-        this.finish();
+        finish();
+    }
+
+    @Override
+    public void onUserDismiss() {
+        finish();
     }
 }
