@@ -5,7 +5,7 @@
     <string name="pref_key_sound">net.mostlyhuman.colesgame.PREF_KEY1</string>
     <string name="pref_muted_key">#muted</string>
 
-    <string name="app_name">Cole\'s Game</string>
+    <string name="app_name">Space Escape</string>
     <string name="bump_ogg">bump.ogg</string>
     <string name="explosion_ogg">explosion.ogg</string>
     <string name="redirect_ogg">redirect.ogg</string>
